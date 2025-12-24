@@ -532,8 +532,8 @@ const MenuItemDetailPage = () => {
             alt="Restaurant ambiance"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-charcoal/80" />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/80" />
+          <div className="absolute inset-0 bg-charcoal/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-charcoal/60" />
         </div>
         
         {/* Decorative glow */}

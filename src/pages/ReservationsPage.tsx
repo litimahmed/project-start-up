@@ -507,10 +507,18 @@ const ReservationsPage = () => {
       </div>
 
       {/* Experience Section - Modern Card Design */}
-      <section className="relative py-24 md:py-32 overflow-hidden bg-charcoal">
-        {/* Background effects */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-fixed"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2070&auto=format&fit=crop')" }}
+        />
+        {/* Overlay for visibility */}
+        <div className="absolute inset-0 bg-charcoal/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/50 to-charcoal/80" />
+        {/* Subtle gold glow effect */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-gold/[0.03] rounded-full blur-[150px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-gold/[0.05] rounded-full blur-[150px]" />
         </div>
         
         {/* Decorative geometric elements */}

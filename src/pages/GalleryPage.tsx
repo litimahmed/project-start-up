@@ -118,9 +118,9 @@ const InfiniteCarousel = ({ images, direction = "left", speed = "normal", onImag
   const tripleImages = [...images, ...images, ...images];
   
   const speedDuration = {
-    slow: "80s",
-    normal: "50s",
-    fast: "30s",
+    slow: "60s",
+    normal: "40s",
+    fast: "25s",
   };
 
   const animationName = direction === "left" ? "scroll-left-infinite" : "scroll-right-infinite";

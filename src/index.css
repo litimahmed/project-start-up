@@ -53,10 +53,11 @@
     --sidebar-ring: 349 62% 26%;
   }
 
-  /* Admin Dashboard Theme - Vibrant Yellow */
-  .admin-theme {
-    --background: 48 50% 98%; /* Very light yellow-tinted white */
-    --foreground: 45 10% 12%; /* Deep warm black */
+  /* Admin Dashboard Theme - Gold (Default) */
+  .admin-theme,
+  .admin-theme.admin-theme-gold {
+    --background: 48 50% 98%;
+    --foreground: 45 10% 12%;
 
     --card: 0 0% 100%;
     --card-foreground: 45 10% 12%;
@@ -64,16 +65,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 45 10% 12%;
 
-    --primary: 46 95% 58%; /* Golden yellow #facb2e */
-    --primary-foreground: 45 10% 12%; /* Dark text on yellow */
+    --primary: 43 65% 53%; /* Rich Gold #D4AF37 */
+    --primary-foreground: 45 10% 12%;
 
-    --secondary: 51 100% 70%; /* Bright yellow #ffe863 */
+    --secondary: 43 45% 80%;
     --secondary-foreground: 45 10% 12%;
 
     --muted: 48 30% 94%;
     --muted-foreground: 45 10% 45%;
 
-    --accent: 51 100% 70%; /* Bright yellow #ffe863 */
+    --accent: 43 55% 65%;
     --accent-foreground: 45 10% 12%;
 
     --destructive: 0 84% 60%;
@@ -81,66 +82,69 @@
 
     --border: 48 20% 88%;
     --input: 48 20% 88%;
-    --ring: 46 95% 58%;
+    --ring: 43 65% 53%;
 
-    /* Admin sidebar */
-    --sidebar-background: 45 15% 12%; /* Dark warm charcoal */
+    /* Admin sidebar - elegant dark */
+    --sidebar-background: 45 15% 12%;
     --sidebar-foreground: 48 20% 85%;
-    --sidebar-primary: 46 95% 58%;
+    --sidebar-primary: 43 65% 53%;
     --sidebar-primary-foreground: 45 10% 12%;
     --sidebar-accent: 45 15% 18%;
     --sidebar-accent-foreground: 48 30% 95%;
     --sidebar-border: 45 15% 20%;
-    --sidebar-ring: 46 95% 58%;
+    --sidebar-ring: 43 65% 53%;
 
     /* Admin-specific tokens */
-    --admin-yellow: 46 95% 58%; /* Golden #facb2e */
-    --admin-yellow-bright: 51 100% 70%; /* Bright #ffe863 */
-    --admin-yellow-dark: 46 95% 48%;
+    --admin-primary: 43 65% 53%;
     --admin-success: 142 70% 45%;
     --admin-warning: 38 92% 50%;
     --admin-info: 199 89% 48%;
   }
 
-  /* Theme Color Variants */
-  .admin-theme.admin-theme-blue {
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 217 91% 60%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
+  /* Burgundy Theme - Wine, Sophistication */
+  .admin-theme.admin-theme-burgundy {
+    --primary: 349 50% 33%; /* Burgundy #722F37 */
+    --primary-foreground: 0 0% 98%;
+    --ring: 349 50% 33%;
+    
+    --secondary: 349 30% 75%;
+    --secondary-foreground: 349 50% 20%;
+    
+    --accent: 349 40% 45%;
+    --accent-foreground: 0 0% 98%;
+
+    --sidebar-background: 349 40% 12%;
+    --sidebar-foreground: 349 15% 85%;
+    --sidebar-primary: 349 50% 45%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 349 35% 18%;
+    --sidebar-border: 349 30% 20%;
+    --sidebar-ring: 349 50% 45%;
+
+    --admin-primary: 349 50% 33%;
   }
 
-  .admin-theme.admin-theme-purple {
-    --primary: 255 70% 60%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 255 70% 60%;
-    --sidebar-primary: 255 70% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-  }
+  /* Champagne Theme - Warmth, Elegance */
+  .admin-theme.admin-theme-champagne {
+    --primary: 30 40% 65%; /* Champagne #D4AF8C */
+    --primary-foreground: 30 30% 15%;
+    --ring: 30 40% 65%;
+    
+    --secondary: 30 35% 80%;
+    --secondary-foreground: 30 30% 20%;
+    
+    --accent: 30 45% 55%;
+    --accent-foreground: 30 30% 15%;
 
-  .admin-theme.admin-theme-green {
-    --primary: 174 72% 40%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 174 72% 40%;
-    --sidebar-primary: 174 72% 40%;
-    --sidebar-primary-foreground: 0 0% 100%;
-  }
+    --sidebar-background: 30 25% 14%;
+    --sidebar-foreground: 30 20% 85%;
+    --sidebar-primary: 30 45% 60%;
+    --sidebar-primary-foreground: 30 30% 12%;
+    --sidebar-accent: 30 20% 20%;
+    --sidebar-border: 30 20% 22%;
+    --sidebar-ring: 30 45% 60%;
 
-  .admin-theme.admin-theme-red {
-    --primary: 15 75% 60%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 15 75% 60%;
-    --sidebar-primary: 15 75% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-  }
-
-  .admin-theme.admin-theme-cyan {
-    --primary: 184 72% 45%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 184 72% 45%;
-    --sidebar-primary: 184 72% 45%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --admin-primary: 30 40% 65%;
   }
 
   /* Card Style Variants */
@@ -156,90 +160,87 @@
     border: none !important;
   }
 
-  .admin-theme.dark {
-    --background: 40 10% 7%; /* Deep charcoal with warm undertone */
-    --foreground: 45 20% 96%; /* Near white for maximum readability */
+  /* Dark Mode - Admin Theme */
+  .admin-theme.dark,
+  .admin-theme.dark.admin-theme-gold {
+    --background: 40 10% 7%;
+    --foreground: 45 20% 96%;
 
-    --card: 40 8% 10%; /* Slightly lighter than background */
+    --card: 40 8% 10%;
     --card-foreground: 45 20% 96%;
 
     --popover: 40 8% 9%;
     --popover-foreground: 45 20% 96%;
 
-    --primary: 46 95% 55%; /* Slightly brighter golden for dark mode visibility */
-    --primary-foreground: 40 10% 7%; /* Dark text on yellow buttons */
+    --primary: 43 65% 55%;
+    --primary-foreground: 40 10% 7%;
 
-    --secondary: 51 90% 65%; /* Bright yellow adjusted for dark mode */
-    --secondary-foreground: 40 10% 7%;
+    --secondary: 43 50% 35%;
+    --secondary-foreground: 45 20% 96%;
 
-    --muted: 40 8% 14%; /* Subtle elevation for muted surfaces */
-    --muted-foreground: 45 15% 55%; /* Good contrast muted text */
+    --muted: 40 8% 14%;
+    --muted-foreground: 45 15% 55%;
 
-    --accent: 46 95% 55%;
+    --accent: 43 60% 50%;
     --accent-foreground: 40 10% 7%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 40 8% 18%; /* Visible but subtle borders */
+    --border: 40 8% 18%;
     --input: 40 8% 15%;
-    --ring: 46 95% 55%;
+    --ring: 43 65% 55%;
 
-    /* Admin sidebar - deep professional dark */
-    --sidebar-background: 40 12% 5%; /* Very deep charcoal */
-    --sidebar-foreground: 45 15% 80%; /* Readable light text */
-    --sidebar-primary: 46 95% 55%;
+    --sidebar-background: 40 12% 5%;
+    --sidebar-foreground: 45 15% 80%;
+    --sidebar-primary: 43 65% 55%;
     --sidebar-primary-foreground: 40 10% 7%;
-    --sidebar-accent: 40 10% 10%; /* Subtle hover state */
+    --sidebar-accent: 40 10% 10%;
     --sidebar-accent-foreground: 45 20% 95%;
     --sidebar-border: 40 8% 12%;
-    --sidebar-ring: 46 95% 55%;
+    --sidebar-ring: 43 65% 55%;
 
-    /* Admin tokens for dark mode */
-    --admin-yellow: 46 95% 55%;
-    --admin-yellow-bright: 51 90% 65%;
-    --admin-yellow-dark: 46 90% 45%;
+    --admin-primary: 43 65% 55%;
   }
 
-  /* Dark mode color variants */
-  .admin-theme.dark.admin-theme-blue {
-    --primary: 217 91% 65%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 217 91% 65%;
-    --sidebar-primary: 217 91% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
+  /* Dark Mode - Burgundy */
+  .admin-theme.dark.admin-theme-burgundy {
+    --primary: 349 55% 50%;
+    --primary-foreground: 0 0% 98%;
+    --ring: 349 55% 50%;
+    
+    --accent: 349 50% 45%;
+    --accent-foreground: 0 0% 98%;
+
+    --sidebar-background: 349 40% 6%;
+    --sidebar-foreground: 349 15% 80%;
+    --sidebar-primary: 349 55% 50%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 349 30% 12%;
+    --sidebar-border: 349 25% 14%;
+    --sidebar-ring: 349 55% 50%;
+
+    --admin-primary: 349 55% 50%;
   }
 
-  .admin-theme.dark.admin-theme-purple {
-    --primary: 255 70% 65%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 255 70% 65%;
-    --sidebar-primary: 255 70% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
-  }
+  /* Dark Mode - Champagne */
+  .admin-theme.dark.admin-theme-champagne {
+    --primary: 30 45% 60%;
+    --primary-foreground: 30 30% 10%;
+    --ring: 30 45% 60%;
+    
+    --accent: 30 40% 50%;
+    --accent-foreground: 30 30% 10%;
 
-  .admin-theme.dark.admin-theme-green {
-    --primary: 174 72% 50%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 174 72% 50%;
-    --sidebar-primary: 174 72% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-  }
+    --sidebar-background: 30 20% 6%;
+    --sidebar-foreground: 30 20% 80%;
+    --sidebar-primary: 30 50% 58%;
+    --sidebar-primary-foreground: 30 30% 10%;
+    --sidebar-accent: 30 18% 12%;
+    --sidebar-border: 30 15% 14%;
+    --sidebar-ring: 30 50% 58%;
 
-  .admin-theme.dark.admin-theme-red {
-    --primary: 15 75% 65%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 15 75% 65%;
-    --sidebar-primary: 15 75% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
-  }
-
-  .admin-theme.dark.admin-theme-cyan {
-    --primary: 184 72% 55%;
-    --primary-foreground: 0 0% 100%;
-    --ring: 184 72% 55%;
-    --sidebar-primary: 184 72% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --admin-primary: 30 45% 60%;
   }
 
   .dark {

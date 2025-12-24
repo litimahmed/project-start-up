@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export type ThemeColor = 'yellow' | 'blue' | 'purple' | 'green' | 'red' | 'cyan';
+export type ThemeColor = 'gold' | 'burgundy' | 'champagne';
 export type LayoutType = 'vertical' | 'horizontal';
 export type ContainerType = 'boxed' | 'full';
 export type SidebarType = 'full' | 'mini';
@@ -29,7 +29,7 @@ interface AdminSettingsContextType extends AdminSettings {
 }
 
 const defaultSettings: AdminSettings = {
-  themeColor: 'yellow',
+  themeColor: 'gold',
   direction: 'ltr',
   layoutType: 'vertical',
   containerType: 'full',
@@ -48,7 +48,12 @@ export const AdminSettingsProvider = ({ children }: { children: ReactNode }) => 
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         try {
-          return { ...defaultSettings, ...JSON.parse(stored) };
+          const parsed = JSON.parse(stored);
+          // Migrate old color values to new ones
+          if (parsed.themeColor && !['gold', 'burgundy', 'champagne'].includes(parsed.themeColor)) {
+            parsed.themeColor = 'gold';
+          }
+          return { ...defaultSettings, ...parsed };
         } catch {
           return defaultSettings;
         }

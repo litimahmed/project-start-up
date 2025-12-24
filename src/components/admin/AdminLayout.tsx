@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes';
 import { supabase } from '@/integrations/supabase/client';
 import AdminHeader from './AdminHeader';
 import SettingsPanel from './SettingsPanel';
+import HorizontalNav from './HorizontalNav';
 import { AdminSettingsProvider, useAdminSettings } from '@/contexts/AdminSettingsContext';
 import { 
   LayoutDashboard, 
@@ -68,6 +69,7 @@ const AdminLayoutContent = () => {
   const {
     themeColor,
     direction,
+    layoutType,
     containerType,
     sidebarType,
     cardStyle,
@@ -231,7 +233,44 @@ const AdminLayoutContent = () => {
   };
 
   const isMiniSidebar = sidebarType === 'mini';
+  const isHorizontalLayout = layoutType === 'horizontal';
 
+  // Horizontal Layout
+  if (isHorizontalLayout) {
+    return (
+      <TooltipProvider>
+        <div 
+          dir={direction}
+          className={cn(
+            "min-h-screen bg-background flex flex-col admin-theme transition-all duration-300",
+            theme === 'dark' && 'dark',
+            themeColorClass,
+            cardStyle === 'border' && 'admin-cards-border',
+            cardStyle === 'shadow' && 'admin-cards-shadow'
+          )}
+        >
+          {/* Horizontal Navigation */}
+          <HorizontalNav />
+          
+          {/* Admin Header */}
+          <AdminHeader />
+          
+          {/* Main Content */}
+          <main className={cn(
+            "flex-1 p-4 lg:p-8 pt-4 lg:pt-6 bg-muted/30",
+            containerType === 'boxed' && "max-w-7xl mx-auto w-full"
+          )}>
+            <Outlet />
+          </main>
+
+          {/* Settings Panel */}
+          <SettingsPanel />
+        </div>
+      </TooltipProvider>
+    );
+  }
+
+  // Vertical Layout (default)
   return (
     <TooltipProvider>
       <div 

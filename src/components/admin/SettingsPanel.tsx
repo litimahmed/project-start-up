@@ -1,28 +1,20 @@
 import { useState } from 'react';
-import { Settings, X, Sun, Moon, Check, RotateCcw } from 'lucide-react';
+import { Settings, Sun, Moon, Check, RotateCcw, Palette, Layout, Square, Columns, PanelLeft, CreditCard, Circle } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Separator } from '@/components/ui/separator';
 import {
   useAdminSettings,
   ThemeColor,
-  Direction,
-  LayoutType,
-  ContainerType,
-  SidebarType,
-  CardStyle,
 } from '@/contexts/AdminSettingsContext';
 
 const themeColors: { id: ThemeColor; color: string; label: string }[] = [
-  { id: 'yellow', color: 'bg-[#facb2e]', label: 'Jaune' },
-  { id: 'blue', color: 'bg-[#5d87ff]', label: 'Bleu' },
-  { id: 'purple', color: 'bg-[#7352ff]', label: 'Violet' },
-  { id: 'green', color: 'bg-[#02b2aa]', label: 'Vert' },
-  { id: 'red', color: 'bg-[#f3704d]', label: 'Rouge' },
-  { id: 'cyan', color: 'bg-[#28b7c4]', label: 'Cyan' },
+  { id: 'gold', color: 'bg-[#D4AF37]', label: 'Or' },
+  { id: 'burgundy', color: 'bg-[#722F37]', label: 'Bordeaux' },
+  { id: 'champagne', color: 'bg-[#D4AF8C]', label: 'Champagne' },
 ];
 
 const SettingsPanel = () => {
@@ -47,271 +39,327 @@ const SettingsPanel = () => {
 
   const [open, setOpen] = useState(false);
 
+  // Dynamic positioning based on direction
+  const buttonPosition = direction === 'rtl' ? 'left-6' : 'right-6';
+
   return (
-    <TooltipProvider>
-      <Sheet open={open} onOpenChange={setOpen}>
-        {/* Floating Settings Button */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <SheetTrigger asChild>
-              <button
-                className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-110 animate-pulse hover:animate-none"
-              >
-                <Settings className="w-6 h-6" />
-              </button>
-            </SheetTrigger>
-          </TooltipTrigger>
-          <TooltipContent side="left">
-            <p>Paramètres d'affichage</p>
-          </TooltipContent>
-        </Tooltip>
+    <Sheet open={open} onOpenChange={setOpen}>
+      {/* Floating Settings Button - Refined, no glow */}
+      <SheetTrigger asChild>
+        <button
+          className={cn(
+            "fixed bottom-6 z-50 w-11 h-11 bg-card/95 backdrop-blur-sm text-foreground rounded-xl shadow-md border border-border/50 transition-all duration-300 flex items-center justify-center hover:shadow-lg hover:scale-105 hover:bg-card group",
+            buttonPosition
+          )}
+        >
+          <Settings className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300 group-hover:rotate-45" />
+        </button>
+      </SheetTrigger>
 
-        <SheetContent side="right" className="w-80 sm:w-96 overflow-y-auto bg-card border-l border-border">
-          <SheetHeader className="pb-4 border-b border-border">
-            <div className="flex items-center justify-between">
-              <SheetTitle className="text-lg font-semibold">Paramètres</SheetTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={resetSettings}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <RotateCcw className="w-4 h-4 mr-1" />
-                Réinitialiser
-              </Button>
-            </div>
-          </SheetHeader>
-
-          <div className="py-6 space-y-8">
-            {/* Theme Option (Light/Dark) */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">Option de thème</h3>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setTheme('light')}
-                  className={cn(
-                    "flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all",
-                    theme === 'light'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  <Sun className="w-5 h-5" />
-                  <span className="text-sm font-medium">Clair</span>
-                </button>
-                <button
-                  onClick={() => setTheme('dark')}
-                  className={cn(
-                    "flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all",
-                    theme === 'dark'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  <Moon className="w-5 h-5" />
-                  <span className="text-sm font-medium">Sombre</span>
-                </button>
+      <SheetContent 
+        side={direction === 'rtl' ? 'left' : 'right'} 
+        className="w-80 sm:w-[340px] overflow-y-auto bg-card/98 backdrop-blur-md border-l border-border/30 p-0"
+      >
+        {/* Elegant Header */}
+        <SheetHeader className="p-6 pb-4 bg-gradient-to-b from-muted/30 to-transparent">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Settings className="w-4 h-4 text-primary" />
               </div>
+              <SheetTitle className="text-base font-semibold tracking-tight">Paramètres</SheetTitle>
             </div>
-
-            {/* Theme Direction (LTR/RTL) */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">Direction du thème</h3>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setDirection('ltr')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    direction === 'ltr'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  LTR
-                </button>
-                <button
-                  onClick={() => setDirection('rtl')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    direction === 'rtl'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  RTL
-                </button>
-              </div>
-            </div>
-
-            {/* Theme Colors */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">Couleurs du thème</h3>
-              <div className="flex gap-2 flex-wrap">
-                {themeColors.map((color) => (
-                  <Tooltip key={color.id}>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => setThemeColor(color.id)}
-                        className={cn(
-                          "w-10 h-10 rounded-full transition-all flex items-center justify-center",
-                          color.color,
-                          themeColor === color.id
-                            ? "ring-2 ring-offset-2 ring-foreground ring-offset-background scale-110"
-                            : "hover:scale-105"
-                        )}
-                      >
-                        {themeColor === color.id && (
-                          <Check className="w-5 h-5 text-white drop-shadow-md" />
-                        )}
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{color.label}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
-              </div>
-            </div>
-
-            {/* Layout Type (Vertical/Horizontal) */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">Type de mise en page</h3>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setLayoutType('vertical')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    layoutType === 'vertical'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Vertical
-                </button>
-                <button
-                  onClick={() => setLayoutType('horizontal')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    layoutType === 'horizontal'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Horizontal
-                </button>
-              </div>
-            </div>
-
-            {/* Container Option (Boxed/Full) */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">Option de conteneur</h3>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setContainerType('boxed')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    containerType === 'boxed'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Encadré
-                </button>
-                <button
-                  onClick={() => setContainerType('full')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    containerType === 'full'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Pleine largeur
-                </button>
-              </div>
-            </div>
-
-            {/* Sidebar Type (Full/Mini) */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">Type de barre latérale</h3>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setSidebarType('full')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    sidebarType === 'full'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Complète
-                </button>
-                <button
-                  onClick={() => setSidebarType('mini')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    sidebarType === 'mini'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Mini
-                </button>
-              </div>
-            </div>
-
-            {/* Card Style (Border/Shadow) */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">Style des cartes</h3>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setCardStyle('border')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    cardStyle === 'border'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Bordure
-                </button>
-                <button
-                  onClick={() => setCardStyle('shadow')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium",
-                    cardStyle === 'shadow'
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border hover:border-primary/50 text-muted-foreground"
-                  )}
-                >
-                  Ombre
-                </button>
-              </div>
-            </div>
-
-            {/* Border Radius */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-foreground">Rayon des bordures</h3>
-                <span className="text-sm text-muted-foreground">{borderRadius}px</span>
-              </div>
-              <Slider
-                value={[borderRadius]}
-                onValueChange={(value) => setBorderRadius(value[0])}
-                min={0}
-                max={24}
-                step={1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>0px</span>
-                <span>24px</span>
-              </div>
-            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={resetSettings}
+              className="text-xs text-muted-foreground hover:text-foreground h-8 px-2"
+            >
+              <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+              Réinitialiser
+            </Button>
           </div>
-        </SheetContent>
-      </Sheet>
-    </TooltipProvider>
+        </SheetHeader>
+
+        <div className="px-6 pb-6 space-y-6">
+          {/* Theme Mode */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <Sun className="w-3.5 h-3.5" />
+              Apparence
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setTheme('light')}
+                className={cn(
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  theme === 'light'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                <Sun className="w-4 h-4" />
+                Clair
+              </button>
+              <button
+                onClick={() => setTheme('dark')}
+                className={cn(
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  theme === 'dark'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                <Moon className="w-4 h-4" />
+                Sombre
+              </button>
+            </div>
+          </section>
+
+          <Separator className="bg-border/30" />
+
+          {/* Direction */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <Columns className="w-3.5 h-3.5" />
+              Direction
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setDirection('ltr')}
+                className={cn(
+                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  direction === 'ltr'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                LTR
+              </button>
+              <button
+                onClick={() => setDirection('rtl')}
+                className={cn(
+                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  direction === 'rtl'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                RTL
+              </button>
+            </div>
+          </section>
+
+          <Separator className="bg-border/30" />
+
+          {/* Theme Colors - Luxury palette */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <Palette className="w-3.5 h-3.5" />
+              Couleur du thème
+            </div>
+            <div className="flex gap-3">
+              {themeColors.map((color) => (
+                <button
+                  key={color.id}
+                  onClick={() => setThemeColor(color.id)}
+                  className="group flex flex-col items-center gap-2"
+                >
+                  <div
+                    className={cn(
+                      "w-10 h-10 rounded-full transition-all flex items-center justify-center border-2",
+                      color.color,
+                      themeColor === color.id
+                        ? "border-foreground scale-110 shadow-md"
+                        : "border-transparent group-hover:scale-105 group-hover:shadow-sm"
+                    )}
+                  >
+                    {themeColor === color.id && (
+                      <Check className="w-4 h-4 text-white drop-shadow-sm" />
+                    )}
+                  </div>
+                  <span className={cn(
+                    "text-[10px] font-medium transition-colors",
+                    themeColor === color.id ? "text-foreground" : "text-muted-foreground"
+                  )}>
+                    {color.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <Separator className="bg-border/30" />
+
+          {/* Layout Type */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <Layout className="w-3.5 h-3.5" />
+              Mise en page
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setLayoutType('vertical')}
+                className={cn(
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  layoutType === 'vertical'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                <PanelLeft className="w-4 h-4" />
+                Vertical
+              </button>
+              <button
+                onClick={() => setLayoutType('horizontal')}
+                className={cn(
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  layoutType === 'horizontal'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                <Layout className="w-4 h-4" />
+                Horizontal
+              </button>
+            </div>
+          </section>
+
+          <Separator className="bg-border/30" />
+
+          {/* Container Type */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <Square className="w-3.5 h-3.5" />
+              Conteneur
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setContainerType('boxed')}
+                className={cn(
+                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  containerType === 'boxed'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                Encadré
+              </button>
+              <button
+                onClick={() => setContainerType('full')}
+                className={cn(
+                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  containerType === 'full'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                Pleine largeur
+              </button>
+            </div>
+          </section>
+
+          <Separator className="bg-border/30" />
+
+          {/* Sidebar Type - Only show for vertical layout */}
+          {layoutType === 'vertical' && (
+            <>
+              <section className="space-y-3">
+                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  <PanelLeft className="w-3.5 h-3.5" />
+                  Barre latérale
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => setSidebarType('full')}
+                    className={cn(
+                      "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                      sidebarType === 'full'
+                        ? "border-primary bg-primary/5 text-primary"
+                        : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    )}
+                  >
+                    Complète
+                  </button>
+                  <button
+                    onClick={() => setSidebarType('mini')}
+                    className={cn(
+                      "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                      sidebarType === 'mini'
+                        ? "border-primary bg-primary/5 text-primary"
+                        : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    )}
+                  >
+                    Mini
+                  </button>
+                </div>
+              </section>
+
+              <Separator className="bg-border/30" />
+            </>
+          )}
+
+          {/* Card Style */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <CreditCard className="w-3.5 h-3.5" />
+              Style des cartes
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setCardStyle('border')}
+                className={cn(
+                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  cardStyle === 'border'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                Bordure
+              </button>
+              <button
+                onClick={() => setCardStyle('shadow')}
+                className={cn(
+                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  cardStyle === 'shadow'
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                )}
+              >
+                Ombre
+              </button>
+            </div>
+          </section>
+
+          <Separator className="bg-border/30" />
+
+          {/* Border Radius */}
+          <section className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                <Circle className="w-3.5 h-3.5" />
+                Rayon des bordures
+              </div>
+              <span className="text-xs font-medium text-foreground bg-muted/50 px-2 py-0.5 rounded">
+                {borderRadius}px
+              </span>
+            </div>
+            <Slider
+              value={[borderRadius]}
+              onValueChange={(value) => setBorderRadius(value[0])}
+              min={0}
+              max={24}
+              step={1}
+              className="w-full"
+            />
+            <div className="flex justify-between text-[10px] text-muted-foreground">
+              <span>Carré</span>
+              <span>Arrondi</span>
+            </div>
+          </section>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 

@@ -212,55 +212,62 @@ const MenuCategoryPage = () => {
                   <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-sm border border-white/10 hover:border-gold/40 transition-all duration-700">
                     
                     {/* Image */}
-                    {item.image && (
-                      <div className="relative h-72 overflow-hidden">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent" />
-                        
-                        {/* Badges */}
-                        <div className="absolute top-4 left-4 flex gap-2">
-                          {item.isSignature && (
-                            <div className="px-3 py-1.5 bg-gold/90 rounded-full">
-                              <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-charcoal font-medium">Signature</span>
-                            </div>
-                          )}
-                          {item.isNew && (
-                            <div className="px-3 py-1.5 bg-burgundy/90 rounded-full">
-                              <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-offwhite font-medium">Nouveau</span>
-                            </div>
-                          )}
-                          {item.isVegetarian && (
-                            <div className="px-3 py-1.5 bg-green-900/80 rounded-full">
-                              <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-green-400 font-medium">Végétarien</span>
-                            </div>
-                          )}
-                        </div>
+                    <div className="relative h-72 overflow-hidden">
+                      <img
+                        src={item.image || categoryInfo.heroImage}
+                        alt={`${item.name} - photo du plat`}
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (!img.dataset.fallback) {
+                            img.dataset.fallback = '1';
+                            img.src = categoryInfo.heroImage;
+                          }
+                        }}
+                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent" />
+                      
+                      {/* Badges */}
+                      <div className="absolute top-4 left-4 flex gap-2">
+                        {item.isSignature && (
+                          <div className="px-3 py-1.5 bg-gold/90 rounded-full">
+                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-charcoal font-medium">Signature</span>
+                          </div>
+                        )}
+                        {item.isNew && (
+                          <div className="px-3 py-1.5 bg-burgundy/90 rounded-full">
+                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-offwhite font-medium">Nouveau</span>
+                          </div>
+                        )}
+                        {item.isVegetarian && (
+                          <div className="px-3 py-1.5 bg-green-900/80 rounded-full">
+                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-green-400 font-medium">Végétarien</span>
+                          </div>
+                        )}
+                      </div>
 
-                        {/* Price badge */}
-                        <div className="absolute top-4 right-4">
-                          <div className="relative">
-                            <div className="absolute inset-0 bg-gold/40 blur-lg rounded-full" />
-                            <div className="relative bg-charcoal/95 backdrop-blur-md px-5 py-2 rounded-full border border-gold/50">
-                              <span className="font-luxury text-2xl text-gold italic">{item.price}€</span>
-                            </div>
+                      {/* Price badge */}
+                      <div className="absolute top-4 right-4">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-gold/40 blur-lg rounded-full" />
+                          <div className="relative bg-charcoal/95 backdrop-blur-md px-5 py-2 rounded-full border border-gold/50">
+                            <span className="font-luxury text-2xl text-gold italic">{item.price}€</span>
                           </div>
                         </div>
-
-                        {/* Corner accents */}
-                        <div className="absolute bottom-0 left-0 w-24 h-24">
-                          <div className="absolute bottom-4 left-4 w-12 h-px bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
-                          <div className="absolute bottom-4 left-4 w-px h-12 bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
-                        </div>
-                        <div className="absolute bottom-0 right-0 w-24 h-24">
-                          <div className="absolute bottom-4 right-4 w-12 h-px bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
-                          <div className="absolute bottom-4 right-4 w-px h-12 bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
-                        </div>
                       </div>
-                    )}
+
+                      {/* Corner accents */}
+                      <div className="absolute bottom-0 left-0 w-24 h-24">
+                        <div className="absolute bottom-4 left-4 w-12 h-px bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
+                        <div className="absolute bottom-4 left-4 w-px h-12 bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
+                      </div>
+                      <div className="absolute bottom-0 right-0 w-24 h-24">
+                        <div className="absolute bottom-4 right-4 w-12 h-px bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
+                        <div className="absolute bottom-4 right-4 w-px h-12 bg-gold/0 group-hover:bg-gold/60 transition-all duration-500" />
+                      </div>
+                    </div>
 
                     {/* Content */}
                     <div className="relative p-8">

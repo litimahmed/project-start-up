@@ -8,6 +8,7 @@ const MenuItemDetailPage = () => {
   const { category, slug } = useParams<{ category: string; slug: string }>();
   const [isVisible, setIsVisible] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [heroSrc, setHeroSrc] = useState<string>('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
@@ -39,10 +40,15 @@ const MenuItemDetailPage = () => {
   const isWine = currentCategory === 'vins';
   const foodItem = item as ExtendedMenuItem;
   const wineItem = item as WineItem;
-  const heroImage = item.heroImage || (isWine ? catInfo.heroImage : foodItem.image);
+  const heroImage = item.heroImage || (isWine ? catInfo.heroImage : foodItem.image) || catInfo.heroImage;
+
+  // Keep a resilient hero src (so a broken URL doesn't render a blank page)
+  useEffect(() => {
+    setHeroSrc(heroImage);
+  }, [heroImage]);
   
   // Get gallery images or create default from hero
-  const galleryImages = (isWine ? wineItem.gallery : foodItem.gallery) || [heroImage];
+  const galleryImages = (isWine ? wineItem.gallery : foodItem.gallery) || [heroSrc || heroImage];
 
   // Get related items (excluding current)
   const allItems = getAllItems(currentCategory);
@@ -59,10 +65,20 @@ const MenuItemDetailPage = () => {
       <section className="relative h-screen bg-charcoal">
         <div className={`absolute inset-0 transition-opacity duration-1000 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <img
-            src={heroImage}
-            alt={item.name}
+            src={heroSrc || heroImage}
+            alt={`${item.name} - photo du plat`}
             className="w-full h-full object-cover"
             onLoad={() => setImageLoaded(true)}
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallback) {
+                img.dataset.fallback = '1';
+                setHeroSrc(catInfo.heroImage);
+              } else {
+                // Show the section even if everything fails
+                setImageLoaded(true);
+              }
+            }}
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/30" />

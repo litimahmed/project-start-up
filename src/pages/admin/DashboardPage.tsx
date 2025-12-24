@@ -110,55 +110,131 @@ const GuestDots = ({ count, max = 6 }: { count: number, max?: number }) => (
   </div>
 );
 
-// Circular progress ring component
-const CircularProgress = ({ 
+// Glowing gauge component for premium performance card
+const GlowingGauge = ({ 
   value, 
-  size = 80, 
-  strokeWidth = 8,
-  color = 'hsl(var(--primary))',
-  trackColor = 'hsl(var(--muted))',
-  children 
+  label,
+  icon: Icon,
+  color,
+  glowColor,
+  size = 100
 }: { 
-  value: number, 
-  size?: number, 
-  strokeWidth?: number,
-  color?: string,
-  trackColor?: string,
-  children?: React.ReactNode 
+  value: number | string, 
+  label: string,
+  icon: React.ElementType,
+  color: string,
+  glowColor: string,
+  size?: number
 }) => {
-  const radius = (size - strokeWidth) / 2;
+  const numValue = typeof value === 'string' ? parseInt(value) : value;
+  const radius = (size - 10) / 2;
   const circumference = radius * 2 * Math.PI;
-  const offset = circumference - (value / 100) * circumference;
+  const offset = circumference - (numValue / 100) * circumference;
+  const outerRadius = (size - 4) / 2;
 
   return (
-    <div className="relative inline-flex items-center justify-center">
-      <svg width={size} height={size} className="-rotate-90">
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke={trackColor}
-          strokeWidth={strokeWidth}
+    <div className="flex flex-col items-center group">
+      <div className="relative">
+        {/* Outer glow ring */}
+        <div 
+          className="absolute inset-0 rounded-full blur-md opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+          style={{ background: `radial-gradient(circle, ${glowColor} 0%, transparent 70%)` }}
         />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          className="transition-all duration-1000 ease-out"
-          style={{ filter: `drop-shadow(0 0 6px ${color}40)` }}
-        />
-      </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        {children}
+        
+        <svg width={size} height={size} className="-rotate-90 relative z-10">
+          {/* Outer decorative ring */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={outerRadius}
+            fill="none"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="1"
+          />
+          {/* Track ring */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="rgba(255,255,255,0.15)"
+            strokeWidth="6"
+          />
+          {/* Progress ring with gradient effect */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke={color}
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            className="transition-all duration-1000 ease-out"
+            style={{ 
+              filter: `drop-shadow(0 0 8px ${glowColor})`,
+            }}
+          />
+          {/* Inner subtle ring */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius - 12}
+            fill="none"
+            stroke="rgba(255,255,255,0.05)"
+            strokeWidth="1"
+          />
+        </svg>
+        
+        {/* Center content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+          <Icon className="h-4 w-4 text-white/60 mb-1" />
+          <span className="text-xl font-bold text-white">{value}{typeof value === 'number' && '%'}</span>
+        </div>
       </div>
+      <p className="text-xs text-white/70 mt-3 font-medium">{label}</p>
     </div>
+  );
+};
+
+// Revenue sparkline for performance card
+const RevenueSparkline = ({ data, color }: { data: number[], color: string }) => {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const width = 120;
+  const height = 40;
+  
+  const points = data.map((value, index) => {
+    const x = (index / (data.length - 1)) * width;
+    const y = height - ((value - min) / range) * height * 0.8 - 4;
+    return `${x},${y}`;
+  }).join(' ');
+
+  const areaPoints = `0,${height} ${points} ${width},${height}`;
+
+  return (
+    <svg width={width} height={height} className="opacity-80">
+      <defs>
+        <linearGradient id="revenueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon
+        points={areaPoints}
+        fill="url(#revenueGradient)"
+      />
+      <polyline
+        points={points}
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 };
 
@@ -399,87 +475,126 @@ const DashboardPage = () => {
             </div>
           </Card>
 
-          {/* Performance Gauges - Visual Circular Metrics */}
-          <Card className="col-span-12 md:col-span-7 p-6 rounded-2xl border-0 shadow-sm hover:shadow-md transition-all duration-300 bg-gradient-to-br from-violet-500/5 via-transparent to-fuchsia-500/5">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 flex items-center justify-center">
-                  <Activity className="h-5 w-5 text-violet-500" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Performance</h3>
-                  <p className="text-xs text-muted-foreground">Métriques en temps réel</p>
-                </div>
-              </div>
-              <Badge className="bg-violet-500/10 text-violet-600 border-0 rounded-full">Live</Badge>
-            </div>
+          {/* Premium Performance Card with Background Image */}
+          <Card className="col-span-12 md:col-span-7 relative overflow-hidden rounded-3xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 group min-h-[320px]">
+            {/* Background image */}
+            <img 
+              src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=800&fit=crop"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            {/* Dark violet gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-violet-900/90 to-fuchsia-900/85" />
+            {/* Subtle mesh pattern overlay */}
+            <div className="absolute inset-0 opacity-10" style={{ 
+              backgroundImage: 'radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.3) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(217, 70, 239, 0.3) 0%, transparent 50%)'
+            }} />
             
-            <div className="grid grid-cols-3 gap-6">
-              {/* Capacity Ring */}
-              <div className="flex flex-col items-center">
-                <CircularProgress 
-                  value={performanceStats.capacity} 
-                  size={90}
-                  strokeWidth={8}
-                  color="hsl(262, 83%, 58%)"
-                  trackColor="hsl(var(--muted))"
-                >
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-foreground">{performanceStats.capacity}%</p>
+            <div className="relative z-10 p-6 h-full flex flex-col">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/10">
+                    <Activity className="h-5 w-5 text-violet-300" />
                   </div>
-                </CircularProgress>
-                <p className="text-xs text-muted-foreground mt-3">Occupation</p>
-              </div>
-              
-              {/* Covers Ring */}
-              <div className="flex flex-col items-center">
-                <CircularProgress 
-                  value={(performanceStats.avgCovers / 60) * 100} 
-                  size={90}
-                  strokeWidth={8}
-                  color="hsl(142, 70%, 45%)"
-                  trackColor="hsl(var(--muted))"
-                >
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-foreground">{performanceStats.avgCovers}</p>
+                  <div>
+                    <h3 className="font-semibold text-white">Performance</h3>
+                    <p className="text-xs text-white/50">Métriques en temps réel</p>
                   </div>
-                </CircularProgress>
-                <p className="text-xs text-muted-foreground mt-3">Couverts/jour</p>
-              </div>
-              
-              {/* Satisfaction Ring */}
-              <div className="flex flex-col items-center">
-                <CircularProgress 
-                  value={performanceStats.satisfaction} 
-                  size={90}
-                  strokeWidth={8}
-                  color="hsl(46, 95%, 58%)"
-                  trackColor="hsl(var(--muted))"
-                >
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-foreground">{performanceStats.satisfaction}%</p>
-                  </div>
-                </CircularProgress>
-                <p className="text-xs text-muted-foreground mt-3">Satisfaction</p>
-              </div>
-            </div>
-            
-            {/* Revenue highlight */}
-            <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center">
-                  <DollarSign className="h-5 w-5 text-primary" />
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Revenu hebdomadaire</p>
-                  <p className="text-2xl font-bold text-foreground">€{performanceStats.weeklyRevenue.toLocaleString()}</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <Badge className="bg-emerald-500/10 text-emerald-600 border-0 rounded-full">
-                  <TrendingUp className="h-3 w-3 mr-1" />
-                  +15%
+                <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full px-3 animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2 inline-block" />
+                  Live
                 </Badge>
+              </div>
+              
+              {/* Main content - Split layout */}
+              <div className="flex-1 grid grid-cols-2 gap-6">
+                {/* Revenue Hero Card - Left */}
+                <div className="flex flex-col justify-center p-5 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
+                      <DollarSign className="h-4 w-4 text-white" />
+                    </div>
+                    <span className="text-xs text-white/60 font-medium">Revenu hebdomadaire</span>
+                  </div>
+                  
+                  <div className="flex items-baseline gap-1 mb-2">
+                    <span className="text-4xl font-bold text-white tracking-tight">€{performanceStats.weeklyRevenue.toLocaleString()}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 mb-4">
+                    <Badge className="bg-emerald-500/20 text-emerald-300 border-0 rounded-full text-xs px-2 py-0.5">
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      +15.2%
+                    </Badge>
+                    <span className="text-xs text-white/40">vs semaine dernière</span>
+                  </div>
+                  
+                  <RevenueSparkline 
+                    data={[6200, 7100, 6800, 7500, 8100, 7800, 8450]} 
+                    color="#a78bfa" 
+                  />
+                </div>
+                
+                {/* Gauges - Right */}
+                <div className="flex items-center justify-center">
+                  <div className="grid grid-cols-2 gap-4">
+                    <GlowingGauge 
+                      value={performanceStats.capacity}
+                      label="Occupation"
+                      icon={Users}
+                      color="#a78bfa"
+                      glowColor="rgba(167, 139, 250, 0.6)"
+                      size={85}
+                    />
+                    <GlowingGauge 
+                      value={performanceStats.avgCovers}
+                      label="Couverts"
+                      icon={Utensils}
+                      color="#34d399"
+                      glowColor="rgba(52, 211, 153, 0.6)"
+                      size={85}
+                    />
+                    <GlowingGauge 
+                      value={performanceStats.satisfaction}
+                      label="Satisfaction"
+                      icon={Star}
+                      color="#fbbf24"
+                      glowColor="rgba(251, 191, 36, 0.6)"
+                      size={85}
+                    />
+                    <GlowingGauge 
+                      value={85}
+                      label="Efficacité"
+                      icon={TrendingUp}
+                      color="#f472b6"
+                      glowColor="rgba(244, 114, 182, 0.6)"
+                      size={85}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Bottom mini stats strip */}
+              <div className="mt-5 p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2 px-3 border-r border-white/10">
+                    <span className="text-lg font-bold text-white">€35</span>
+                    <span className="text-xs text-white/50">Ticket moyen</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 border-r border-white/10">
+                    <span className="text-lg font-bold text-white">20:00</span>
+                    <span className="text-xs text-white/50">Heure de pointe</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3">
+                    <span className="text-lg font-bold text-white">4.2</span>
+                    <span className="text-xs text-white/50">Tables/heure</span>
+                  </div>
+                </div>
+                <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white border-0 rounded-full text-xs backdrop-blur-sm">
+                  Voir rapport <ChevronRight className="h-3 w-3 ml-1" />
+                </Button>
               </div>
             </div>
           </Card>

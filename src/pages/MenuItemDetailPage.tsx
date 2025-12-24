@@ -386,41 +386,60 @@ const MenuItemDetailPage = () => {
         </div>
       </section>
 
-      {/* ==================== PAIRING SECTION (Burgundy Gradient) ==================== */}
+      {/* ==================== PAIRING SECTION (Burgundy Gradient with Background) ==================== */}
       {((!isWine && foodItem.pairing) || (isWine && wineItem.pairsWith)) && (
-        <section className="relative py-24 bg-gradient-to-br from-burgundy via-burgundy/90 to-[#2a1215] overflow-hidden">
+        <section className="relative py-24 md:py-32 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img 
+              src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop"
+              alt="Wine cellar"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-burgundy/90 via-burgundy/85 to-[#2a1215]/95" />
+          </div>
+          
+          {/* Decorative overlay pattern */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
+          
+          {/* Decorative corner elements */}
+          <div className="absolute top-8 left-8 w-24 h-24 border-l-2 border-t-2 border-gold/30 hidden md:block" />
+          <div className="absolute top-8 right-8 w-24 h-24 border-r-2 border-t-2 border-gold/30 hidden md:block" />
+          <div className="absolute bottom-8 left-8 w-24 h-24 border-l-2 border-b-2 border-gold/30 hidden md:block" />
+          <div className="absolute bottom-8 right-8 w-24 h-24 border-r-2 border-b-2 border-gold/30 hidden md:block" />
           
           <div className="container mx-auto px-6 lg:px-12 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex justify-center mb-8">
-                <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-                  <Wine size={28} className="text-gold" />
+                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-gold/30">
+                  <Wine size={32} className="text-gold" />
                 </div>
               </div>
 
-              <h2 className="font-luxury text-3xl md:text-4xl text-offwhite italic mb-4">
+              <h2 className="font-luxury text-3xl md:text-5xl text-offwhite italic mb-4">
                 {isWine ? 'Accords Parfaits' : 'Accord Vin Recommandé'}
               </h2>
-              <div className="w-16 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mb-10" />
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mb-12" />
 
               {!isWine && (
-                <>
-                  <p className="font-luxury text-4xl md:text-5xl text-gold italic mb-6">
+                <div className="space-y-8">
+                  <p className="font-luxury text-4xl md:text-6xl text-gold italic drop-shadow-lg">
                     {foodItem.pairing}
                   </p>
                   {foodItem.pairingNote && (
-                    <p className="font-serif text-lg text-offwhite/70 italic max-w-2xl mx-auto">
-                      {foodItem.pairingNote}
-                    </p>
+                    <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                      <p className="font-serif text-lg md:text-xl text-offwhite/90 italic leading-relaxed">
+                        "{foodItem.pairingNote}"
+                      </p>
+                    </div>
                   )}
-                </>
+                </div>
               )}
 
               {isWine && wineItem.pairsWith && (
                 <div className="flex flex-wrap justify-center gap-4">
                   {wineItem.pairsWith.map((pair, idx) => (
-                    <span key={idx} className="px-6 py-3 bg-white/10 border border-gold/30 rounded-full font-sans text-offwhite">
+                    <span key={idx} className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-gold/30 rounded-full font-sans text-offwhite text-lg hover:bg-white/20 transition-colors">
                       {pair}
                     </span>
                   ))}

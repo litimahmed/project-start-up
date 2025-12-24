@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, Mail, Phone, Calendar, Clock, Users, Sparkles, MessageSquare, MapPin, Star, Utensils, Wine, ChevronDown } from "lucide-react";
+import { User, Mail, Phone, Calendar, Clock, Users, Sparkles, MessageSquare, MapPin, Star, Utensils, Wine, ChevronDown, Loader2 } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const timeSlots = [
   "17h30", "18h00", "18h30", "19h00", "19h30", 
@@ -12,9 +15,23 @@ const guestOptions = ["1 Personne", "2 Personnes", "3 Personnes", "4 Personnes",
 
 const occasions = ["Aucune", "Anniversaire", "Mariage", "Dîner d'affaires", "Demande en mariage", "Célébration", "Autre"];
 
+// Validation schema
+const reservationSchema = z.object({
+  name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères").max(100),
+  email: z.string().trim().email("Adresse email invalide").max(255),
+  phone: z.string().trim().min(8, "Numéro de téléphone invalide").max(20),
+  date: z.string().min(1, "Date requise"),
+  time: z.string().min(1, "Heure requise"),
+  guests: z.string().min(1, "Nombre de convives requis"),
+  occasion: z.string().optional(),
+  requests: z.string().max(1000).optional(),
+});
+
 const ReservationsPage = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,14 +51,94 @@ const ReservationsPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error on field change
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Get minimum date (today)
+  const getMinDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Scroll to top before navigation
-    window.scrollTo(0, 0);
-    // Navigate to confirmation page with reservation data
-    navigate('/reservations/confirmation', { state: { reservationData: formData } });
+    setErrors({});
+
+    // Validate form data
+    const result = reservationSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.errors.forEach(err => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      toast.error("Veuillez corriger les erreurs du formulaire");
+      return;
+    }
+
+    // Check date is in the future
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate < today) {
+      setErrors({ date: "La date doit être aujourd'hui ou dans le futur" });
+      toast.error("La date doit être aujourd'hui ou dans le futur");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Parse guests number from string like "2 Personnes"
+      const guestsNumber = parseInt(formData.guests.match(/\d+/)?.[0] || "2", 10);
+      
+      // Convert time format from "19h30" to "19:30"
+      const timeFormatted = formData.time.replace('h', ':');
+
+      // Prepare data for database
+      const reservationData = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        date: formData.date,
+        time: timeFormatted,
+        guests: guestsNumber,
+        occasion: formData.occasion && formData.occasion !== "Aucune" ? formData.occasion : null,
+        special_requests: formData.requests?.trim() || null,
+        status: 'pending' as const,
+      };
+
+      const { data, error } = await supabase
+        .from('reservations')
+        .insert(reservationData)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Reservation error:', error);
+        toast.error("Une erreur est survenue. Veuillez réessayer.");
+        return;
+      }
+
+      toast.success("Réservation envoyée avec succès!");
+      window.scrollTo(0, 0);
+      navigate('/reservations/confirmation', { 
+        state: { 
+          reservationData: formData,
+          reservationId: data.id 
+        } 
+      });
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast.error("Une erreur est survenue. Veuillez réessayer.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -275,9 +372,11 @@ const ReservationsPage = () => {
                             name="date"
                             value={formData.date}
                             onChange={handleChange}
+                            min={getMinDate()}
                             required
-                            className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all cursor-pointer"
+                            className={`w-full bg-white border pl-12 pr-4 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all cursor-pointer ${errors.date ? 'border-red-500' : 'border-gold/30'}`}
                           />
+                          {errors.date && <p className="font-sans text-xs text-red-500 mt-1">{errors.date}</p>}
                         </div>
                         <p className="font-sans text-xs text-charcoal/50 pl-1">Nous sommes ouverts du mardi au samedi</p>
                       </div>
@@ -392,9 +491,17 @@ const ReservationsPage = () => {
                     {/* Submit Button */}
                     <button
                       type="submit"
-                      className="w-full mt-8 px-8 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.15em] uppercase hover:bg-gold/90 hover:shadow-lg hover:shadow-gold/30 hover:-translate-y-0.5 transition-all duration-300 font-medium"
+                      disabled={isSubmitting}
+                      className="w-full mt-8 px-8 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.15em] uppercase hover:bg-gold/90 hover:shadow-lg hover:shadow-gold/30 hover:-translate-y-0.5 transition-all duration-300 font-medium disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none flex items-center justify-center gap-2"
                     >
-                      Confirmer la Réservation
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          Envoi en cours...
+                        </>
+                      ) : (
+                        "Confirmer la Réservation"
+                      )}
                     </button>
                   </form>
                 </div>

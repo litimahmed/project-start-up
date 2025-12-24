@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Star, Quote } from 'lucide-react';
+import { useCountUp } from '@/hooks/useCountUp';
 
 const testimonials = [
   {
@@ -27,6 +28,34 @@ const testimonials = [
     image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop',
   },
 ];
+
+// Animated Stats Component
+const AnimatedStats = ({ isVisible }: { isVisible: boolean }) => {
+  const reviewsCount = useCountUp({ end: 1500, duration: 2500, suffix: '+', enabled: isVisible });
+  const recommendCount = useCountUp({ end: 98, duration: 2000, delay: 200, suffix: '%', enabled: isVisible });
+  const yearsCount = useCountUp({ end: 15, duration: 1800, delay: 400, enabled: isVisible });
+
+  const stats = [
+    { value: reviewsCount.displayValue, label: 'Avis 5 étoiles' },
+    { value: recommendCount.displayValue, label: 'Recommandent' },
+    { value: yearsCount.displayValue, label: 'Ans d\'excellence' },
+  ];
+
+  return (
+    <div 
+      className={`grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 transition-all duration-1000 delay-400 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+    >
+      {stats.map((stat, index) => (
+        <div key={index} className="text-center">
+          <p className="font-luxury text-2xl md:text-3xl text-gold mb-1 tabular-nums">{stat.value}</p>
+          <p className="font-sans text-[10px] md:text-xs tracking-[0.15em] uppercase text-offwhite/50">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const Testimonials = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -175,23 +204,8 @@ const Testimonials = () => {
           </div>
         </div>
 
-        {/* Stats */}
-        <div 
-          className={`grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 transition-all duration-1000 delay-400 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {[
-            { value: '1500+', label: 'Avis 5 étoiles' },
-            { value: '98%', label: 'Recommandent' },
-            { value: '15', label: 'Ans d\'excellence' },
-          ].map((stat, index) => (
-            <div key={index} className="text-center">
-              <p className="font-luxury text-2xl md:text-3xl text-gold mb-1">{stat.value}</p>
-              <p className="font-sans text-[10px] md:text-xs tracking-[0.15em] uppercase text-offwhite/50">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+        {/* Stats with Animated Counters */}
+        <AnimatedStats isVisible={isVisible} />
       </div>
     </section>
   );

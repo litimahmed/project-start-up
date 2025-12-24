@@ -599,76 +599,176 @@ const DashboardPage = () => {
             </div>
           </Card>
 
-          {/* Timeline-style Pending Actions */}
-          <Card className="col-span-12 md:col-span-7 p-6 rounded-2xl border-0 shadow-sm hover:shadow-md transition-all duration-300 bg-gradient-to-br from-amber-500/5 via-transparent to-orange-500/5">
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
-                  <AlertCircle className="h-5 w-5 text-amber-500" />
+          {/* Premium Pending Actions - Command Center Style */}
+          <Card className="col-span-12 md:col-span-7 p-0 rounded-3xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden relative group/card">
+            {/* Background image with dark amber gradient overlay */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover/card:scale-105"
+              style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&h=800&fit=crop)' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-amber-950/90 to-orange-950/85" />
+            
+            {/* Animated glow overlay */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-amber-500/20 via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-orange-600/15 via-transparent to-transparent opacity-50" />
+            
+            {/* Content */}
+            <div className="relative z-10 p-6">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-amber-500/30 to-orange-500/30 backdrop-blur-sm flex items-center justify-center shadow-lg" style={{ boxShadow: '0 0 20px rgba(245, 158, 11, 0.3)' }}>
+                    <AlertCircle className="h-6 w-6 text-amber-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-lg">Actions en attente</h3>
+                    <p className="text-xs text-white/60">Nécessitent votre attention</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Actions en attente</h3>
-                  <p className="text-xs text-muted-foreground">Nécessitent votre attention</p>
+                <div className="flex items-center gap-3">
+                  <Badge className="bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-full px-3 py-1 shadow-lg" style={{ boxShadow: '0 0 15px rgba(244, 63, 94, 0.4)' }}>
+                    <span className="relative flex h-2 w-2 mr-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                    </span>
+                    {pendingActions.filter(a => a.urgent).length} urgent
+                  </Badge>
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-400">
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Live
+                  </div>
                 </div>
               </div>
-              <Badge className="bg-rose-500/10 text-rose-500 border-0 rounded-full animate-pulse">
-                {pendingActions.filter(a => a.urgent).length} urgent
-              </Badge>
-            </div>
-            
-            {/* Timeline layout */}
-            <div className="relative pl-6">
-              {/* Vertical timeline line */}
-              <div className="absolute left-2 top-2 bottom-2 w-px bg-gradient-to-b from-amber-500/50 via-amber-500/20 to-transparent" />
               
-              <div className="space-y-4">
-                {pendingActions.map((action, index) => (
-                  <div 
-                    key={action.id} 
-                    className="relative flex items-center gap-4 p-4 rounded-xl bg-card/80 hover:bg-card transition-all duration-300 cursor-pointer group border border-transparent hover:border-amber-500/20"
-                  >
-                    {/* Timeline dot with pulse for urgent */}
-                    <div className="absolute -left-6 top-1/2 -translate-y-1/2">
-                      <div className={`w-4 h-4 rounded-full border-2 ${
+              {/* Timeline layout with glowing line */}
+              <div className="relative pl-8">
+                {/* Glowing vertical timeline line */}
+                <div className="absolute left-3 top-3 bottom-3 w-0.5 bg-gradient-to-b from-amber-500/80 via-amber-500/40 to-transparent rounded-full" style={{ boxShadow: '0 0 10px rgba(245, 158, 11, 0.5), 0 0 20px rgba(245, 158, 11, 0.3)' }} />
+                
+                {/* Animated pulse traveling down the line */}
+                <div className="absolute left-3 top-3 w-0.5 h-8 bg-gradient-to-b from-amber-400 to-transparent rounded-full animate-pulse opacity-60" />
+                
+                <div className="space-y-4">
+                  {pendingActions.map((action, index) => (
+                    <div 
+                      key={action.id} 
+                      className={`relative flex items-center gap-4 p-4 rounded-2xl backdrop-blur-md transition-all duration-300 cursor-pointer group border ${
                         action.urgent 
-                          ? 'bg-rose-500 border-rose-500/30' 
-                          : 'bg-amber-500 border-amber-500/30'
-                      } flex items-center justify-center`}>
-                        {action.urgent && (
-                          <div className="absolute w-4 h-4 rounded-full bg-rose-500/50 animate-ping" />
-                        )}
-                      </div>
-                    </div>
-                    
-                    <div className="flex-1 flex items-center gap-4">
-                      {/* Time block */}
-                      <div className={`h-14 w-16 rounded-xl ${
-                        action.urgent 
-                          ? 'bg-gradient-to-br from-rose-500/20 to-rose-600/10' 
-                          : 'bg-gradient-to-br from-amber-500/20 to-amber-600/10'
-                      } flex flex-col items-center justify-center`}>
-                        <p className={`text-lg font-bold ${action.urgent ? 'text-rose-500' : 'text-amber-500'}`}>
-                          {action.time}
-                        </p>
+                          ? 'bg-white/10 border-rose-500/30 hover:bg-white/15 hover:border-rose-500/50' 
+                          : 'bg-white/8 border-amber-500/20 hover:bg-white/12 hover:border-amber-500/40'
+                      }`}
+                      style={{ 
+                        boxShadow: action.urgent 
+                          ? '0 4px 20px rgba(244, 63, 94, 0.15), inset 0 0 0 1px rgba(244, 63, 94, 0.1)' 
+                          : '0 4px 20px rgba(245, 158, 11, 0.1), inset 0 0 0 1px rgba(245, 158, 11, 0.1)'
+                      }}
+                    >
+                      {/* Glowing left border accent */}
+                      <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-full ${
+                        action.urgent ? 'bg-rose-500' : 'bg-amber-500'
+                      }`} style={{ boxShadow: action.urgent ? '0 0 12px rgba(244, 63, 94, 0.6)' : '0 0 12px rgba(245, 158, 11, 0.6)' }} />
+                      
+                      {/* Timeline node with glow */}
+                      <div className="absolute -left-8 top-1/2 -translate-y-1/2">
+                        <div className={`relative w-6 h-6 rounded-full flex items-center justify-center ${
+                          action.urgent 
+                            ? 'bg-gradient-to-br from-rose-500 to-rose-600' 
+                            : 'bg-gradient-to-br from-amber-500 to-amber-600'
+                        }`} style={{ boxShadow: action.urgent ? '0 0 15px rgba(244, 63, 94, 0.6)' : '0 0 15px rgba(245, 158, 11, 0.6)' }}>
+                          {action.urgent && (
+                            <div className="absolute inset-0 rounded-full bg-rose-500/50 animate-ping" />
+                          )}
+                          <div className="w-2 h-2 rounded-full bg-white" />
+                        </div>
                       </div>
                       
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm font-semibold text-foreground">{action.name}</p>
-                          <Badge className="text-[10px] bg-muted text-muted-foreground border-0 rounded-full h-5">
-                            {action.type}
-                          </Badge>
+                      <div className="flex-1 flex items-center gap-4 ml-2">
+                        {/* Enhanced time block */}
+                        <div className={`h-16 w-20 rounded-xl flex flex-col items-center justify-center ${
+                          action.urgent 
+                            ? 'bg-gradient-to-br from-rose-500/30 to-rose-600/20' 
+                            : 'bg-gradient-to-br from-amber-500/30 to-amber-600/20'
+                        }`} style={{ boxShadow: action.urgent ? 'inset 0 0 20px rgba(244, 63, 94, 0.2)' : 'inset 0 0 20px rgba(245, 158, 11, 0.2)' }}>
+                          <Clock className={`h-3.5 w-3.5 mb-0.5 ${action.urgent ? 'text-rose-400' : 'text-amber-400'}`} />
+                          <p className={`text-xl font-bold ${action.urgent ? 'text-rose-400' : 'text-amber-400'}`}>
+                            {action.time}
+                          </p>
                         </div>
-                        <div className={`flex items-center gap-2 mt-1.5 ${action.urgent ? 'text-rose-500' : 'text-amber-600'}`}>
-                          <GuestDots count={action.guests} />
-                          <span className="text-xs">{action.guests} personnes</span>
+                        
+                        {/* Avatar placeholder */}
+                        <div className={`h-12 w-12 rounded-xl flex items-center justify-center text-lg font-bold ${
+                          action.urgent 
+                            ? 'bg-gradient-to-br from-rose-500/40 to-rose-600/30 text-rose-300' 
+                            : 'bg-gradient-to-br from-amber-500/40 to-amber-600/30 text-amber-300'
+                        }`}>
+                          {action.name.charAt(0)}
+                        </div>
+                        
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <p className="text-sm font-bold text-white">{action.name}</p>
+                            <Badge className={`text-[10px] border-0 rounded-full h-5 px-2 ${
+                              action.urgent 
+                                ? 'bg-rose-500/20 text-rose-300' 
+                                : 'bg-amber-500/20 text-amber-300'
+                            }`}>
+                              {action.type}
+                            </Badge>
+                          </div>
+                          <div className={`flex items-center gap-2 mt-2 ${action.urgent ? 'text-rose-400' : 'text-amber-400'}`}>
+                            <div className="flex gap-1">
+                              {Array.from({ length: 6 }).map((_, i) => (
+                                <div 
+                                  key={i} 
+                                  className={`w-2 h-2 rounded-full ${
+                                    i < action.guests 
+                                      ? action.urgent ? 'bg-rose-400' : 'bg-amber-400'
+                                      : 'bg-white/20'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-xs text-white/70">{action.guests} personnes</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Action button on hover */}
+                      <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                        <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${
+                          action.urgent 
+                            ? 'bg-rose-500/30 hover:bg-rose-500/50' 
+                            : 'bg-amber-500/30 hover:bg-amber-500/50'
+                        } transition-colors`}>
+                          <ChevronRight className="h-5 w-5 text-white" />
                         </div>
                       </div>
                     </div>
-                    
-                    <ChevronRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  ))}
+                </div>
+              </div>
+              
+              {/* Bottom stats bar with glass-morphism */}
+              <div className="mt-6 p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-rose-500/20">
+                    <div className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
+                    <span className="text-sm font-bold text-rose-400">{pendingActions.filter(a => a.urgent).length}</span>
+                    <span className="text-xs text-white/50">urgent</span>
                   </div>
-                ))}
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-500/20">
+                    <div className="h-2 w-2 rounded-full bg-amber-500" />
+                    <span className="text-sm font-bold text-amber-400">{pendingActions.filter(a => !a.urgent).length}</span>
+                    <span className="text-xs text-white/50">en attente</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-white/10">
+                    <span className="text-sm font-bold text-white">8</span>
+                    <span className="text-xs text-white/50">aujourd'hui</span>
+                  </div>
+                </div>
+                <Button size="sm" className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 rounded-full text-xs backdrop-blur-sm transition-all hover:shadow-lg" style={{ boxShadow: '0 0 15px rgba(245, 158, 11, 0.2)' }}>
+                  Voir tout <ChevronRight className="h-3 w-3 ml-1" />
+                </Button>
               </div>
             </div>
           </Card>

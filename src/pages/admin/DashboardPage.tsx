@@ -236,11 +236,12 @@ const DashboardPage = () => {
       icon: Calendar, 
       trend: '+12%',
       trendUp: true,
-      gradient: 'from-amber-500/10 via-amber-500/5 to-transparent',
-      iconBg: 'bg-gradient-to-br from-amber-500/20 to-amber-600/20',
-      iconColor: 'text-amber-500',
+      iconBg: 'bg-white/20 backdrop-blur-sm',
+      iconColor: 'text-white',
       sparkData: weeklyData.series,
-      sparkColor: '#f59e0b'
+      sparkColor: '#ffffff',
+      bgImage: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=400&fit=crop',
+      overlayColor: 'from-amber-600/90 via-amber-500/85 to-orange-500/80'
     },
     { 
       label: 'Couverts prévus', 
@@ -248,11 +249,12 @@ const DashboardPage = () => {
       icon: Users,
       trend: '+8%',
       trendUp: true,
-      gradient: 'from-emerald-500/10 via-emerald-500/5 to-transparent',
-      iconBg: 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/20',
-      iconColor: 'text-emerald-500',
+      iconBg: 'bg-white/20 backdrop-blur-sm',
+      iconColor: 'text-white',
       sparkData: weeklyData.guestsTrend,
-      sparkColor: '#10b981'
+      sparkColor: '#ffffff',
+      bgImage: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop',
+      overlayColor: 'from-emerald-600/90 via-emerald-500/85 to-teal-500/80'
     },
     { 
       label: 'Tables actives', 
@@ -260,11 +262,12 @@ const DashboardPage = () => {
       icon: Utensils,
       trend: '75%',
       trendUp: true,
-      gradient: 'from-blue-500/10 via-blue-500/5 to-transparent',
-      iconBg: 'bg-gradient-to-br from-blue-500/20 to-blue-600/20',
-      iconColor: 'text-blue-500',
+      iconBg: 'bg-white/20 backdrop-blur-sm',
+      iconColor: 'text-white',
       sparkData: [14, 16, 15, 18, 17, 19, 18],
-      sparkColor: '#3b82f6'
+      sparkColor: '#ffffff',
+      bgImage: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&h=400&fit=crop',
+      overlayColor: 'from-blue-600/90 via-blue-500/85 to-indigo-500/80'
     },
     { 
       label: 'En attente', 
@@ -272,11 +275,12 @@ const DashboardPage = () => {
       icon: AlertCircle,
       trend: 'urgent',
       trendUp: false,
-      gradient: 'from-rose-500/10 via-rose-500/5 to-transparent',
-      iconBg: 'bg-gradient-to-br from-rose-500/20 to-rose-600/20',
-      iconColor: 'text-rose-500',
+      iconBg: 'bg-white/20 backdrop-blur-sm',
+      iconColor: 'text-white',
       sparkData: [2, 4, 3, 5, 2, 4, 3],
-      sparkColor: '#f43f5e'
+      sparkColor: '#ffffff',
+      bgImage: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=600&h=400&fit=crop',
+      overlayColor: 'from-rose-600/90 via-rose-500/85 to-pink-500/80'
     }
   ];
 
@@ -320,20 +324,21 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Enhanced Quick Stats Row with Gradients & Sparklines */}
+        {/* Enhanced Quick Stats Row with Background Images */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {statConfigs.map((stat, i) => (
             <Card 
               key={i} 
-              className={`relative p-5 rounded-2xl border-0 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 group cursor-pointer bg-gradient-to-br ${stat.gradient}`}
+              className="relative p-5 rounded-2xl border-0 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group cursor-pointer min-h-[140px]"
             >
-              {/* Decorative pattern overlay */}
-              <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
-                  backgroundSize: '16px 16px'
-                }} />
-              </div>
+              {/* Background image */}
+              <img 
+                src={stat.bgImage}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              {/* Gradient overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${stat.overlayColor}`} />
               
               <div className="relative z-10">
                 <div className="flex items-start justify-between mb-3">
@@ -342,8 +347,8 @@ const DashboardPage = () => {
                   </div>
                   <div className={`text-xs font-semibold px-2 py-1 rounded-full ${
                     stat.trendUp 
-                      ? 'bg-emerald-500/10 text-emerald-600' 
-                      : 'bg-rose-500/10 text-rose-500'
+                      ? 'bg-white/20 text-white' 
+                      : 'bg-white/20 text-white'
                   }`}>
                     {stat.trend}
                   </div>
@@ -351,8 +356,8 @@ const DashboardPage = () => {
                 
                 <div className="flex items-end justify-between">
                   <div>
-                    <p className="text-3xl font-bold text-foreground tracking-tight">{stat.value}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
+                    <p className="text-3xl font-bold text-white tracking-tight drop-shadow-md">{stat.value}</p>
+                    <p className="text-xs text-white/80 mt-1">{stat.label}</p>
                   </div>
                   <MiniSparkline data={stat.sparkData} color={stat.sparkColor} />
                 </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
@@ -100,12 +101,13 @@ const Navigation = () => {
             ))}
           </div>
 
-          <a
-            href="/reservations"
+          <Link
+            to="/reservations"
+            onClick={() => window.scrollTo(0, 0)}
             className="hidden lg:block px-5 py-2 font-sans text-xs tracking-[0.15em] uppercase transition-all duration-500 text-gold border border-gold/50 hover:bg-gold hover:text-charcoal"
           >
             Réserver
-          </a>
+          </Link>
 
           {/* Mobile Menu Button */}
           <button
@@ -148,12 +150,13 @@ const Navigation = () => {
                 </a>
               )
             ))}
-            <a
-              href="/reservations"
+            <Link
+              to="/reservations"
+              onClick={() => window.scrollTo(0, 0)}
               className="mt-4 mx-4 px-6 py-3 bg-transparent text-gold font-sans text-sm tracking-widest uppercase text-center border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
             >
               Réserver une Table
-            </a>
+            </Link>
           </div>
         </div>
       </div>

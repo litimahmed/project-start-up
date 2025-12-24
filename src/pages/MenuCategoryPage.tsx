@@ -379,6 +379,7 @@ const MenuCategoryPage = () => {
           </p>
           <Link
             to="/reservations"
+            onClick={() => window.scrollTo(0, 0)}
             className="inline-flex items-center gap-3 px-10 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.15em] uppercase rounded-full hover:bg-gold/90 transition-all duration-300 shadow-lg shadow-gold/30"
           >
             Réserver une Table

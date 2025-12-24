@@ -38,6 +38,7 @@ export const ReserveButton = ({ variant = 'outline', className = '' }: ReserveBu
   return (
     <Link 
       to="/reservations"
+      onClick={() => window.scrollTo(0, 0)}
       className={`${baseClasses} ${variantClasses} ${className}`}
     >
       Réserver
@@ -83,6 +84,7 @@ export const FloatingNav = ({ backTo, backLabel }: FloatingNavProps) => {
         </Link>
         <Link 
           to="/reservations"
+          onClick={() => window.scrollTo(0, 0)}
           className="px-6 py-3 font-sans text-xs tracking-[0.15em] uppercase transition-all duration-500 text-gold border border-gold hover:bg-gold hover:text-charcoal"
         >
           Réserver
@@ -95,11 +97,12 @@ export const FloatingNav = ({ backTo, backLabel }: FloatingNavProps) => {
 // For homepage navigation (uses anchor tag for hash links)
 export const ReserveButtonAnchor = ({ className = '' }: { className?: string }) => {
   return (
-    <a 
-      href="/reservations"
+    <Link 
+      to="/reservations"
+      onClick={() => window.scrollTo(0, 0)}
       className={`px-5 py-2 font-sans text-xs tracking-[0.15em] uppercase transition-all duration-500 text-gold border border-gold/50 hover:bg-gold hover:text-charcoal ${className}`}
     >
       Réserver
-    </a>
+    </Link>
   );
 };

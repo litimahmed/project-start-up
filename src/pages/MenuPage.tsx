@@ -286,6 +286,7 @@ const MenuPage = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   to="/reservations"
+                  onClick={() => window.scrollTo(0, 0)}
                   className="px-10 py-4 bg-gold text-charcoal font-sans text-xs tracking-[0.2em] uppercase hover:bg-gold/90 transition-all shadow-lg shadow-gold/30"
                 >
                   Réserver une Table

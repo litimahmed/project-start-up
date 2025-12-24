@@ -75,16 +75,18 @@ const Navigation = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="relative font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 py-2 text-offwhite/70 hover:text-offwhite"
+                  className="relative font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 py-2 text-offwhite/70 hover:text-offwhite group"
                 >
                   {link.name}
+                  {/* Animated underline on hover */}
+                  <span className="absolute bottom-0 left-0 w-full h-px bg-gold transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </a>
               ) : (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`relative font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 py-2 ${
+                  className={`relative font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 py-2 group ${
                     activeSection === link.href.substring(1)
                       ? 'text-gold'
                       : 'text-offwhite/70 hover:text-offwhite'
@@ -93,7 +95,7 @@ const Navigation = () => {
                   {link.name}
                   <span
                     className={`absolute bottom-0 left-0 w-full h-px transform origin-left transition-transform duration-300 bg-gold ${
-                      activeSection === link.href.substring(1) ? 'scale-x-100' : 'scale-x-0'
+                      activeSection === link.href.substring(1) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
                 </a>
@@ -126,12 +128,16 @@ const Navigation = () => {
           }`}
         >
           <div className="flex flex-col gap-1 py-6 border-t border-offwhite/10">
-            {navLinks.map((link) => (
+            {navLinks.map((link, index) => (
               link.isPage ? (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="font-sans text-sm tracking-widest uppercase py-3 px-4 transition-all duration-300 text-offwhite/70 hover:text-offwhite hover:bg-offwhite/5"
+                  className="font-sans text-sm tracking-widest uppercase py-3 px-4 transition-all duration-300 text-offwhite/70 hover:text-offwhite hover:bg-offwhite/5 transform translate-x-0 opacity-100"
+                  style={{ 
+                    transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms',
+                    transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)',
+                  }}
                 >
                   {link.name}
                 </a>
@@ -145,6 +151,10 @@ const Navigation = () => {
                       ? 'text-gold bg-offwhite/5'
                       : 'text-offwhite/70 hover:text-offwhite hover:bg-offwhite/5'
                   }`}
+                  style={{ 
+                    transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms',
+                    transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)',
+                  }}
                 >
                   {link.name}
                 </a>
@@ -154,6 +164,10 @@ const Navigation = () => {
               to="/reservations"
               onClick={() => window.scrollTo(0, 0)}
               className="mt-4 mx-4 px-6 py-3 bg-transparent text-gold font-sans text-sm tracking-widest uppercase text-center border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
+              style={{ 
+                transitionDelay: isMobileMenuOpen ? `${navLinks.length * 50}ms` : '0ms',
+                transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)',
+              }}
             >
               Réserver une Table
             </Link>

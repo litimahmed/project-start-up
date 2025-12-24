@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChefHat, Wine, Clock, MapPin, Sparkles, Leaf, Star, Utensils, Quote, Calendar, Flame, X, ArrowRight } from 'lucide-react';
+import { ChefHat, Wine, Clock, MapPin, Sparkles, Leaf, Star, Utensils, Quote, Calendar, Flame, X } from 'lucide-react';
 import { getItemBySlug, categoryData, getAllItems, type MenuCategory, type ExtendedMenuItem, type WineItem } from '@/data/menuData';
 import { FloatingNav } from '@/components/shared/NavButtons';
 
@@ -402,71 +402,65 @@ const MenuItemDetailPage = () => {
         </div>
       </section>
 
-      {/* ==================== PAIRING SECTION (Split Design) ==================== */}
+      {/* ==================== PAIRING SECTION (Burgundy Gradient with Background) ==================== */}
       {((!isWine && foodItem.pairing) || (isWine && wineItem.pairsWith)) && (
-        <section className="relative min-h-[70vh] overflow-hidden">
-          <div className="grid lg:grid-cols-2 min-h-[70vh]">
-            {/* Left - Image */}
-            <div className="relative h-64 lg:h-auto overflow-hidden">
-              <img 
-                src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop"
-                alt="Wine cellar"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-burgundy/30 lg:block hidden" />
-              <div className="absolute inset-0 bg-gradient-to-t from-burgundy via-burgundy/60 to-transparent lg:hidden" />
-              
-              {/* Floating wine glass decoration */}
-              <div className="absolute bottom-8 left-8 hidden lg:flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-gold/40">
-                  <Wine size={28} className="text-gold" />
+        <section className="relative py-24 md:py-32 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img 
+              src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop"
+              alt="Wine cellar"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-burgundy/70 via-burgundy/60 to-[#2a1215]/75" />
+          </div>
+          
+          {/* Decorative overlay pattern */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
+          
+          {/* Decorative corner elements */}
+          <div className="absolute top-8 left-8 w-24 h-24 border-l-2 border-t-2 border-gold/30 hidden md:block" />
+          <div className="absolute top-8 right-8 w-24 h-24 border-r-2 border-t-2 border-gold/30 hidden md:block" />
+          <div className="absolute bottom-8 left-8 w-24 h-24 border-l-2 border-b-2 border-gold/30 hidden md:block" />
+          <div className="absolute bottom-8 right-8 w-24 h-24 border-r-2 border-b-2 border-gold/30 hidden md:block" />
+          
+          <div className="container mx-auto px-6 lg:px-12 relative z-10">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="flex justify-center mb-8">
+                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-gold/30">
+                  <Wine size={32} className="text-gold" />
                 </div>
-                <div className="h-px w-24 bg-gradient-to-r from-gold/60 to-transparent" />
               </div>
-            </div>
-            
-            {/* Right - Content */}
-            <div className="relative bg-gradient-to-br from-burgundy via-burgundy to-[#2a1215] flex items-center justify-center py-16 lg:py-24 px-8 lg:px-16">
-              {/* Decorative pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 right-0 w-64 h-64 border border-gold/20 rounded-full -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 border border-gold/20 rounded-full translate-y-1/2 -translate-x-1/2" />
-              </div>
-              
-              {/* Corner accents */}
-              <div className="absolute top-6 left-6 w-16 h-16 border-l-2 border-t-2 border-gold/30" />
-              <div className="absolute bottom-6 right-6 w-16 h-16 border-r-2 border-b-2 border-gold/30" />
-              
-              <div className="relative z-10 max-w-lg text-center lg:text-left">
-                <p className="font-sans text-xs tracking-[0.4em] uppercase text-gold/80 mb-4">
-                  {isWine ? 'Accords Parfaits' : 'Accord Recommandé'}
-                </p>
-                
-                <h2 className="font-luxury text-4xl md:text-5xl lg:text-6xl text-offwhite italic mb-6 leading-tight">
-                  {!isWine ? foodItem.pairing : 'Sublimez vos plats'}
-                </h2>
-                
-                <div className="w-20 h-px bg-gradient-to-r from-gold to-transparent mb-8 mx-auto lg:mx-0" />
-                
-                {!isWine && foodItem.pairingNote && (
-                  <blockquote className="relative">
-                    <span className="absolute -top-4 -left-2 text-6xl text-gold/20 font-serif">"</span>
-                    <p className="font-serif text-lg md:text-xl text-offwhite/80 italic leading-relaxed pl-6">
-                      {foodItem.pairingNote}
-                    </p>
-                  </blockquote>
-                )}
 
-                {isWine && wineItem.pairsWith && (
-                  <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                    {wineItem.pairsWith.map((pair, idx) => (
-                      <span key={idx} className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-gold/30 rounded-full font-sans text-offwhite text-sm hover:bg-white/20 transition-colors">
-                        {pair}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <h2 className="font-luxury text-3xl md:text-5xl text-offwhite italic mb-4">
+                {isWine ? 'Accords Parfaits' : 'Accord Vin Recommandé'}
+              </h2>
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mb-12" />
+
+              {!isWine && (
+                <div className="space-y-8">
+                  <p className="font-luxury text-4xl md:text-6xl text-gold italic drop-shadow-lg">
+                    {foodItem.pairing}
+                  </p>
+                  {foodItem.pairingNote && (
+                    <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                      <p className="font-serif text-lg md:text-xl text-offwhite/90 italic leading-relaxed">
+                        "{foodItem.pairingNote}"
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {isWine && wineItem.pairsWith && (
+                <div className="flex flex-wrap justify-center gap-4">
+                  {wineItem.pairsWith.map((pair, idx) => (
+                    <span key={idx} className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-gold/30 rounded-full font-sans text-offwhite text-lg hover:bg-white/20 transition-colors">
+                      {pair}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -529,62 +523,47 @@ const MenuItemDetailPage = () => {
         </section>
       )}
 
-      {/* ==================== CTA SECTION (Split Design) ==================== */}
-      <section className="relative min-h-[60vh] overflow-hidden">
-        <div className="grid lg:grid-cols-2 min-h-[60vh]">
-          {/* Left - Content */}
-          <div className="relative bg-charcoal flex items-center justify-center py-16 lg:py-24 px-8 lg:px-16 order-2 lg:order-1">
-            {/* Decorative elements */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold/[0.03] rounded-full blur-[100px]" />
-            </div>
-            
-            {/* Corner accents */}
-            <div className="absolute top-6 left-6 w-16 h-16 border-l-2 border-t-2 border-gold/30" />
-            <div className="absolute bottom-6 right-6 w-16 h-16 border-r-2 border-b-2 border-gold/30" />
-            
-            {/* Decorative vertical line */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-px h-32 bg-gradient-to-b from-transparent via-gold/40 to-transparent hidden lg:block" />
-            
-            <div className="relative z-10 max-w-md text-center lg:text-left">
-              <div className="flex items-center gap-3 mb-6 justify-center lg:justify-start">
-                <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center border border-gold/30">
-                  <Star size={20} className="text-gold" />
-                </div>
-                <div className="w-16 h-px bg-gradient-to-r from-gold/60 to-transparent" />
-              </div>
-              
-              <h2 className="font-luxury text-4xl md:text-5xl text-offwhite italic mb-4 leading-tight">
-                Vivez <span className="text-gold">l'Expérience</span>
+      {/* ==================== CTA SECTION (Dark with Background Image) ==================== */}
+      <section className="relative py-32 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop"
+            alt="Restaurant ambiance"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-charcoal/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-charcoal/60" />
+        </div>
+        
+        {/* Decorative glow */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gold/[0.05] rounded-full blur-[150px]" />
+        </div>
+
+        <div className="container mx-auto px-6 text-center relative z-10">
+          {/* Decorative frame */}
+          <div className="max-w-2xl mx-auto relative">
+            <div className="absolute -top-4 -left-4 w-12 h-12 border-l border-t border-gold/30" />
+            <div className="absolute -top-4 -right-4 w-12 h-12 border-r border-t border-gold/30" />
+            <div className="absolute -bottom-4 -left-4 w-12 h-12 border-l border-b border-gold/30" />
+            <div className="absolute -bottom-4 -right-4 w-12 h-12 border-r border-b border-gold/30" />
+
+            <div className="py-12">
+              <h2 className="font-luxury text-3xl md:text-4xl text-offwhite italic mb-4">
+                Vivez l'Expérience
               </h2>
-              
-              <p className="font-sans text-offwhite/60 mb-10 leading-relaxed">
-                Découvrez <span className="text-gold/80 italic">{item.name}</span> lors de votre prochaine visite dans notre établissement d'exception.
+              <p className="font-sans text-offwhite/50 mb-10 max-w-md mx-auto">
+                Découvrez {item.name} lors de votre prochaine visite dans notre établissement
               </p>
-              
               <Link
                 to="/reservations"
                 onClick={() => window.scrollTo(0, 0)}
-                className="group inline-flex items-center gap-3 px-10 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.15em] uppercase hover:bg-gold/90 transition-all shadow-lg shadow-gold/20 hover:shadow-gold/40"
+                className="inline-flex px-12 py-5 bg-gold text-charcoal font-sans text-sm tracking-[0.2em] uppercase rounded-full hover:bg-gold/90 transition-all shadow-lg shadow-gold/30 hover:shadow-gold/50"
               >
-                <span>Réserver une Table</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                Réserver une Table
               </Link>
             </div>
-          </div>
-          
-          {/* Right - Image */}
-          <div className="relative h-64 lg:h-auto overflow-hidden order-1 lg:order-2">
-            <img 
-              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop"
-              alt="Restaurant ambiance"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-charcoal/40 hidden lg:block" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal lg:hidden" />
-            
-            {/* Floating decorative frame on image */}
-            <div className="absolute inset-8 border border-gold/20 pointer-events-none hidden lg:block" />
           </div>
         </div>
       </section>

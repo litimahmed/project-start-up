@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 
-// Curated images for Art Culinaire section
-const culinaryImages = [
+// Top row images - slides left
+const topRowImages = [
   {
     id: 1,
     src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800",
@@ -46,81 +46,55 @@ const culinaryImages = [
     title: "Fraîcheur Marine",
     description: "Tartare de saumon aux agrumes",
   },
-  {
-    id: 7,
-    src: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800",
-    alt: "Tarte aux fruits",
-    title: "Douceur Fruitée",
-    description: "Tarte aux fruits de saison",
-  },
-  {
-    id: 8,
-    src: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=800",
-    alt: "Burger gourmet",
-    title: "Le Classique Revisité",
-    description: "Burger wagyu truffe et foie gras",
-  },
 ];
 
-// Curated images for Ambiance section
-const ambianceImages = [
+// Bottom row images - slides right
+const bottomRowImages = [
   {
-    id: 1,
+    id: 7,
     src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800",
     alt: "Salle à manger élégante",
     title: "La Salle Principale",
     description: "Où l'art culinaire rencontre une ambiance raffinée",
   },
   {
-    id: 2,
+    id: 8,
     src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800",
     alt: "Coin repas intime",
     title: "Coin Privé",
     description: "Places intimes pour des moments spéciaux",
   },
   {
-    id: 3,
+    id: 9,
     src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800",
     alt: "Chef préparant un plat",
     title: "Maîtrise Culinaire",
     description: "Le Chef Laurent à l'œuvre",
   },
   {
-    id: 4,
+    id: 10,
     src: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800",
     alt: "Cave à vins",
     title: "La Cave",
     description: "Plus de 500 sélections choisies",
   },
   {
-    id: 5,
+    id: 11,
     src: "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=800",
     alt: "Mains du chef dressant un plat",
     title: "L'Art du Dressage",
     description: "Précision dans chaque détail",
   },
   {
-    id: 6,
-    src: "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?w=800",
-    alt: "Brigade de cuisine",
-    title: "La Brigade",
-    description: "Notre talentueuse équipe culinaire",
-  },
-  {
-    id: 7,
-    src: "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800",
-    alt: "Cocktail artisanal",
-    title: "Mixologie d'Exception",
-    description: "Créations signature de notre bar",
-  },
-  {
-    id: 8,
+    id: 12,
     src: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800",
     alt: "Table dressée",
     title: "L'Art de la Table",
     description: "Chaque détail compte",
   },
 ];
+
+const allImages = [...topRowImages, ...bottomRowImages];
 
 interface CarouselImage {
   id: number;
@@ -202,7 +176,6 @@ const InfiniteCarousel = ({ images, direction = "left", speed = "normal", onImag
 
 const GalleryPage = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedSection, setSelectedSection] = useState<"culinary" | "ambiance" | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -210,12 +183,11 @@ const GalleryPage = () => {
     setIsVisible(true);
   }, []);
 
-  const handleImageClick = (section: "culinary" | "ambiance", index: number) => {
-    setSelectedSection(section);
-    setSelectedIndex(index);
+  const handleImageClick = (row: "top" | "bottom", index: number) => {
+    // Calculate actual index in allImages array
+    const actualIndex = row === "top" ? index : topRowImages.length + index;
+    setSelectedIndex(actualIndex);
   };
-
-  const currentImages = selectedSection === "culinary" ? culinaryImages : ambianceImages;
 
   // Keyboard navigation for lightbox
   useEffect(() => {
@@ -224,21 +196,20 @@ const GalleryPage = () => {
       
       if (e.key === "Escape") {
         setSelectedIndex(null);
-        setSelectedSection(null);
       } else if (e.key === "ArrowRight") {
         setSelectedIndex((prev) => 
-          prev !== null ? (prev + 1) % currentImages.length : null
+          prev !== null ? (prev + 1) % allImages.length : null
         );
       } else if (e.key === "ArrowLeft") {
         setSelectedIndex((prev) => 
-          prev !== null ? (prev - 1 + currentImages.length) % currentImages.length : null
+          prev !== null ? (prev - 1 + allImages.length) % allImages.length : null
         );
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedIndex, currentImages.length]);
+  }, [selectedIndex]);
 
   // Prevent scroll when lightbox is open
   useEffect(() => {
@@ -290,66 +261,41 @@ const GalleryPage = () => {
       {/* Main Content */}
       <div className="bg-[#FAF8F5]">
         
-        {/* Section 1: Art Culinaire */}
+        {/* Single Gallery Section with Two Rows */}
         <section className="py-16 md:py-24 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 mb-12">
             <div className={`text-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <div className="flex items-center justify-center gap-4 mb-6">
                 <div className="w-20 h-px bg-gold/50" />
-                <span className="font-sans text-xs tracking-[0.3em] uppercase text-charcoal/50">Première Section</span>
+                <span className="font-sans text-xs tracking-[0.3em] uppercase text-charcoal/50">Notre Univers</span>
                 <div className="w-20 h-px bg-gold/50" />
               </div>
               <h2 className="font-luxury text-4xl md:text-5xl text-charcoal italic mb-4">
-                Art Culinaire
+                L'Art de Vivre
               </h2>
               <p className="font-sans text-charcoal/60 max-w-xl mx-auto">
-                Chaque plat est une œuvre d'art, minutieusement composée pour éveiller tous vos sens
+                Découvrez notre univers gastronomique à travers ces instants capturés
               </p>
             </div>
           </div>
           
+          {/* Top Row - Slides Left */}
           <InfiniteCarousel 
-            images={culinaryImages} 
+            images={topRowImages} 
             direction="left" 
             speed="normal"
-            onImageClick={(idx) => handleImageClick("culinary", idx)}
+            onImageClick={(idx) => handleImageClick("top", idx)}
           />
-        </section>
-
-        {/* Decorative Divider */}
-        <div className="flex items-center justify-center py-8">
-          <div className="w-1/4 h-px bg-gradient-to-r from-transparent to-gold/30" />
-          <div className="mx-6 flex items-center gap-3">
-            <div className="w-1.5 h-1.5 bg-gold/40 rotate-45" />
-            <div className="w-2 h-2 bg-gold rotate-45" />
-            <div className="w-1.5 h-1.5 bg-gold/40 rotate-45" />
-          </div>
-          <div className="w-1/4 h-px bg-gradient-to-l from-transparent to-gold/30" />
-        </div>
-
-        {/* Section 2: L'Ambiance & Nos Coulisses */}
-        <section className="py-16 md:py-24 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 mb-12">
-            <div className={`text-center transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="w-20 h-px bg-gold/50" />
-                <span className="font-sans text-xs tracking-[0.3em] uppercase text-charcoal/50">Deuxième Section</span>
-                <div className="w-20 h-px bg-gold/50" />
-              </div>
-              <h2 className="font-luxury text-4xl md:text-5xl text-charcoal italic mb-4">
-                L'Ambiance & Nos Coulisses
-              </h2>
-              <p className="font-sans text-charcoal/60 max-w-xl mx-auto">
-                Découvrez l'univers qui donne vie à nos créations, de la salle aux cuisines
-              </p>
-            </div>
-          </div>
           
+          {/* Spacing between rows */}
+          <div className="h-6 md:h-10" />
+          
+          {/* Bottom Row - Slides Right */}
           <InfiniteCarousel 
-            images={ambianceImages} 
+            images={bottomRowImages} 
             direction="right" 
-            speed="slow"
-            onImageClick={(idx) => handleImageClick("ambiance", idx)}
+            speed="normal"
+            onImageClick={(idx) => handleImageClick("bottom", idx)}
           />
         </section>
       </div>
@@ -396,20 +342,14 @@ const GalleryPage = () => {
       </footer>
 
       {/* Lightbox */}
-      {selectedIndex !== null && selectedSection !== null && (
+      {selectedIndex !== null && (
         <div 
           className="fixed inset-0 z-50 bg-charcoal/95 backdrop-blur-md flex items-center justify-center"
-          onClick={() => {
-            setSelectedIndex(null);
-            setSelectedSection(null);
-          }}
+          onClick={() => setSelectedIndex(null)}
         >
           {/* Close button */}
           <button
-            onClick={() => {
-              setSelectedIndex(null);
-              setSelectedSection(null);
-            }}
+            onClick={() => setSelectedIndex(null)}
             className="absolute top-6 right-6 text-offwhite/60 hover:text-offwhite transition-colors z-10"
             aria-label="Fermer"
           >
@@ -421,7 +361,7 @@ const GalleryPage = () => {
             onClick={(e) => {
               e.stopPropagation();
               setSelectedIndex((prev) => 
-                prev !== null ? (prev - 1 + currentImages.length) % currentImages.length : null
+                prev !== null ? (prev - 1 + allImages.length) % allImages.length : null
               );
             }}
             className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-offwhite/60 hover:text-offwhite transition-colors p-2"
@@ -434,7 +374,7 @@ const GalleryPage = () => {
             onClick={(e) => {
               e.stopPropagation();
               setSelectedIndex((prev) => 
-                prev !== null ? (prev + 1) % currentImages.length : null
+                prev !== null ? (prev + 1) % allImages.length : null
               );
             }}
             className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-offwhite/60 hover:text-offwhite transition-colors p-2"
@@ -449,8 +389,8 @@ const GalleryPage = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={currentImages[selectedIndex].src}
-              alt={currentImages[selectedIndex].alt}
+              src={allImages[selectedIndex].src}
+              alt={allImages[selectedIndex].alt}
               className="max-w-full max-h-[70vh] object-contain rounded-lg"
             />
             
@@ -458,17 +398,17 @@ const GalleryPage = () => {
             <div className="mt-6 text-center">
               <div className="w-12 h-px bg-gold mx-auto mb-4" />
               <h3 className="font-serif text-2xl text-offwhite mb-2">
-                {currentImages[selectedIndex].title}
+                {allImages[selectedIndex].title}
               </h3>
               <p className="font-sans text-offwhite/60">
-                {currentImages[selectedIndex].description}
+                {allImages[selectedIndex].description}
               </p>
             </div>
           </div>
           
           {/* Image counter */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-sm text-offwhite/40 tracking-widest">
-            {selectedIndex + 1} / {currentImages.length}
+            {selectedIndex + 1} / {allImages.length}
           </div>
         </div>
       )}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 
@@ -323,12 +324,13 @@ const GalleryPage = () => {
             Laissez-nous créer une soirée inoubliable pour vous. Réservez votre table et plongez dans notre univers d'excellence culinaire.
           </p>
           
-          <a
-            href="/reservations"
+          <Link
+            to="/reservations"
+            onClick={() => window.scrollTo(0, 0)}
             className="inline-block px-10 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.2em] uppercase border border-gold hover:bg-transparent hover:text-gold transition-all duration-300"
           >
             Réserver Votre Table
-          </a>
+          </Link>
         </div>
       </section>
 

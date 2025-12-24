@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
@@ -69,12 +69,13 @@ const PageHeader = () => {
 
           {/* Reservation Button */}
           <div className="hidden lg:flex items-center">
-            <a
-              href="/reservations"
+            <Link
+              to="/reservations"
+              onClick={() => window.scrollTo(0, 0)}
               className="px-6 py-2.5 bg-transparent text-gold font-sans text-xs tracking-[0.15em] uppercase border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
             >
               Réserver
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -109,13 +110,13 @@ const PageHeader = () => {
               </a>
             ))}
             
-            <a
-              href="/reservations"
-              onClick={() => setIsMobileMenuOpen(false)}
+            <Link
+              to="/reservations"
+              onClick={() => { setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
               className="mt-4 mx-4 px-6 py-3 bg-transparent text-gold font-sans text-sm tracking-widest uppercase text-center border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
             >
               Réserver une Table
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from 'next-themes';
 import { supabase } from '@/integrations/supabase/client';
 import AdminHeader from './AdminHeader';
 import { 
@@ -55,6 +56,7 @@ const AdminLayout = () => {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme } = useTheme();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [checkingRole, setCheckingRole] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -113,7 +115,7 @@ const AdminLayout = () => {
 
   if (loading || checkingRole || isAdmin === null) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center admin-theme">
+      <div className={cn("min-h-screen bg-background flex items-center justify-center admin-theme", theme === 'dark' && 'dark')}>
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -207,7 +209,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="h-screen bg-background flex overflow-hidden admin-theme">
+    <div className={cn("h-screen bg-background flex overflow-hidden admin-theme", theme === 'dark' && 'dark')}>
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}

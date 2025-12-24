@@ -523,10 +523,22 @@ const MenuItemDetailPage = () => {
         </section>
       )}
 
-      {/* ==================== CTA SECTION (Dark with Gold Glow) ==================== */}
-      <section className="relative py-24 bg-charcoal overflow-hidden">
+      {/* ==================== CTA SECTION (Dark with Background Image) ==================== */}
+      <section className="relative py-32 overflow-hidden">
+        {/* Background Image */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gold/[0.03] rounded-full blur-[150px]" />
+          <img 
+            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop"
+            alt="Restaurant ambiance"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-charcoal/80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/80" />
+        </div>
+        
+        {/* Decorative glow */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gold/[0.05] rounded-full blur-[150px]" />
         </div>
 
         <div className="container mx-auto px-6 text-center relative z-10">

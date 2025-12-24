@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, Navigation } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -131,26 +131,60 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Map Placeholder */}
-      <div className="w-full h-64 bg-charcoal/80 border-t border-offwhite/10 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <MapPin className="text-gold mx-auto mb-4" size={32} />
-            <p className="font-sans text-sm text-offwhite/40 tracking-widest uppercase">
-              Emplacement de la Carte
-            </p>
-            <p className="font-sans text-xs text-offwhite/30 mt-2">
-              123 Avenue Culinaire, 75008 Paris, France
-            </p>
+      {/* Get Directions CTA */}
+      <div className="w-full border-t border-offwhite/10 relative overflow-hidden">
+        <div className="container mx-auto px-6 lg:px-12 py-16 lg:py-20">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+            {/* Left: Address & Details */}
+            <div className="text-center lg:text-left">
+              <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
+                <div className="w-12 h-12 border border-gold/30 flex items-center justify-center">
+                  <MapPin className="text-gold" size={24} />
+                </div>
+                <h3 className="font-serif text-2xl text-offwhite">Nous Trouver</h3>
+              </div>
+              <p className="font-sans text-lg text-offwhite/80 mb-2">
+                123 Avenue Culinaire
+              </p>
+              <p className="font-sans text-lg text-offwhite/80 mb-4">
+                75008 Paris, France
+              </p>
+              <p className="font-sans text-sm text-offwhite/50">
+                À deux pas des Champs-Élysées
+              </p>
+            </div>
+
+            {/* Center: Decorative Element */}
+            <div className="hidden lg:flex items-center gap-4">
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+              <div className="w-2 h-2 rotate-45 border border-gold/50" />
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+            </div>
+
+            {/* Right: CTA Button */}
+            <div className="text-center lg:text-right">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=123+Avenue+Culinaire+75008+Paris+France"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-4 px-8 py-4 bg-gold text-charcoal font-sans text-sm tracking-widest uppercase hover:bg-gold/90 transition-all duration-300"
+              >
+                <Navigation size={18} className="group-hover:translate-x-1 transition-transform duration-300" />
+                <span>Obtenir l'Itinéraire</span>
+              </a>
+              <p className="font-sans text-xs text-offwhite/40 mt-4">
+                Ouvre dans Google Maps
+              </p>
+            </div>
           </div>
         </div>
-        {/* Decorative Grid Pattern */}
+
+        {/* Decorative Background Pattern */}
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-5 pointer-events-none"
           style={{
-            backgroundImage: `linear-gradient(to right, hsl(var(--offwhite) / 0.1) 1px, transparent 1px),
-              linear-gradient(to bottom, hsl(var(--offwhite) / 0.1) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
+            backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--gold) / 0.3) 1px, transparent 0)`,
+            backgroundSize: '32px 32px',
           }}
         />
       </div>

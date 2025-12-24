@@ -177,43 +177,41 @@ const MenuPage = () => {
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   {/* Image */}
-                  {item.image && (
-                    <div className="relative h-56 overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-                      
-                      {/* Badges */}
-                      <div className="absolute top-4 left-4 flex gap-2">
-                        {item.isSignature && (
-                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gold rounded-full">
-                            <Star size={12} className="text-charcoal fill-charcoal" />
-                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-charcoal font-medium">Signature</span>
-                          </div>
-                        )}
-                        {item.isNew && (
-                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-burgundy rounded-full">
-                            <Sparkles size={12} className="text-offwhite" />
-                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-offwhite font-medium">Nouveau</span>
-                          </div>
-                        )}
-                        {item.isVegetarian && (
-                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 rounded-full">
-                            <Leaf size={12} className="text-white" />
-                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-white font-medium">Végétarien</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Price */}
-                      <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full border border-charcoal/10">
-                        <span className="font-luxury text-xl text-gold italic">{item.price}€</span>
-                      </div>
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src={item.image || `https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop`}
+                      alt={item.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                    
+                    {/* Badges */}
+                    <div className="absolute top-4 left-4 flex gap-2">
+                      {item.isSignature && (
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gold rounded-full">
+                          <Star size={12} className="text-charcoal fill-charcoal" />
+                          <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-charcoal font-medium">Signature</span>
+                        </div>
+                      )}
+                      {item.isNew && (
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-burgundy rounded-full">
+                          <Sparkles size={12} className="text-offwhite" />
+                          <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-offwhite font-medium">Nouveau</span>
+                        </div>
+                      )}
+                      {item.isVegetarian && (
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 rounded-full">
+                          <Leaf size={12} className="text-white" />
+                          <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-white font-medium">Végétarien</span>
+                        </div>
+                      )}
                     </div>
-                  )}
+
+                    {/* Price */}
+                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full border border-charcoal/10">
+                      <span className="font-luxury text-xl text-gold italic">{item.price}€</span>
+                    </div>
+                  </div>
 
                   {/* Content */}
                   <div className="p-6">

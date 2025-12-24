@@ -74,12 +74,11 @@ const Hero = () => {
             e.preventDefault();
             document.getElementById('reservations')?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="group relative px-10 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.2em] uppercase overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-gold/30 opacity-0 animate-fade-in animation-delay-700 border border-gold"
+          className="group relative px-10 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.2em] uppercase overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-gold/30 opacity-0 animate-fade-in animation-delay-700 border border-gold hover:bg-charcoal"
         >
           <span className="relative z-10 group-hover:text-gold transition-colors duration-500">
             Réserver une Table
           </span>
-          <div className="absolute inset-0 bg-transparent transform translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
         </a>
       </div>
 

@@ -50,11 +50,11 @@ const Reservations = () => {
             <p className="font-sans text-sm tracking-[0.3em] uppercase text-gold mb-4">
               Rejoignez-nous
             </p>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-6">
+            <h2 className="font-luxury text-4xl md:text-5xl lg:text-6xl mb-6">
               Faites une <span className="italic">Réservation</span>
             </h2>
             <div className="w-24 h-px bg-gold mb-8 mx-auto" />
-            <p className="font-sans text-offwhite/70 leading-relaxed mb-12 max-w-xl mx-auto">
+            <p className="font-luxury text-offwhite/70 leading-relaxed mb-12 max-w-xl mx-auto text-lg">
               Nous vous invitons à nous rejoindre pour une expérience culinaire inoubliable. 
               Réservez votre table dès aujourd'hui et laissez-nous vous emmener dans un voyage 
               gastronomique célébrant les meilleurs ingrédients de saison.

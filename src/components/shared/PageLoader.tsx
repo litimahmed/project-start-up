@@ -13,14 +13,14 @@ const PageLoader = ({ onLoadComplete }: PageLoaderProps) => {
   useEffect(() => {
     // Wait for images and resources to load
     const handleLoad = () => {
-      // Add a minimum display time for the loader
+      // Reduced minimum display time for faster page loads
       setTimeout(() => {
         setFadeOut(true);
         setTimeout(() => {
           setIsLoading(false);
           onLoadComplete?.();
-        }, 500); // Match fade-out animation duration
-      }, 1500); // Minimum loader display time
+        }, 400); // Match fade-out animation duration
+      }, 600); // Reduced minimum loader display time
     };
 
     if (document.readyState === 'complete') {

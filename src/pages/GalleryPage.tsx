@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 
@@ -139,20 +139,20 @@ interface InfiniteCarouselProps {
 
 const InfiniteCarousel = ({ images, direction = "left", speed = "normal", onImageClick }: InfiniteCarouselProps) => {
   const [isPaused, setIsPaused] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   
-  // Double the images for seamless loop
-  const doubledImages = [...images, ...images];
+  // Triple the images for truly seamless infinite loop
+  const tripleImages = [...images, ...images, ...images];
   
   const speedDuration = {
-    slow: "60s",
-    normal: "40s",
-    fast: "25s",
+    slow: "80s",
+    normal: "50s",
+    fast: "30s",
   };
+
+  const animationName = direction === "left" ? "scroll-left-infinite" : "scroll-right-infinite";
 
   return (
     <div 
-      ref={containerRef}
       className="relative overflow-hidden py-4"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -162,14 +162,13 @@ const InfiniteCarousel = ({ images, direction = "left", speed = "normal", onImag
       <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-[#FAF8F5] to-transparent z-10 pointer-events-none" />
       
       <div 
-        className="flex gap-6"
+        className={`flex gap-6 ${animationName}`}
         style={{
-          animation: `scroll-left ${speedDuration[speed]} linear infinite`,
-          animationDirection: direction === "right" ? "reverse" : "normal",
+          animationDuration: speedDuration[speed],
           animationPlayState: isPaused ? "paused" : "running",
         }}
       >
-        {doubledImages.map((image, idx) => (
+        {tripleImages.map((image, idx) => (
           <div
             key={`${image.id}-${idx}`}
             onClick={() => onImageClick(idx % images.length)}
@@ -474,15 +473,32 @@ const GalleryPage = () => {
         </div>
       )}
 
-      {/* Add CSS animation */}
+      {/* Add CSS animations for infinite scroll */}
       <style>{`
-        @keyframes scroll-left {
+        @keyframes scrollLeftInfinite {
           0% {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(calc(-33.333%));
           }
+        }
+        
+        @keyframes scrollRightInfinite {
+          0% {
+            transform: translateX(calc(-33.333%));
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+        
+        .scroll-left-infinite {
+          animation: scrollLeftInfinite linear infinite;
+        }
+        
+        .scroll-right-infinite {
+          animation: scrollRightInfinite linear infinite;
         }
       `}</style>
     </div>

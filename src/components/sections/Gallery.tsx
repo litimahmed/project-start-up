@@ -38,24 +38,6 @@ const galleryImages = [
     title: 'Salon Privé',
     span: 'md:col-span-1 md:row-span-1',
   },
-  {
-    src: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1974&auto=format&fit=crop',
-    alt: 'Salade fraîche gastronomique',
-    title: 'Fraîcheur du Jardin',
-    span: 'md:col-span-1 md:row-span-1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop',
-    alt: 'Pizza artisanale au four',
-    title: 'Création Italienne',
-    span: 'md:col-span-1 md:row-span-1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop',
-    alt: 'Petit déjeuner raffiné',
-    title: 'Brunch Élégant',
-    span: 'md:col-span-2 md:row-span-1',
-  },
 ];
 
 const Gallery = () => {

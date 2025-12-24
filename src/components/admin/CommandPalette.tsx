@@ -70,7 +70,7 @@ const CommandPalette = ({ open, onOpenChange }: CommandPaletteProps) => {
               onSelect={() => handleSelect(item.path)}
               className="cursor-pointer"
             >
-              <item.icon className="mr-2 h-4 w-4 text-blue-500" />
+              <item.icon className="mr-2 h-4 w-4 text-primary" />
               <span>{item.label}</span>
             </CommandItem>
           ))}
@@ -85,7 +85,7 @@ const CommandPalette = ({ open, onOpenChange }: CommandPaletteProps) => {
               onSelect={() => handleSelect(item.path)}
               className="cursor-pointer"
             >
-              <item.icon className="mr-2 h-4 w-4 text-gray-500" />
+              <item.icon className="mr-2 h-4 w-4 text-muted-foreground" />
               <span>{item.label}</span>
             </CommandItem>
           ))}

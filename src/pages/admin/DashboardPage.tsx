@@ -85,7 +85,7 @@ const DashboardPage = () => {
         stops: [0, 100]
       }
     },
-    colors: ['hsl(142, 71%, 45%)'],
+    colors: ['hsl(46, 95%, 58%)'],
     xaxis: {
       categories: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
       labels: { style: { colors: 'hsl(var(--muted-foreground))', fontSize: '11px' } },
@@ -119,7 +119,7 @@ const DashboardPage = () => {
         }
       }
     },
-    colors: ['hsl(142, 71%, 45%)'],
+    colors: ['hsl(46, 95%, 58%)'],
     stroke: { lineCap: 'round' }
   };
 

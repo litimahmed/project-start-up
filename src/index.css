@@ -53,89 +53,89 @@
     --sidebar-ring: 349 62% 26%;
   }
 
-  /* Admin Dashboard Theme - Sophisticated Emerald Green */
+  /* Admin Dashboard Theme - Vibrant Yellow */
   .admin-theme {
-    --background: 150 10% 98%; /* Very light green-tinted white */
-    --foreground: 160 15% 12%; /* Deep green-black */
+    --background: 48 50% 98%; /* Very light yellow-tinted white */
+    --foreground: 45 10% 12%; /* Deep warm black */
 
     --card: 0 0% 100%;
-    --card-foreground: 160 15% 12%;
+    --card-foreground: 45 10% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 160 15% 12%;
+    --popover-foreground: 45 10% 12%;
 
-    --primary: 152 55% 42%; /* Sophisticated emerald #3B9B6D */
-    --primary-foreground: 0 0% 100%; /* White text on green */
+    --primary: 46 95% 58%; /* Golden yellow #facb2e */
+    --primary-foreground: 45 10% 12%; /* Dark text on yellow */
 
-    --secondary: 150 15% 94%; /* Light green-gray */
-    --secondary-foreground: 160 15% 20%;
+    --secondary: 51 100% 70%; /* Bright yellow #ffe863 */
+    --secondary-foreground: 45 10% 12%;
 
-    --muted: 150 10% 95%;
-    --muted-foreground: 160 10% 45%;
+    --muted: 48 30% 94%;
+    --muted-foreground: 45 10% 45%;
 
-    --accent: 152 55% 42%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 51 100% 70%; /* Bright yellow #ffe863 */
+    --accent-foreground: 45 10% 12%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 150 10% 90%;
-    --input: 150 10% 90%;
-    --ring: 152 55% 42%;
+    --border: 48 20% 88%;
+    --input: 48 20% 88%;
+    --ring: 46 95% 58%;
 
     /* Admin sidebar */
-    --sidebar-background: 160 20% 12%; /* Dark green-charcoal */
-    --sidebar-foreground: 150 10% 85%;
-    --sidebar-primary: 152 55% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 160 15% 18%;
-    --sidebar-accent-foreground: 150 10% 95%;
-    --sidebar-border: 160 15% 20%;
-    --sidebar-ring: 152 55% 50%;
+    --sidebar-background: 45 15% 12%; /* Dark warm charcoal */
+    --sidebar-foreground: 48 20% 85%;
+    --sidebar-primary: 46 95% 58%;
+    --sidebar-primary-foreground: 45 10% 12%;
+    --sidebar-accent: 45 15% 18%;
+    --sidebar-accent-foreground: 48 30% 95%;
+    --sidebar-border: 45 15% 20%;
+    --sidebar-ring: 46 95% 58%;
 
     /* Admin-specific tokens */
-    --admin-green: 152 55% 42%;
-    --admin-green-light: 152 45% 92%;
-    --admin-green-dark: 152 60% 32%;
+    --admin-yellow: 46 95% 58%; /* Golden #facb2e */
+    --admin-yellow-bright: 51 100% 70%; /* Bright #ffe863 */
+    --admin-yellow-dark: 46 95% 48%;
     --admin-success: 142 70% 45%;
     --admin-warning: 38 92% 50%;
     --admin-info: 199 89% 48%;
   }
 
   .admin-theme.dark {
-    --background: 160 20% 8%; /* Very dark green */
-    --foreground: 150 10% 95%;
+    --background: 45 15% 8%; /* Very dark warm */
+    --foreground: 48 30% 95%;
 
-    --card: 160 18% 12%;
-    --card-foreground: 150 10% 95%;
+    --card: 45 12% 12%;
+    --card-foreground: 48 30% 95%;
 
-    --popover: 160 18% 10%;
-    --popover-foreground: 150 10% 95%;
+    --popover: 45 12% 10%;
+    --popover-foreground: 48 30% 95%;
 
-    --primary: 152 55% 50%; /* Brighter green for dark mode */
-    --primary-foreground: 160 20% 8%;
+    --primary: 46 95% 58%; /* Golden yellow */
+    --primary-foreground: 45 15% 8%;
 
-    --secondary: 160 15% 18%;
-    --secondary-foreground: 150 10% 90%;
+    --secondary: 51 100% 70%; /* Bright yellow */
+    --secondary-foreground: 45 15% 8%;
 
-    --muted: 160 15% 15%;
-    --muted-foreground: 150 10% 60%;
+    --muted: 45 12% 15%;
+    --muted-foreground: 48 20% 60%;
 
-    --accent: 152 55% 50%;
-    --accent-foreground: 160 20% 8%;
+    --accent: 51 100% 70%;
+    --accent-foreground: 45 15% 8%;
 
-    --border: 160 15% 20%;
-    --input: 160 15% 20%;
-    --ring: 152 55% 50%;
+    --border: 45 12% 20%;
+    --input: 45 12% 20%;
+    --ring: 46 95% 58%;
 
-    --sidebar-background: 160 25% 6%;
-    --sidebar-foreground: 150 10% 85%;
-    --sidebar-primary: 152 55% 55%;
-    --sidebar-primary-foreground: 160 20% 8%;
-    --sidebar-accent: 160 20% 12%;
-    --sidebar-accent-foreground: 150 10% 95%;
-    --sidebar-border: 160 20% 15%;
-    --sidebar-ring: 152 55% 55%;
+    --sidebar-background: 45 20% 6%;
+    --sidebar-foreground: 48 20% 85%;
+    --sidebar-primary: 46 95% 62%;
+    --sidebar-primary-foreground: 45 20% 8%;
+    --sidebar-accent: 45 15% 12%;
+    --sidebar-accent-foreground: 48 30% 95%;
+    --sidebar-border: 45 15% 15%;
+    --sidebar-ring: 46 95% 62%;
   }
 
   .dark {

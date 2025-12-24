@@ -487,7 +487,7 @@ const ReservationsPage = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full mt-8 px-8 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.15em] uppercase hover:bg-gold/90 hover:shadow-lg hover:shadow-gold/30 hover:-translate-y-0.5 transition-all duration-300 font-medium disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none flex items-center justify-center gap-2"
+                      className="w-full mt-8 px-8 py-4 bg-[#C9A227] text-charcoal font-sans text-sm tracking-[0.15em] uppercase hover:bg-[#B8922A] hover:shadow-lg hover:shadow-[#C9A227]/30 hover:-translate-y-0.5 transition-all duration-300 font-medium disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none flex items-center justify-center gap-2"
                     >
                       {isSubmitting ? (
                         <>

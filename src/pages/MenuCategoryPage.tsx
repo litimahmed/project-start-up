@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChefHat, Wine, Sparkles, Clock, Leaf, Star, ArrowRight } from 'lucide-react';
+import { ChefHat, Wine, Clock, ArrowRight } from 'lucide-react';
 import { 
   categoryData, 
   menuItems, 
@@ -9,6 +9,7 @@ import {
   type ExtendedMenuItem, 
   type WineItem 
 } from '@/data/menuData';
+import { MenuBadges } from '@/components/ui/menu-badge';
 import { FloatingNav } from '@/components/shared/NavButtons';
 
 const MenuCategoryPage = () => {
@@ -230,22 +231,8 @@ const MenuCategoryPage = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent" />
                       
                       {/* Badges */}
-                      <div className="absolute top-4 left-4 flex gap-2">
-                        {item.isSignature && (
-                          <div className="px-3 py-1.5 bg-gold/90 rounded-full">
-                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-charcoal font-medium">Signature</span>
-                          </div>
-                        )}
-                        {item.isNew && (
-                          <div className="px-3 py-1.5 bg-burgundy/90 rounded-full">
-                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-offwhite font-medium">Nouveau</span>
-                          </div>
-                        )}
-                        {item.isVegetarian && (
-                          <div className="px-3 py-1.5 bg-green-900/80 rounded-full">
-                            <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-green-400 font-medium">Végétarien</span>
-                          </div>
-                        )}
+                      <div className="absolute top-4 left-4">
+                        <MenuBadges badges={item.badges} size="sm" />
                       </div>
 
                       {/* Price badge */}

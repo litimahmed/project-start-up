@@ -412,7 +412,7 @@ const MenuItemDetailPage = () => {
               alt="Wine cellar"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-burgundy/90 via-burgundy/85 to-[#2a1215]/95" />
+            <div className="absolute inset-0 bg-gradient-to-br from-burgundy/70 via-burgundy/60 to-[#2a1215]/75" />
           </div>
           
           {/* Decorative overlay pattern */}

@@ -281,7 +281,7 @@ const MenuPage = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -296,17 +296,17 @@ const MenuPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center">
-            <UtensilsCrossed className="w-5 h-5 text-violet-600" />
+          <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+            <UtensilsCrossed className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Menu</h1>
-            <p className="text-gray-500 text-sm">Gérez les catégories et les plats</p>
+            <h1 className="text-2xl font-semibold text-foreground">Menu</h1>
+            <p className="text-muted-foreground text-sm">Gérez les catégories et les plats</p>
           </div>
         </div>
         <Button 
           onClick={() => openCategoryDialog()}
-          className="bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700"
+          className="bg-primary hover:bg-primary/90"
         >
           <Plus className="w-4 h-4 mr-2" />
           Nouvelle catégorie
@@ -316,12 +316,12 @@ const MenuPage = () => {
       {/* Categories List */}
       <div className="space-y-4">
         {categories.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-12 text-center">
-            <UtensilsCrossed className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 mb-4">Aucune catégorie de menu</p>
+          <div className="bg-card rounded-xl border border-border shadow-sm p-12 text-center">
+            <UtensilsCrossed className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
+            <p className="text-muted-foreground mb-4">Aucune catégorie de menu</p>
             <Button 
               onClick={() => openCategoryDialog()}
-              className="bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700"
+              className="bg-primary hover:bg-primary/90"
             >
               <Plus className="w-4 h-4 mr-2" />
               Créer une catégorie
@@ -333,35 +333,35 @@ const MenuPage = () => {
             const isExpanded = expandedCategories.has(category.id);
 
             return (
-              <div key={category.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+              <div key={category.id} className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
                 {/* Category Header */}
                 <div
-                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors"
                   onClick={() => toggleCategory(category.id)}
                 >
                   <div className="flex items-center gap-3">
                     <div className={cn(
                       "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
-                      isExpanded ? "bg-violet-100" : "bg-gray-100"
+                      isExpanded ? "bg-primary/10" : "bg-muted"
                     )}>
                       {isExpanded ? (
-                        <ChevronDown className="w-4 h-4 text-violet-600" />
+                        <ChevronDown className="w-4 h-4 text-primary" />
                       ) : (
-                        <ChevronRight className="w-4 h-4 text-gray-500" />
+                        <ChevronRight className="w-4 h-4 text-muted-foreground" />
                       )}
                     </div>
                     <div>
                       <h3 className={cn(
-                        "font-medium text-gray-900",
-                        !category.is_active && "text-gray-400 line-through"
+                        "font-medium text-foreground",
+                        !category.is_active && "text-muted-foreground line-through"
                       )}>
                         {category.name}
                       </h3>
                       {category.description && (
-                        <p className="text-sm text-gray-500">{category.description}</p>
+                        <p className="text-sm text-muted-foreground">{category.description}</p>
                       )}
                     </div>
-                    <span className="text-sm text-gray-400 ml-2 px-2 py-0.5 bg-gray-100 rounded-full">
+                    <span className="text-sm text-muted-foreground ml-2 px-2 py-0.5 bg-muted rounded-full">
                       {categoryItems.length} plat{categoryItems.length !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -369,7 +369,7 @@ const MenuPage = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                      className="text-muted-foreground hover:text-foreground hover:bg-muted"
                       onClick={() => openCategoryDialog(category)}
                     >
                       <Pencil className="w-4 h-4" />
@@ -377,7 +377,7 @@ const MenuPage = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
                       onClick={() => deleteCategory(category.id)}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -387,14 +387,14 @@ const MenuPage = () => {
 
                 {/* Category Items */}
                 {isExpanded && (
-                  <div className="border-t border-gray-100">
+                  <div className="border-t border-border">
                     {categoryItems.length === 0 ? (
-                      <div className="p-8 text-center bg-gray-50/50">
-                        <p className="text-gray-500 mb-4">Aucun plat dans cette catégorie</p>
+                      <div className="p-8 text-center bg-muted/30">
+                        <p className="text-muted-foreground mb-4">Aucun plat dans cette catégorie</p>
                         <Button 
                           variant="outline" 
                           onClick={() => openItemDialog(category.id)}
-                          className="border-gray-200"
+                          className="border-border"
                         >
                           <Plus className="w-4 h-4 mr-2" />
                           Ajouter un plat
@@ -402,24 +402,24 @@ const MenuPage = () => {
                       </div>
                     ) : (
                       <>
-                        <div className="divide-y divide-gray-50">
+                        <div className="divide-y divide-border/50">
                           {categoryItems.map((item) => (
                             <div
                               key={item.id}
-                              className="flex items-center justify-between p-4 hover:bg-gray-50/50 transition-colors"
+                              className="flex items-center justify-between p-4 hover:bg-muted/30 transition-colors"
                             >
                               <div className="flex items-center gap-4">
                                 <div className={cn(!item.is_available && "opacity-50")}>
-                                  <p className="font-medium text-gray-900">{item.name}</p>
+                                  <p className="font-medium text-foreground">{item.name}</p>
                                   {item.description && (
-                                    <p className="text-sm text-gray-500 line-clamp-1">
+                                    <p className="text-sm text-muted-foreground line-clamp-1">
                                       {item.description}
                                     </p>
                                   )}
                                 </div>
                               </div>
                               <div className="flex items-center gap-4">
-                                <span className="text-violet-600 font-semibold">
+                                <span className="text-primary font-semibold">
                                   {item.price.toFixed(2)} €
                                 </span>
                                 <Switch
@@ -429,7 +429,7 @@ const MenuPage = () => {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                                  className="text-muted-foreground hover:text-foreground hover:bg-muted"
                                   onClick={() => openItemDialog(category.id, item)}
                                 >
                                   <Pencil className="w-4 h-4" />
@@ -437,7 +437,7 @@ const MenuPage = () => {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
                                   onClick={() => deleteItem(item.id)}
                                 >
                                   <Trash2 className="w-4 h-4" />
@@ -446,11 +446,11 @@ const MenuPage = () => {
                             </div>
                           ))}
                         </div>
-                        <div className="p-4 border-t border-gray-100 bg-gray-50/50">
+                        <div className="p-4 border-t border-border bg-muted/30">
                           <Button 
                             variant="outline" 
                             onClick={() => openItemDialog(category.id)}
-                            className="border-gray-200"
+                            className="border-border"
                           >
                             <Plus className="w-4 h-4 mr-2" />
                             Ajouter un plat
@@ -468,35 +468,35 @@ const MenuPage = () => {
 
       {/* Category Dialog */}
       <Dialog open={categoryDialogOpen} onOpenChange={setCategoryDialogOpen}>
-        <DialogContent className="bg-white">
+        <DialogContent className="bg-card">
           <DialogHeader>
-            <DialogTitle className="text-gray-900">
+            <DialogTitle className="text-foreground">
               {editingCategory ? 'Modifier la catégorie' : 'Nouvelle catégorie'}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="category-name" className="text-gray-700">Nom</Label>
+              <Label htmlFor="category-name" className="text-foreground">Nom</Label>
               <Input
                 id="category-name"
                 value={categoryForm.name}
                 onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
                 placeholder="Ex: Entrées"
-                className="border-gray-200 focus:border-violet-500 focus:ring-violet-500"
+                className="border-border focus:border-primary focus:ring-primary"
               />
             </div>
             <div>
-              <Label htmlFor="category-description" className="text-gray-700">Description</Label>
+              <Label htmlFor="category-description" className="text-foreground">Description</Label>
               <Textarea
                 id="category-description"
                 value={categoryForm.description}
                 onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
                 placeholder="Description optionnelle"
-                className="border-gray-200 focus:border-violet-500 focus:ring-violet-500"
+                className="border-border focus:border-primary focus:ring-primary"
               />
             </div>
             <div className="flex items-center justify-between">
-              <Label htmlFor="category-active" className="text-gray-700">Active</Label>
+              <Label htmlFor="category-active" className="text-foreground">Active</Label>
               <Switch
                 id="category-active"
                 checked={categoryForm.is_active}
@@ -504,7 +504,7 @@ const MenuPage = () => {
               />
             </div>
             <Button 
-              className="w-full bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700" 
+              className="w-full bg-primary hover:bg-primary/90" 
               onClick={saveCategory}
             >
               {editingCategory ? 'Enregistrer' : 'Créer'}
@@ -515,35 +515,35 @@ const MenuPage = () => {
 
       {/* Item Dialog */}
       <Dialog open={itemDialogOpen} onOpenChange={setItemDialogOpen}>
-        <DialogContent className="bg-white">
+        <DialogContent className="bg-card">
           <DialogHeader>
-            <DialogTitle className="text-gray-900">
+            <DialogTitle className="text-foreground">
               {editingItem ? 'Modifier le plat' : 'Nouveau plat'}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="item-name" className="text-gray-700">Nom</Label>
+              <Label htmlFor="item-name" className="text-foreground">Nom</Label>
               <Input
                 id="item-name"
                 value={itemForm.name}
                 onChange={(e) => setItemForm({ ...itemForm, name: e.target.value })}
                 placeholder="Ex: Salade César"
-                className="border-gray-200 focus:border-violet-500 focus:ring-violet-500"
+                className="border-border focus:border-primary focus:ring-primary"
               />
             </div>
             <div>
-              <Label htmlFor="item-description" className="text-gray-700">Description</Label>
+              <Label htmlFor="item-description" className="text-foreground">Description</Label>
               <Textarea
                 id="item-description"
                 value={itemForm.description}
                 onChange={(e) => setItemForm({ ...itemForm, description: e.target.value })}
                 placeholder="Description du plat"
-                className="border-gray-200 focus:border-violet-500 focus:ring-violet-500"
+                className="border-border focus:border-primary focus:ring-primary"
               />
             </div>
             <div>
-              <Label htmlFor="item-price" className="text-gray-700">Prix (€)</Label>
+              <Label htmlFor="item-price" className="text-foreground">Prix (€)</Label>
               <Input
                 id="item-price"
                 type="number"
@@ -552,11 +552,11 @@ const MenuPage = () => {
                 value={itemForm.price}
                 onChange={(e) => setItemForm({ ...itemForm, price: e.target.value })}
                 placeholder="12.50"
-                className="border-gray-200 focus:border-violet-500 focus:ring-violet-500"
+                className="border-border focus:border-primary focus:ring-primary"
               />
             </div>
             <div className="flex items-center justify-between">
-              <Label htmlFor="item-available" className="text-gray-700">Disponible</Label>
+              <Label htmlFor="item-available" className="text-foreground">Disponible</Label>
               <Switch
                 id="item-available"
                 checked={itemForm.is_available}
@@ -564,7 +564,7 @@ const MenuPage = () => {
               />
             </div>
             <div className="flex items-center justify-between">
-              <Label htmlFor="item-featured" className="text-gray-700">Mis en avant</Label>
+              <Label htmlFor="item-featured" className="text-foreground">Mis en avant</Label>
               <Switch
                 id="item-featured"
                 checked={itemForm.is_featured}
@@ -572,7 +572,7 @@ const MenuPage = () => {
               />
             </div>
             <Button 
-              className="w-full bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700" 
+              className="w-full bg-primary hover:bg-primary/90" 
               onClick={saveItem}
             >
               {editingItem ? 'Enregistrer' : 'Créer'}

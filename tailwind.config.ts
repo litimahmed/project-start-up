@@ -70,9 +70,9 @@ export default {
         sage: "hsl(var(--sage))",
         // Admin theme colors
         admin: {
-          green: "hsl(var(--admin-green))",
-          "green-light": "hsl(var(--admin-green-light))",
-          "green-dark": "hsl(var(--admin-green-dark))",
+          yellow: "hsl(var(--admin-yellow))",
+          "yellow-bright": "hsl(var(--admin-yellow-bright))",
+          "yellow-dark": "hsl(var(--admin-yellow-dark))",
           success: "hsl(var(--admin-success))",
           warning: "hsl(var(--admin-warning))",
           info: "hsl(var(--admin-info))",

@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PageLoader from "@/components/shared/PageLoader";
 import Index from "./pages/Index";
@@ -67,70 +68,72 @@ const App = () => {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <TooltipProvider>
-            <PageLoader onLoadComplete={() => setIsLoaded(true)} />
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/menu" element={<MenuPage />} />
-                <Route path="/menu/:category" element={<MenuCategoryPage />} />
-                <Route path="/menu/:category/:slug" element={<MenuItemDetailPage />} />
-                <Route path="/gallery" element={<GalleryPage />} />
-                <Route path="/reservations" element={<ReservationsPage />} />
-                <Route path="/reservations/confirmation" element={<ReservationConfirmationPage />} />
-                <Route path="/auth" element={<AuthPage />} />
-                
-                {/* Admin Routes */}
-                <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<AdminDashboardPage />} />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <AuthProvider>
+            <TooltipProvider>
+              <PageLoader onLoadComplete={() => setIsLoaded(true)} />
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/menu" element={<MenuPage />} />
+                  <Route path="/menu/:category" element={<MenuCategoryPage />} />
+                  <Route path="/menu/:category/:slug" element={<MenuItemDetailPage />} />
+                  <Route path="/gallery" element={<GalleryPage />} />
+                  <Route path="/reservations" element={<ReservationsPage />} />
+                  <Route path="/reservations/confirmation" element={<ReservationConfirmationPage />} />
+                  <Route path="/auth" element={<AuthPage />} />
                   
-                  {/* Reservations */}
-                  <Route path="reservations" element={<AdminReservationsPage />} />
-                  <Route path="reservations/calendar" element={<AdminCalendarPage />} />
-                  <Route path="reservations/tables" element={<AdminTablesPage />} />
-                  
-                  {/* Menu */}
-                  <Route path="menu" element={<AdminMenuPage />} />
-                  <Route path="menu/categories" element={<AdminCategoriesPage />} />
-                  <Route path="menu/specials" element={<AdminSpecialsPage />} />
-                  
-                  {/* Orders */}
-                  <Route path="orders" element={<AdminOrdersPage />} />
-                  <Route path="orders/history" element={<AdminOrdersHistoryPage />} />
-                  
-                  {/* Customers */}
-                  <Route path="customers" element={<AdminCustomersPage />} />
-                  <Route path="customers/reviews" element={<AdminReviewsPage />} />
-                  <Route path="customers/loyalty" element={<AdminLoyaltyPage />} />
-                  
-                  {/* Staff */}
-                  <Route path="staff" element={<AdminStaffPage />} />
-                  <Route path="staff/schedules" element={<AdminSchedulesPage />} />
-                  <Route path="staff/roles" element={<AdminRolesPage />} />
-                  
-                  {/* Reports */}
-                  <Route path="reports" element={<AdminReportsPage />} />
-                  <Route path="reports/sales" element={<AdminSalesPage />} />
-                  
-                  {/* Content */}
-                  <Route path="gallery" element={<AdminGalleryPage />} />
-                  <Route path="content/events" element={<AdminEventsPage />} />
-                  <Route path="content/promotions" element={<AdminPromotionsPage />} />
-                  
-                  {/* Settings */}
-                  <Route path="settings" element={<AdminSettingsPage />} />
-                  <Route path="settings/users" element={<AdminUsersPage />} />
-                  <Route path="settings/integrations" element={<AdminIntegrationsPage />} />
-                </Route>
+                  {/* Admin Routes */}
+                  <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<AdminDashboardPage />} />
+                    
+                    {/* Reservations */}
+                    <Route path="reservations" element={<AdminReservationsPage />} />
+                    <Route path="reservations/calendar" element={<AdminCalendarPage />} />
+                    <Route path="reservations/tables" element={<AdminTablesPage />} />
+                    
+                    {/* Menu */}
+                    <Route path="menu" element={<AdminMenuPage />} />
+                    <Route path="menu/categories" element={<AdminCategoriesPage />} />
+                    <Route path="menu/specials" element={<AdminSpecialsPage />} />
+                    
+                    {/* Orders */}
+                    <Route path="orders" element={<AdminOrdersPage />} />
+                    <Route path="orders/history" element={<AdminOrdersHistoryPage />} />
+                    
+                    {/* Customers */}
+                    <Route path="customers" element={<AdminCustomersPage />} />
+                    <Route path="customers/reviews" element={<AdminReviewsPage />} />
+                    <Route path="customers/loyalty" element={<AdminLoyaltyPage />} />
+                    
+                    {/* Staff */}
+                    <Route path="staff" element={<AdminStaffPage />} />
+                    <Route path="staff/schedules" element={<AdminSchedulesPage />} />
+                    <Route path="staff/roles" element={<AdminRolesPage />} />
+                    
+                    {/* Reports */}
+                    <Route path="reports" element={<AdminReportsPage />} />
+                    <Route path="reports/sales" element={<AdminSalesPage />} />
+                    
+                    {/* Content */}
+                    <Route path="gallery" element={<AdminGalleryPage />} />
+                    <Route path="content/events" element={<AdminEventsPage />} />
+                    <Route path="content/promotions" element={<AdminPromotionsPage />} />
+                    
+                    {/* Settings */}
+                    <Route path="settings" element={<AdminSettingsPage />} />
+                    <Route path="settings/users" element={<AdminUsersPage />} />
+                    <Route path="settings/integrations" element={<AdminIntegrationsPage />} />
+                  </Route>
 
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </AuthProvider>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </HelmetProvider>
   );

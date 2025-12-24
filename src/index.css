@@ -102,6 +102,60 @@
     --admin-info: 199 89% 48%;
   }
 
+  /* Theme Color Variants */
+  .admin-theme.admin-theme-blue {
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 217 91% 60%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.admin-theme-purple {
+    --primary: 255 70% 60%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 255 70% 60%;
+    --sidebar-primary: 255 70% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.admin-theme-green {
+    --primary: 174 72% 40%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 174 72% 40%;
+    --sidebar-primary: 174 72% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.admin-theme-red {
+    --primary: 15 75% 60%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 15 75% 60%;
+    --sidebar-primary: 15 75% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.admin-theme-cyan {
+    --primary: 184 72% 45%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 184 72% 45%;
+    --sidebar-primary: 184 72% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  /* Card Style Variants */
+  .admin-cards-border .bg-card,
+  .admin-cards-border [class*="bg-card"] {
+    box-shadow: none !important;
+    border: 1px solid hsl(var(--border)) !important;
+  }
+
+  .admin-cards-shadow .bg-card,
+  .admin-cards-shadow [class*="bg-card"] {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+    border: none !important;
+  }
+
   .admin-theme.dark {
     --background: 40 10% 7%; /* Deep charcoal with warm undertone */
     --foreground: 45 20% 96%; /* Near white for maximum readability */
@@ -145,6 +199,47 @@
     --admin-yellow: 46 95% 55%;
     --admin-yellow-bright: 51 90% 65%;
     --admin-yellow-dark: 46 90% 45%;
+  }
+
+  /* Dark mode color variants */
+  .admin-theme.dark.admin-theme-blue {
+    --primary: 217 91% 65%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 217 91% 65%;
+    --sidebar-primary: 217 91% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.dark.admin-theme-purple {
+    --primary: 255 70% 65%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 255 70% 65%;
+    --sidebar-primary: 255 70% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.dark.admin-theme-green {
+    --primary: 174 72% 50%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 174 72% 50%;
+    --sidebar-primary: 174 72% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.dark.admin-theme-red {
+    --primary: 15 75% 65%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 15 75% 65%;
+    --sidebar-primary: 15 75% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+  }
+
+  .admin-theme.dark.admin-theme-cyan {
+    --primary: 184 72% 55%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 184 72% 55%;
+    --sidebar-primary: 184 72% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
   }
 
   .dark {

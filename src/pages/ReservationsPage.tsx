@@ -5,14 +5,8 @@ import PageHeader from "@/components/shared/PageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { z } from "zod";
-
-const timeSlots = [
-  "17h30", "18h00", "18h30", "19h00", "19h30", 
-  "20h00", "20h30", "21h00", "21h30"
-];
-
+const timeSlots = ["17h30", "18h00", "18h30", "19h00", "19h30", "20h00", "20h30", "21h00", "21h30"];
 const guestOptions = ["1 Personne", "2 Personnes", "3 Personnes", "4 Personnes", "5 Personnes", "6 Personnes", "7+ Personnes"];
-
 const occasions = ["Aucune", "Anniversaire", "Mariage", "Dîner d'affaires", "Demande en mariage", "Célébration", "Autre"];
 
 // Validation schema
@@ -24,9 +18,8 @@ const reservationSchema = z.object({
   time: z.string().min(1, "Heure requise"),
   guests: z.string().min(1, "Nombre de convives requis"),
   occasion: z.string().optional(),
-  requests: z.string().max(1000).optional(),
+  requests: z.string().max(1000).optional()
 });
-
 const ReservationsPage = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
@@ -40,20 +33,27 @@ const ReservationsPage = () => {
     time: "",
     guests: "",
     occasion: "",
-    requests: "",
+    requests: ""
   });
-
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsVisible(true);
   }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
     // Clear error on field change
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
     }
   };
 
@@ -62,7 +62,6 @@ const ReservationsPage = () => {
     const today = new Date();
     return today.toISOString().split('T')[0];
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
@@ -86,17 +85,17 @@ const ReservationsPage = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     if (selectedDate < today) {
-      setErrors({ date: "La date doit être aujourd'hui ou dans le futur" });
+      setErrors({
+        date: "La date doit être aujourd'hui ou dans le futur"
+      });
       toast.error("La date doit être aujourd'hui ou dans le futur");
       return;
     }
-
     setIsSubmitting(true);
-
     try {
       // Parse guests number from string like "2 Personnes"
       const guestsNumber = parseInt(formData.guests.match(/\d+/)?.[0] || "2", 10);
-      
+
       // Convert time format from "19h30" to "19:30"
       const timeFormatted = formData.time.replace('h', ':');
 
@@ -110,21 +109,17 @@ const ReservationsPage = () => {
         guests: guestsNumber,
         occasion: formData.occasion && formData.occasion !== "Aucune" ? formData.occasion : null,
         special_requests: formData.requests?.trim() || null,
-        status: 'pending' as const,
+        status: 'pending' as const
       };
-
-      const { data, error } = await supabase
-        .from('reservations')
-        .insert(reservationData)
-        .select()
-        .single();
-
+      const {
+        data,
+        error
+      } = await supabase.from('reservations').insert(reservationData).select().single();
       if (error) {
         console.error('Reservation error:', error);
         toast.error("Une erreur est survenue. Veuillez réessayer.");
         return;
       }
-
       toast.success("Réservation envoyée avec succès!");
       window.scrollTo(0, 0);
       navigate(`/reservations/confirmation?id=${data.id}`);
@@ -135,17 +130,14 @@ const ReservationsPage = () => {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <PageHeader />
 
       {/* Hero Section - Dark */}
       <section className="relative h-[60vh] min-h-[500px] flex items-end justify-center overflow-hidden bg-charcoal pb-16">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-60"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920')" }}
-        />
+        <div className="absolute inset-0 bg-cover bg-center opacity-60" style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920')"
+      }} />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal via-charcoal/30 to-charcoal" />
         
         <div className="absolute top-32 left-10 w-32 h-32 border border-gold/20 rotate-45 hidden md:block" />
@@ -291,16 +283,7 @@ const ReservationsPage = () => {
                         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gold/60">
                           <User size={18} />
                         </div>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all"
-                          placeholder="Jean Dupont"
-                        />
+                        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all" placeholder="Jean Dupont" />
                       </div>
                       <p className="font-sans text-xs text-charcoal/50 pl-1">Nom sous lequel la réservation sera enregistrée</p>
                     </div>
@@ -315,16 +298,7 @@ const ReservationsPage = () => {
                           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gold/60">
                             <Mail size={18} />
                           </div>
-                          <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all"
-                            placeholder="votre@email.com"
-                          />
+                          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all" placeholder="votre@email.com" />
                         </div>
                         <p className="font-sans text-xs text-charcoal/50 pl-1">Pour recevoir la confirmation</p>
                       </div>
@@ -336,16 +310,7 @@ const ReservationsPage = () => {
                           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gold/60">
                             <Phone size={18} />
                           </div>
-                          <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all"
-                            placeholder="+33 6 12 34 56 78"
-                          />
+                          <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all" placeholder="+33 6 12 34 56 78" />
                         </div>
                         <p className="font-sans text-xs text-charcoal/50 pl-1">En cas de changement de dernière minute</p>
                       </div>
@@ -361,16 +326,7 @@ const ReservationsPage = () => {
                           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gold/60">
                             <Calendar size={18} />
                           </div>
-                          <input
-                            type="date"
-                            id="date"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                            min={getMinDate()}
-                            required
-                            className={`w-full bg-white border pl-12 pr-4 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all cursor-pointer ${errors.date ? 'border-red-500' : 'border-gold/30'}`}
-                          />
+                          <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} min={getMinDate()} required className={`w-full bg-white border pl-12 pr-4 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all cursor-pointer ${errors.date ? 'border-red-500' : 'border-gold/30'}`} />
                           {errors.date && <p className="font-sans text-xs text-red-500 mt-1">{errors.date}</p>}
                         </div>
                         <p className="font-sans text-xs text-charcoal/50 pl-1">Nous sommes ouverts du mardi au samedi</p>
@@ -386,18 +342,9 @@ const ReservationsPage = () => {
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gold/60 pointer-events-none">
                             <ChevronDown size={18} />
                           </div>
-                          <select
-                            id="time"
-                            name="time"
-                            value={formData.time}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-white border border-gold/30 pl-12 pr-10 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all appearance-none cursor-pointer"
-                          >
+                          <select id="time" name="time" value={formData.time} onChange={handleChange} required className="w-full bg-white border border-gold/30 pl-12 pr-10 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all appearance-none cursor-pointer">
                             <option value="" disabled>Sélectionnez l'heure</option>
-                            {timeSlots.map(time => (
-                              <option key={time} value={time}>{time}</option>
-                            ))}
+                            {timeSlots.map(time => <option key={time} value={time}>{time}</option>)}
                           </select>
                         </div>
                         <p className="font-sans text-xs text-charcoal/50 pl-1">Service de 17h30 à 22h00</p>
@@ -417,18 +364,9 @@ const ReservationsPage = () => {
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gold/60 pointer-events-none">
                             <ChevronDown size={18} />
                           </div>
-                          <select
-                            id="guests"
-                            name="guests"
-                            value={formData.guests}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-white border border-gold/30 pl-12 pr-10 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all appearance-none cursor-pointer"
-                          >
+                          <select id="guests" name="guests" value={formData.guests} onChange={handleChange} required className="w-full bg-white border border-gold/30 pl-12 pr-10 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all appearance-none cursor-pointer">
                             <option value="" disabled>Sélectionnez</option>
-                            {guestOptions.map(opt => (
-                              <option key={opt} value={opt}>{opt}</option>
-                            ))}
+                            {guestOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                           </select>
                         </div>
                         <p className="font-sans text-xs text-charcoal/50 pl-1">Pour les groupes de 7+, contactez-nous directement</p>
@@ -444,17 +382,9 @@ const ReservationsPage = () => {
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gold/60 pointer-events-none">
                             <ChevronDown size={18} />
                           </div>
-                          <select
-                            id="occasion"
-                            name="occasion"
-                            value={formData.occasion}
-                            onChange={handleChange}
-                            className="w-full bg-white border border-gold/30 pl-12 pr-10 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all appearance-none cursor-pointer"
-                          >
+                          <select id="occasion" name="occasion" value={formData.occasion} onChange={handleChange} className="w-full bg-white border border-gold/30 pl-12 pr-10 py-4 text-charcoal font-sans focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all appearance-none cursor-pointer">
                             <option value="" disabled>Sélectionnez (optionnel)</option>
-                            {occasions.map(occ => (
-                              <option key={occ} value={occ}>{occ}</option>
-                            ))}
+                            {occasions.map(occ => <option key={occ} value={occ}>{occ}</option>)}
                           </select>
                         </div>
                         <p className="font-sans text-xs text-charcoal/50 pl-1">Nous préparerons une surprise pour vous</p>
@@ -470,33 +400,17 @@ const ReservationsPage = () => {
                         <div className="absolute left-4 top-4 text-gold/60">
                           <MessageSquare size={18} />
                         </div>
-                        <textarea
-                          id="requests"
-                          name="requests"
-                          value={formData.requests}
-                          onChange={handleChange}
-                          rows={3}
-                          className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all resize-none"
-                          placeholder="Allergies, préférences alimentaires, demandes particulières..."
-                        />
+                        <textarea id="requests" name="requests" value={formData.requests} onChange={handleChange} rows={3} className="w-full bg-white border border-gold/30 pl-12 pr-4 py-4 text-charcoal font-sans placeholder:text-charcoal/40 focus:ring-2 focus:ring-gold/20 focus:border-gold transition-all resize-none" placeholder="Allergies, préférences alimentaires, demandes particulières..." />
                       </div>
                       <p className="font-sans text-xs text-charcoal/50 pl-1">Informez-nous de vos restrictions alimentaires ou besoins particuliers</p>
                     </div>
 
                     {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full mt-8 px-8 py-4 bg-gold text-charcoal font-sans text-sm tracking-[0.15em] uppercase hover:bg-gold/90 hover:shadow-lg hover:shadow-gold/30 hover:-translate-y-0.5 transition-all duration-300 font-medium disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none flex items-center justify-center gap-2 shadow-lg shadow-gold/20"
-                    >
-                      {isSubmitting ? (
-                        <>
+                    <button type="submit" disabled={isSubmitting} className="w-full mt-8 px-8 py-4 text-charcoal font-sans text-sm tracking-[0.15em] uppercase hover:shadow-lg hover:shadow-gold/30 hover:-translate-y-0.5 transition-all duration-300 font-medium disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none flex items-center justify-center gap-2 bg-amber-300 hover:bg-amber-200">
+                      {isSubmitting ? <>
                           <Loader2 size={18} className="animate-spin" />
                           Envoi en cours...
-                        </>
-                      ) : (
-                        "Confirmer la Réservation"
-                      )}
+                        </> : "Confirmer la Réservation"}
                     </button>
                   </form>
                 </div>
@@ -509,10 +423,9 @@ const ReservationsPage = () => {
       {/* Experience Section - Modern Card Design */}
       <section className="relative py-24 md:py-32 overflow-hidden">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2070&auto=format&fit=crop')" }}
-        />
+        <div className="absolute inset-0 bg-cover bg-center bg-fixed" style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2070&auto=format&fit=crop')"
+      }} />
         {/* Overlay for visibility */}
         <div className="absolute inset-0 bg-charcoal/70" />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/50 to-charcoal/80" />
@@ -585,10 +498,7 @@ const ReservationsPage = () => {
             <p className="font-sans text-offwhite/50 mb-4">
               Vous préférez nous parler directement ?
             </p>
-            <a 
-              href="tel:+33123456789" 
-              className="inline-flex items-center gap-3 font-luxury text-2xl md:text-3xl text-offwhite hover:text-gold transition-colors group"
-            >
+            <a href="tel:+33123456789" className="inline-flex items-center gap-3 font-luxury text-2xl md:text-3xl text-offwhite hover:text-gold transition-colors group">
               <Phone size={24} className="text-gold group-hover:scale-110 transition-transform" />
               +33 1 23 45 67 89
             </a>
@@ -604,8 +514,6 @@ const ReservationsPage = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default ReservationsPage;

@@ -238,10 +238,18 @@ const MenuPage = () => {
       </section>
 
       {/* CTA Section - Dark */}
-      <section className="relative py-24 md:py-32 bg-charcoal overflow-hidden">
-        {/* Background effects */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-fixed"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop')" }}
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-charcoal/85" />
+        
+        {/* Background glow effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gold/[0.03] rounded-full blur-[150px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gold/[0.05] rounded-full blur-[150px]" />
         </div>
         
         {/* Decorative elements */}

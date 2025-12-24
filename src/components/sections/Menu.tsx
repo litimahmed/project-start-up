@@ -202,23 +202,7 @@ const Menu = () => {
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {menuData[activeCategory].map((item, index) => <div key={item.name} className="group relative rounded-2xl overflow-hidden transition-all duration-700 bg-white shadow-lg hover:shadow-2xl hover:-translate-y-1" style={{
             animationDelay: `${index * 100}ms`,
-            perspective: '1000px',
-          }}
-          onMouseMove={(e) => {
-            const card = e.currentTarget;
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-          }}
-          >
+          }}>
                   {/* Card border */}
                   <div className="absolute inset-0 border border-charcoal/10 rounded-2xl group-hover:border-gold/40 transition-colors duration-700" />
                   

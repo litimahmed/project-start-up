@@ -6,36 +6,41 @@ import { MenuBadges } from "@/components/ui/menu-badge";
 import PageHeader from "@/components/shared/PageHeader";
 
 // Menu categories with icons
-const categories = [
-  { id: "entrees" as const, label: "Entrées", icon: Salad },
-  { id: "plats" as const, label: "Plats", icon: UtensilsCrossed },
-  { id: "desserts" as const, label: "Desserts", icon: Cake },
-  { id: "vins" as const, label: "Vins", icon: Wine },
-];
-
+const categories = [{
+  id: "entrees" as const,
+  label: "Entrées",
+  icon: Salad
+}, {
+  id: "plats" as const,
+  label: "Plats",
+  icon: UtensilsCrossed
+}, {
+  id: "desserts" as const,
+  label: "Desserts",
+  icon: Cake
+}, {
+  id: "vins" as const,
+  label: "Vins",
+  icon: Wine
+}];
 const MenuPage = () => {
   const [activeCategory, setActiveCategory] = useState<MenuCategory>("entrees");
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsVisible(true);
   }, []);
-
   const isWineCategory = activeCategory === "vins";
   const currentItems = isWineCategory ? wineItems : menuItems[activeCategory as Exclude<MenuCategory, 'vins'>];
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <PageHeader />
 
       {/* Hero Section - Dark */}
       <section className="relative h-[60vh] min-h-[500px] flex items-end justify-center overflow-hidden bg-charcoal pb-16">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-60"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920')" }}
-        />
+        <div className="absolute inset-0 bg-cover bg-center opacity-60" style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920')"
+      }} />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal via-charcoal/30 to-charcoal" />
         
         {/* Decorative Elements */}
@@ -65,23 +70,13 @@ const MenuPage = () => {
         <div className="container mx-auto px-6">
           <div className="flex justify-center">
             <div className="inline-flex items-center bg-charcoal/5 rounded-2xl p-1.5 gap-1">
-              {categories.map((category) => {
-                const Icon = category.icon;
-                return (
-                  <button
-                    key={category.id}
-                    onClick={() => setActiveCategory(category.id)}
-                    className={`relative flex items-center gap-2 font-sans text-xs tracking-[0.1em] uppercase py-3 px-5 md:px-6 rounded-xl transition-all duration-300 whitespace-nowrap ${
-                      activeCategory === category.id
-                        ? 'text-charcoal bg-white shadow-md shadow-charcoal/10'
-                        : 'text-charcoal/50 hover:text-charcoal'
-                    }`}
-                  >
+              {categories.map(category => {
+              const Icon = category.icon;
+              return <button key={category.id} onClick={() => setActiveCategory(category.id)} className={`relative flex items-center gap-2 font-sans text-xs tracking-[0.1em] uppercase py-3 px-5 md:px-6 rounded-xl transition-all duration-300 whitespace-nowrap ${activeCategory === category.id ? 'text-charcoal bg-white shadow-md shadow-charcoal/10' : 'text-charcoal/50 hover:text-charcoal'}`}>
                     <Icon size={16} className={`transition-colors duration-300 ${activeCategory === category.id ? 'text-gold' : ''}`} />
                     <span className="hidden sm:inline">{category.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+            })}
             </div>
           </div>
         </div>
@@ -104,18 +99,11 @@ const MenuPage = () => {
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-6" />
           </div>
 
-          {isWineCategory ? (
-            /* Wine Grid - Elegant cards on light bg */
-            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              {(currentItems as WineItem[]).map((wine, index) => (
-                <Link
-                  key={wine.slug}
-                  to={`/menu/vins/${wine.slug}`}
-                  className={`group relative bg-white rounded-2xl overflow-hidden border border-charcoal/10 hover:border-gold/40 transition-all duration-500 hover:shadow-xl hover:shadow-charcoal/10 ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
-                >
+          {isWineCategory ? (/* Wine Grid - Elegant cards on light bg */
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {(currentItems as WineItem[]).map((wine, index) => <Link key={wine.slug} to={`/menu/vins/${wine.slug}`} className={`group relative bg-white rounded-2xl overflow-hidden border border-charcoal/10 hover:border-gold/40 transition-all duration-500 hover:shadow-xl hover:shadow-charcoal/10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{
+            transitionDelay: `${index * 100}ms`
+          }}>
                   <div className="p-8">
                     {/* Header */}
                     <div className="flex items-start justify-between mb-6">
@@ -143,15 +131,11 @@ const MenuPage = () => {
                     </p>
 
                     {/* Tasting notes */}
-                    {wine.notes && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {wine.notes.slice(0, 3).map((note) => (
-                          <span key={note} className="px-3 py-1 bg-charcoal/5 rounded-full text-xs text-charcoal/60">
+                    {wine.notes && <div className="flex flex-wrap gap-2 mb-4">
+                        {wine.notes.slice(0, 3).map(note => <span key={note} className="px-3 py-1 bg-charcoal/5 rounded-full text-xs text-charcoal/60">
                             {note}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                          </span>)}
+                      </div>}
 
                     {/* See Details */}
                     <div className="flex items-center gap-2 text-gold opacity-0 group-hover:opacity-100 transition-all duration-500">
@@ -162,28 +146,15 @@ const MenuPage = () => {
 
                   {/* Bottom accent */}
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-burgundy/0 via-burgundy to-burgundy/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                </Link>
-              ))}
-            </div>
-          ) : (
-            /* Food Grid - Cards with images on light bg */
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(currentItems as ExtendedMenuItem[]).map((item, index) => (
-                <Link
-                  key={item.slug}
-                  to={`/menu/${activeCategory}/${item.slug}`}
-                  className={`group relative bg-white rounded-2xl overflow-hidden border border-charcoal/10 hover:border-gold/40 transition-all duration-500 hover:shadow-2xl hover:shadow-charcoal/10 hover:-translate-y-2 ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
-                >
+                </Link>)}
+            </div>) : (/* Food Grid - Cards with images on light bg */
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {(currentItems as ExtendedMenuItem[]).map((item, index) => <Link key={item.slug} to={`/menu/${activeCategory}/${item.slug}`} className={`group relative bg-white rounded-2xl overflow-hidden border border-charcoal/10 hover:border-gold/40 transition-all duration-500 hover:shadow-2xl hover:shadow-charcoal/10 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{
+            transitionDelay: `${index * 100}ms`
+          }}>
                   {/* Image */}
                   <div className="relative h-56 overflow-hidden">
-                    <img
-                      src={item.image || `https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop`}
-                      alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                    <img src={item.image || `https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
                     
                     {/* Badges */}
@@ -207,33 +178,27 @@ const MenuPage = () => {
                     </p>
 
                     {/* Chef note preview */}
-                    {item.chefNote && (
-                      <div className="flex items-start gap-2 mb-4 p-3 bg-gold/5 rounded-lg">
+                    {item.chefNote && <div className="flex items-start gap-2 mb-4 p-3 bg-gold/5 rounded-lg">
                         <ChefHat size={14} className="text-gold mt-0.5 flex-shrink-0" />
                         <p className="font-serif text-xs text-charcoal/60 italic line-clamp-2">
                           {item.chefNote}
                         </p>
-                      </div>
-                    )}
+                      </div>}
 
                     {/* See Details */}
                     <div className="flex items-center justify-between pt-4 border-t border-charcoal/10">
-                      {item.pairing && (
-                        <div className="flex items-center gap-2">
+                      {item.pairing && <div className="flex items-center gap-2">
                           <Wine size={14} className="text-burgundy" />
                           <span className="font-sans text-xs text-charcoal/50">{item.pairing}</span>
-                        </div>
-                      )}
+                        </div>}
                       <div className="flex items-center gap-2 text-gold opacity-0 group-hover:opacity-100 transition-all duration-500 ml-auto">
                         <span className="font-sans text-xs tracking-[0.1em] uppercase">Détails</span>
                         <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
                     </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
+                </Link>)}
+            </div>)}
         </div>
       </section>
 
@@ -241,7 +206,7 @@ const MenuPage = () => {
       <section className="relative py-24 md:py-32 bg-charcoal overflow-hidden">
         {/* Background effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gold/[0.03] rounded-full blur-[150px]" />
+          
         </div>
         
         {/* Decorative elements */}
@@ -252,7 +217,7 @@ const MenuPage = () => {
           <div className="max-w-2xl mx-auto text-center">
             {/* Decorative frame */}
             <div className="relative py-12">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+              
               
               <div className="flex items-center justify-center gap-4 mb-8">
                 <div className="w-12 h-px bg-gradient-to-r from-transparent to-gold" />
@@ -268,17 +233,10 @@ const MenuPage = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  to="/reservations"
-                  onClick={() => window.scrollTo(0, 0)}
-                  className="px-10 py-4 bg-gold text-charcoal font-sans text-xs tracking-[0.2em] uppercase hover:bg-gold/90 transition-all shadow-lg shadow-gold/30"
-                >
+                <Link to="/reservations" onClick={() => window.scrollTo(0, 0)} className="px-10 py-4 bg-gold text-charcoal font-sans text-xs tracking-[0.2em] uppercase hover:bg-gold/90 transition-all shadow-lg shadow-gold/30">
                   Réserver une Table
                 </Link>
-                <Link
-                  to="/"
-                  className="px-10 py-4 bg-transparent text-offwhite font-sans text-xs tracking-[0.2em] uppercase border border-offwhite/30 hover:border-gold hover:text-gold transition-all"
-                >
+                <Link to="/" className="px-10 py-4 bg-transparent text-offwhite font-sans text-xs tracking-[0.2em] uppercase border border-offwhite/30 hover:border-gold hover:text-gold transition-all">
                   Retour à l'Accueil
                 </Link>
               </div>
@@ -297,8 +255,6 @@ const MenuPage = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default MenuPage;

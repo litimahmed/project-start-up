@@ -127,12 +127,7 @@ const ReservationsPage = () => {
 
       toast.success("Réservation envoyée avec succès!");
       window.scrollTo(0, 0);
-      navigate('/reservations/confirmation', { 
-        state: { 
-          reservationData: formData,
-          reservationId: data.id 
-        } 
-      });
+      navigate(`/reservations/confirmation?id=${data.id}`);
     } catch (error) {
       console.error('Submission error:', error);
       toast.error("Une erreur est survenue. Veuillez réessayer.");

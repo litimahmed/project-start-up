@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChefHat, Wine, Clock, ArrowRight } from 'lucide-react';
+import { ChefHat, Wine, Clock, ArrowRight, UtensilsCrossed, Sparkles } from 'lucide-react';
 import { 
   categoryData, 
   menuItems, 
@@ -335,20 +335,50 @@ const MenuCategoryPage = () => {
             <h2 className="font-luxury text-3xl md:text-4xl text-offwhite italic">Découvrir Plus</h2>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-4">
-            {Object.entries(categoryData).map(([key, value]) => (
-              key !== currentCategory && (
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+            {Object.entries(categoryData).map(([key, value]) => {
+              if (key === currentCategory) return null;
+              
+              const getCategoryIcon = (categoryKey: string) => {
+                switch (categoryKey) {
+                  case 'entrees': return <UtensilsCrossed className="w-5 h-5" />;
+                  case 'plats': return <UtensilsCrossed className="w-5 h-5" />;
+                  case 'desserts': return <Sparkles className="w-5 h-5" />;
+                  case 'vins': return <Wine className="w-5 h-5" />;
+                  default: return <UtensilsCrossed className="w-5 h-5" />;
+                }
+              };
+              
+              return (
                 <Link
                   key={key}
                   to={`/menu/${key}`}
-                  className="group relative px-8 py-4 bg-white/5 border border-white/10 rounded-full hover:border-gold/50 hover:bg-gold/10 transition-all duration-500"
+                  className="group relative w-48 md:w-56 h-28 md:h-32 overflow-hidden"
                 >
-                  <span className="font-sans text-sm tracking-[0.1em] uppercase text-offwhite/70 group-hover:text-gold transition-colors">
-                    {value.title}
-                  </span>
+                  {/* Background with gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/10 group-hover:border-gold/40 transition-all duration-500" />
+                  
+                  {/* Animated corner accents */}
+                  <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-transparent group-hover:border-gold/60 transition-all duration-500" />
+                  <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-transparent group-hover:border-gold/60 transition-all duration-500" />
+                  <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-transparent group-hover:border-gold/60 transition-all duration-500" />
+                  <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-transparent group-hover:border-gold/60 transition-all duration-500" />
+                  
+                  {/* Content */}
+                  <div className="relative h-full flex flex-col items-center justify-center gap-3">
+                    <div className="text-gold/40 group-hover:text-gold transition-colors duration-500">
+                      {getCategoryIcon(key)}
+                    </div>
+                    <span className="font-sans text-[10px] md:text-xs tracking-[0.2em] uppercase text-offwhite/60 group-hover:text-offwhite transition-colors duration-500">
+                      {value.title}
+                    </span>
+                  </div>
+                  
+                  {/* Bottom line animation */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-gradient-to-r from-gold/0 via-gold to-gold/0 group-hover:w-3/4 transition-all duration-500" />
                 </Link>
-              )
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

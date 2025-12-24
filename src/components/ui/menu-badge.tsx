@@ -21,32 +21,32 @@ const badgeConfig: Record<BadgeType, {
   'chef-selection': {
     label: 'Sélection du Chef',
     icon: Crown,
-    className: 'bg-gradient-to-r from-gold/20 to-gold/10 border-gold/40 text-gold backdrop-blur-sm',
+    className: 'bg-black/70 border-gold/60 text-gold',
   },
   'seasonal': {
     label: 'De Saison',
     icon: Sparkles,
-    className: 'bg-emerald-900/20 border-emerald-500/30 text-emerald-400 backdrop-blur-sm',
+    className: 'bg-black/70 border-emerald-400/60 text-emerald-300',
   },
   'award': {
     label: 'Primé',
     icon: Award,
-    className: 'bg-amber-900/20 border-amber-500/40 text-amber-400 backdrop-blur-sm',
+    className: 'bg-black/70 border-amber-400/60 text-amber-300',
   },
   'limited': {
     label: 'Édition Limitée',
     icon: Timer,
-    className: 'bg-burgundy/20 border-burgundy/40 text-burgundy backdrop-blur-sm',
+    className: 'bg-black/70 border-rose-400/60 text-rose-300',
   },
   'plant-based': {
     label: 'Végétal',
     icon: Leaf,
-    className: 'bg-green-900/20 border-green-500/30 text-green-400 backdrop-blur-sm',
+    className: 'bg-black/70 border-green-400/60 text-green-300',
   },
   'sustainable': {
     label: 'Pêche Durable',
     icon: Fish,
-    className: 'bg-sky-900/20 border-sky-400/30 text-sky-400 backdrop-blur-sm',
+    className: 'bg-black/70 border-sky-400/60 text-sky-300',
   },
 };
 

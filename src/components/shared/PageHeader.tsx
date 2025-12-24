@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import UserMenu from '@/components/auth/UserMenu';
 
 const navLinks = [
   { name: 'À Propos', href: '/#about' },
@@ -15,7 +13,6 @@ const PageHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { user, loading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,17 +67,14 @@ const PageHeader = () => {
             ))}
           </div>
 
-          {/* Auth Section */}
-          <div className="hidden lg:flex items-center gap-4">
-            {!loading && user && <UserMenu />}
-            {!loading && !user && (
-              <a
-                href="/reservations"
-                className="px-6 py-2.5 bg-transparent text-gold font-sans text-xs tracking-[0.15em] uppercase border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
-              >
-                Réserver
-              </a>
-            )}
+          {/* Reservation Button */}
+          <div className="hidden lg:flex items-center">
+            <a
+              href="/reservations"
+              className="px-6 py-2.5 bg-transparent text-gold font-sans text-xs tracking-[0.15em] uppercase border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
+            >
+              Réserver
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -115,22 +109,13 @@ const PageHeader = () => {
               </a>
             ))}
             
-            {!loading && user && (
-              <div className="mt-4 mx-4 p-4 bg-offwhite/5 border border-offwhite/10">
-                <p className="text-offwhite text-sm mb-1">{user.user_metadata?.full_name || user.email?.split('@')[0]}</p>
-                <p className="text-offwhite/50 text-xs mb-3">{user.email}</p>
-                <UserMenu />
-              </div>
-            )}
-            {!loading && !user && (
-              <a
-                href="/reservations"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-4 mx-4 px-6 py-3 bg-transparent text-gold font-sans text-sm tracking-widest uppercase text-center border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
-              >
-                Réserver une Table
-              </a>
-            )}
+            <a
+              href="/reservations"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mt-4 mx-4 px-6 py-3 bg-transparent text-gold font-sans text-sm tracking-widest uppercase text-center border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
+            >
+              Réserver une Table
+            </a>
           </div>
         </div>
       </div>

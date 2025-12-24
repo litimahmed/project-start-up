@@ -103,39 +103,48 @@
   }
 
   .admin-theme.dark {
-    --background: 45 15% 8%; /* Very dark warm */
-    --foreground: 48 30% 95%;
+    --background: 40 10% 7%; /* Deep charcoal with warm undertone */
+    --foreground: 45 20% 96%; /* Near white for maximum readability */
 
-    --card: 45 12% 12%;
-    --card-foreground: 48 30% 95%;
+    --card: 40 8% 10%; /* Slightly lighter than background */
+    --card-foreground: 45 20% 96%;
 
-    --popover: 45 12% 10%;
-    --popover-foreground: 48 30% 95%;
+    --popover: 40 8% 9%;
+    --popover-foreground: 45 20% 96%;
 
-    --primary: 46 95% 58%; /* Golden yellow */
-    --primary-foreground: 45 15% 8%;
+    --primary: 46 95% 55%; /* Slightly brighter golden for dark mode visibility */
+    --primary-foreground: 40 10% 7%; /* Dark text on yellow buttons */
 
-    --secondary: 51 100% 70%; /* Bright yellow */
-    --secondary-foreground: 45 15% 8%;
+    --secondary: 51 90% 65%; /* Bright yellow adjusted for dark mode */
+    --secondary-foreground: 40 10% 7%;
 
-    --muted: 45 12% 15%;
-    --muted-foreground: 48 20% 60%;
+    --muted: 40 8% 14%; /* Subtle elevation for muted surfaces */
+    --muted-foreground: 45 15% 55%; /* Good contrast muted text */
 
-    --accent: 51 100% 70%;
-    --accent-foreground: 45 15% 8%;
+    --accent: 46 95% 55%;
+    --accent-foreground: 40 10% 7%;
 
-    --border: 45 12% 20%;
-    --input: 45 12% 20%;
-    --ring: 46 95% 58%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
-    --sidebar-background: 45 20% 6%;
-    --sidebar-foreground: 48 20% 85%;
-    --sidebar-primary: 46 95% 62%;
-    --sidebar-primary-foreground: 45 20% 8%;
-    --sidebar-accent: 45 15% 12%;
-    --sidebar-accent-foreground: 48 30% 95%;
-    --sidebar-border: 45 15% 15%;
-    --sidebar-ring: 46 95% 62%;
+    --border: 40 8% 18%; /* Visible but subtle borders */
+    --input: 40 8% 15%;
+    --ring: 46 95% 55%;
+
+    /* Admin sidebar - deep professional dark */
+    --sidebar-background: 40 12% 5%; /* Very deep charcoal */
+    --sidebar-foreground: 45 15% 80%; /* Readable light text */
+    --sidebar-primary: 46 95% 55%;
+    --sidebar-primary-foreground: 40 10% 7%;
+    --sidebar-accent: 40 10% 10%; /* Subtle hover state */
+    --sidebar-accent-foreground: 45 20% 95%;
+    --sidebar-border: 40 8% 12%;
+    --sidebar-ring: 46 95% 55%;
+
+    /* Admin tokens for dark mode */
+    --admin-yellow: 46 95% 55%;
+    --admin-yellow-bright: 51 90% 65%;
+    --admin-yellow-dark: 46 90% 45%;
   }
 
   .dark {

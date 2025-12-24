@@ -269,8 +269,8 @@ const ReservationsPage = () => {
               <div className={`lg:col-span-3 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
                 <div className="relative bg-white rounded-3xl p-8 md:p-10 shadow-xl shadow-charcoal/5 border border-charcoal/5">
                   {/* Decorative top accent */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gold rounded-full flex items-center justify-center shadow-lg shadow-gold/30">
-                    <Calendar size={24} className="text-charcoal" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-charcoal rounded-full flex items-center justify-center shadow-lg shadow-charcoal/30 border border-gold/30">
+                    <Calendar size={24} className="text-gold" />
                   </div>
 
                   {/* Form Header */}

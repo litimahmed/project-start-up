@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import {
   useAdminSettings,
   ThemeColor,
@@ -44,94 +43,97 @@ const SettingsPanel = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      {/* Floating Settings Button - Refined, no glow */}
+      {/* Floating Settings Button */}
       <SheetTrigger asChild>
         <button
           className={cn(
-            "fixed bottom-6 z-50 w-11 h-11 bg-card/95 backdrop-blur-sm text-foreground rounded-xl shadow-md border border-border/50 transition-all duration-300 flex items-center justify-center hover:shadow-lg hover:scale-105 hover:bg-card group",
+            "fixed bottom-6 z-50 w-11 h-11 bg-sidebar text-sidebar-foreground rounded-xl shadow-lg border border-sidebar-border transition-all duration-300 flex items-center justify-center hover:shadow-xl hover:scale-105 group",
             buttonPosition
           )}
         >
-          <Settings className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300 group-hover:rotate-45" />
+          <Settings className="w-5 h-5 text-sidebar-foreground/70 group-hover:text-primary transition-all duration-300 group-hover:rotate-90" />
         </button>
       </SheetTrigger>
 
       <SheetContent 
         side={direction === 'rtl' ? 'left' : 'right'} 
-        className="w-80 sm:w-[340px] overflow-y-auto bg-card/98 backdrop-blur-md border-l border-border/30 p-0"
+        className="w-80 sm:w-[340px] overflow-y-auto bg-sidebar border-l border-sidebar-border p-0"
       >
-        {/* Elegant Header */}
-        <SheetHeader className="p-6 pb-4 bg-gradient-to-b from-muted/30 to-transparent">
+        {/* Header */}
+        <SheetHeader className="p-5 pb-4 border-b border-sidebar-border/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Settings className="w-4 h-4 text-primary" />
+              <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center">
+                <Settings className="w-4.5 h-4.5 text-primary" />
               </div>
-              <SheetTitle className="text-base font-semibold tracking-tight">Paramètres</SheetTitle>
+              <div>
+                <SheetTitle className="text-sm font-semibold text-sidebar-foreground">Paramètres</SheetTitle>
+                <p className="text-[11px] text-sidebar-foreground/50">Personnalisation</p>
+              </div>
             </div>
             <Button
               variant="ghost"
               size="sm"
               onClick={resetSettings}
-              className="text-xs text-muted-foreground hover:text-foreground h-8 px-2"
+              className="text-[11px] text-sidebar-foreground/60 hover:text-primary hover:bg-primary/10 h-8 px-2.5"
             >
               <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
-              Réinitialiser
+              Reset
             </Button>
           </div>
         </SheetHeader>
 
-        <div className="px-6 pb-6 space-y-6">
+        <div className="p-5 space-y-5">
           {/* Theme Mode */}
-          <section className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <Sun className="w-3.5 h-3.5" />
+          <section className="space-y-2.5">
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+              <Sun className="w-3 h-3" />
               Apparence
             </div>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setTheme('light')}
                 className={cn(
-                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   theme === 'light'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
-                <Sun className="w-4 h-4" />
+                <Sun className="w-3.5 h-3.5" />
                 Clair
               </button>
               <button
                 onClick={() => setTheme('dark')}
                 className={cn(
-                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   theme === 'dark'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
-                <Moon className="w-4 h-4" />
+                <Moon className="w-3.5 h-3.5" />
                 Sombre
               </button>
             </div>
           </section>
 
-          <Separator className="bg-border/30" />
+          <div className="h-px bg-sidebar-border/40" />
 
           {/* Direction */}
-          <section className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <Columns className="w-3.5 h-3.5" />
+          <section className="space-y-2.5">
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+              <Columns className="w-3 h-3" />
               Direction
             </div>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setDirection('ltr')}
                 className={cn(
-                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   direction === 'ltr'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
                 LTR
@@ -139,10 +141,10 @@ const SettingsPanel = () => {
               <button
                 onClick={() => setDirection('rtl')}
                 className={cn(
-                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   direction === 'rtl'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
                 RTL
@@ -150,37 +152,37 @@ const SettingsPanel = () => {
             </div>
           </section>
 
-          <Separator className="bg-border/30" />
+          <div className="h-px bg-sidebar-border/40" />
 
-          {/* Theme Colors - Luxury palette */}
-          <section className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <Palette className="w-3.5 h-3.5" />
-              Couleur du thème
+          {/* Theme Colors */}
+          <section className="space-y-2.5">
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+              <Palette className="w-3 h-3" />
+              Couleur
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {themeColors.map((color) => (
                 <button
                   key={color.id}
                   onClick={() => setThemeColor(color.id)}
-                  className="group flex flex-col items-center gap-2"
+                  className="group flex flex-col items-center gap-1.5"
                 >
                   <div
                     className={cn(
-                      "w-10 h-10 rounded-full transition-all flex items-center justify-center border-2",
+                      "w-9 h-9 rounded-full transition-all flex items-center justify-center ring-2 ring-offset-2 ring-offset-sidebar",
                       color.color,
                       themeColor === color.id
-                        ? "border-foreground scale-110 shadow-md"
-                        : "border-transparent group-hover:scale-105 group-hover:shadow-sm"
+                        ? "ring-primary scale-110"
+                        : "ring-transparent group-hover:ring-sidebar-foreground/20 group-hover:scale-105"
                     )}
                   >
                     {themeColor === color.id && (
-                      <Check className="w-4 h-4 text-white drop-shadow-sm" />
+                      <Check className="w-4 h-4 text-white drop-shadow" />
                     )}
                   </div>
                   <span className={cn(
                     "text-[10px] font-medium transition-colors",
-                    themeColor === color.id ? "text-foreground" : "text-muted-foreground"
+                    themeColor === color.id ? "text-primary" : "text-sidebar-foreground/50"
                   )}>
                     {color.label}
                   </span>
@@ -189,58 +191,58 @@ const SettingsPanel = () => {
             </div>
           </section>
 
-          <Separator className="bg-border/30" />
+          <div className="h-px bg-sidebar-border/40" />
 
           {/* Layout Type */}
-          <section className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <Layout className="w-3.5 h-3.5" />
+          <section className="space-y-2.5">
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+              <Layout className="w-3 h-3" />
               Mise en page
             </div>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setLayoutType('vertical')}
                 className={cn(
-                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   layoutType === 'vertical'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
-                <PanelLeft className="w-4 h-4" />
+                <PanelLeft className="w-3.5 h-3.5" />
                 Vertical
               </button>
               <button
                 onClick={() => setLayoutType('horizontal')}
                 className={cn(
-                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   layoutType === 'horizontal'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
-                <Layout className="w-4 h-4" />
+                <Layout className="w-3.5 h-3.5" />
                 Horizontal
               </button>
             </div>
           </section>
 
-          <Separator className="bg-border/30" />
+          <div className="h-px bg-sidebar-border/40" />
 
           {/* Container Type */}
-          <section className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <Square className="w-3.5 h-3.5" />
+          <section className="space-y-2.5">
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+              <Square className="w-3 h-3" />
               Conteneur
             </div>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setContainerType('boxed')}
                 className={cn(
-                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   containerType === 'boxed'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
                 Encadré
@@ -248,10 +250,10 @@ const SettingsPanel = () => {
               <button
                 onClick={() => setContainerType('full')}
                 className={cn(
-                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   containerType === 'full'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
                 Pleine largeur
@@ -259,24 +261,23 @@ const SettingsPanel = () => {
             </div>
           </section>
 
-          <Separator className="bg-border/30" />
-
           {/* Sidebar Type - Only show for vertical layout */}
           {layoutType === 'vertical' && (
             <>
-              <section className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  <PanelLeft className="w-3.5 h-3.5" />
+              <div className="h-px bg-sidebar-border/40" />
+              <section className="space-y-2.5">
+                <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+                  <PanelLeft className="w-3 h-3" />
                   Barre latérale
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setSidebarType('full')}
                     className={cn(
-                      "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                      "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                       sidebarType === 'full'
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                     )}
                   >
                     Complète
@@ -284,35 +285,35 @@ const SettingsPanel = () => {
                   <button
                     onClick={() => setSidebarType('mini')}
                     className={cn(
-                      "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                      "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                       sidebarType === 'mini'
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                     )}
                   >
                     Mini
                   </button>
                 </div>
               </section>
-
-              <Separator className="bg-border/30" />
             </>
           )}
 
+          <div className="h-px bg-sidebar-border/40" />
+
           {/* Card Style */}
-          <section className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <CreditCard className="w-3.5 h-3.5" />
-              Style des cartes
+          <section className="space-y-2.5">
+            <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+              <CreditCard className="w-3 h-3" />
+              Style cartes
             </div>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setCardStyle('border')}
                 className={cn(
-                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   cardStyle === 'border'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
                 Bordure
@@ -320,10 +321,10 @@ const SettingsPanel = () => {
               <button
                 onClick={() => setCardStyle('shadow')}
                 className={cn(
-                  "py-2.5 px-3 rounded-lg border text-sm font-medium transition-all",
+                  "py-2.5 px-3 rounded-lg text-xs font-medium transition-all",
                   cardStyle === 'shadow'
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/30"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-sidebar-accent/50 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 )}
               >
                 Ombre
@@ -331,16 +332,16 @@ const SettingsPanel = () => {
             </div>
           </section>
 
-          <Separator className="bg-border/30" />
+          <div className="h-px bg-sidebar-border/40" />
 
           {/* Border Radius */}
           <section className="space-y-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                <Circle className="w-3.5 h-3.5" />
-                Rayon des bordures
+              <div className="flex items-center gap-2 text-[11px] font-semibold text-sidebar-foreground/50 uppercase tracking-widest">
+                <Circle className="w-3 h-3" />
+                Bordures
               </div>
-              <span className="text-xs font-medium text-foreground bg-muted/50 px-2 py-0.5 rounded">
+              <span className="text-[11px] font-semibold text-primary bg-primary/15 px-2 py-0.5 rounded">
                 {borderRadius}px
               </span>
             </div>
@@ -352,7 +353,7 @@ const SettingsPanel = () => {
               step={1}
               className="w-full"
             />
-            <div className="flex justify-between text-[10px] text-muted-foreground">
+            <div className="flex justify-between text-[10px] text-sidebar-foreground/40">
               <span>Carré</span>
               <span>Arrondi</span>
             </div>

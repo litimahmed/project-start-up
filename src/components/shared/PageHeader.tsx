@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, memo } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
@@ -7,7 +7,7 @@ const navLinks = [
   { name: 'Carte', href: '/menu' },
   { name: 'Galerie', href: '/gallery' },
   { name: 'Réservations', href: '/reservations' },
-] as const;
+];
 
 const PageHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,24 +19,14 @@ const PageHeader = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    // Use passive listener for better scroll performance
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isActive = useCallback((href: string) => {
+  const isActive = (href: string) => {
     if (href === '/#about') return false;
     return location.pathname.startsWith(href);
-  }, [location.pathname]);
-
-  const handleMobileMenuToggle = useCallback(() => {
-    setIsMobileMenuOpen(prev => !prev);
-  }, []);
-
-  const closeMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(false);
-  }, []);
-
+  };
 
   return (
     <nav
@@ -91,7 +81,7 @@ const PageHeader = () => {
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden text-offwhite p-2 hover:text-gold transition-colors"
-            onClick={handleMobileMenuToggle}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -109,7 +99,7 @@ const PageHeader = () => {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={closeMobileMenu}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`font-sans text-sm tracking-widest uppercase py-3 px-4 transition-all duration-300 ${
                   isActive(link.href)
                     ? 'text-gold bg-offwhite/5'
@@ -122,7 +112,7 @@ const PageHeader = () => {
             
             <Link
               to="/reservations"
-              onClick={() => { closeMobileMenu(); window.scrollTo(0, 0); }}
+              onClick={() => { setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
               className="mt-4 mx-4 px-6 py-3 bg-transparent text-gold font-sans text-sm tracking-widest uppercase text-center border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
             >
               Réserver une Table
@@ -134,4 +124,4 @@ const PageHeader = () => {
   );
 };
 
-export default memo(PageHeader);
+export default PageHeader;

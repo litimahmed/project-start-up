@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from "react";
+import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,78 +8,59 @@ import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PageLoader from "@/components/shared/PageLoader";
+import Index from "./pages/Index";
+import MenuPage from "./pages/MenuPage";
+import MenuCategoryPage from "./pages/MenuCategoryPage";
+import MenuItemDetailPage from "./pages/MenuItemDetailPage";
+import GalleryPage from "./pages/GalleryPage";
+import ReservationsPage from "./pages/ReservationsPage";
+import ReservationConfirmationPage from "./pages/ReservationConfirmationPage";
+import AuthPage from "./pages/AuthPage";
+import NotFound from "./pages/NotFound";
 
-// Lazy load all pages for code splitting
-const Index = lazy(() => import("./pages/Index"));
-const MenuPage = lazy(() => import("./pages/MenuPage"));
-const MenuCategoryPage = lazy(() => import("./pages/MenuCategoryPage"));
-const MenuItemDetailPage = lazy(() => import("./pages/MenuItemDetailPage"));
-const GalleryPage = lazy(() => import("./pages/GalleryPage"));
-const ReservationsPage = lazy(() => import("./pages/ReservationsPage"));
-const ReservationConfirmationPage = lazy(() => import("./pages/ReservationConfirmationPage"));
-const AuthPage = lazy(() => import("./pages/AuthPage"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-
-// Admin pages - lazy loaded
-const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
-const AdminDashboardPage = lazy(() => import("./pages/admin/DashboardPage"));
-const AdminReservationsPage = lazy(() => import("./pages/admin/ReservationsPage"));
-const AdminMenuPage = lazy(() => import("./pages/admin/MenuPage"));
-const AdminGalleryPage = lazy(() => import("./pages/admin/GalleryPage"));
-const AdminSettingsPage = lazy(() => import("./pages/admin/SettingsPage"));
+// Admin pages
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminDashboardPage from "./pages/admin/DashboardPage";
+import AdminReservationsPage from "./pages/admin/ReservationsPage";
+import AdminMenuPage from "./pages/admin/MenuPage";
+import AdminGalleryPage from "./pages/admin/GalleryPage";
+import AdminSettingsPage from "./pages/admin/SettingsPage";
 
 // Admin - Reservations
-const AdminCalendarPage = lazy(() => import("./pages/admin/reservations/CalendarPage"));
-const AdminTablesPage = lazy(() => import("./pages/admin/reservations/TablesPage"));
+import AdminCalendarPage from "./pages/admin/reservations/CalendarPage";
+import AdminTablesPage from "./pages/admin/reservations/TablesPage";
 
 // Admin - Menu
-const AdminCategoriesPage = lazy(() => import("./pages/admin/menu/CategoriesPage"));
-const AdminSpecialsPage = lazy(() => import("./pages/admin/menu/SpecialsPage"));
+import AdminCategoriesPage from "./pages/admin/menu/CategoriesPage";
+import AdminSpecialsPage from "./pages/admin/menu/SpecialsPage";
 
 // Admin - Orders
-const AdminOrdersPage = lazy(() => import("./pages/admin/orders/OrdersPage"));
-const AdminOrdersHistoryPage = lazy(() => import("./pages/admin/orders/HistoryPage"));
+import AdminOrdersPage from "./pages/admin/orders/OrdersPage";
+import AdminOrdersHistoryPage from "./pages/admin/orders/HistoryPage";
 
 // Admin - Customers
-const AdminCustomersPage = lazy(() => import("./pages/admin/customers/CustomersPage"));
-const AdminReviewsPage = lazy(() => import("./pages/admin/customers/ReviewsPage"));
-const AdminLoyaltyPage = lazy(() => import("./pages/admin/customers/LoyaltyPage"));
+import AdminCustomersPage from "./pages/admin/customers/CustomersPage";
+import AdminReviewsPage from "./pages/admin/customers/ReviewsPage";
+import AdminLoyaltyPage from "./pages/admin/customers/LoyaltyPage";
 
 // Admin - Staff
-const AdminStaffPage = lazy(() => import("./pages/admin/staff/StaffPage"));
-const AdminSchedulesPage = lazy(() => import("./pages/admin/staff/SchedulesPage"));
-const AdminRolesPage = lazy(() => import("./pages/admin/staff/RolesPage"));
+import AdminStaffPage from "./pages/admin/staff/StaffPage";
+import AdminSchedulesPage from "./pages/admin/staff/SchedulesPage";
+import AdminRolesPage from "./pages/admin/staff/RolesPage";
 
 // Admin - Reports
-const AdminReportsPage = lazy(() => import("./pages/admin/reports/ReportsPage"));
-const AdminSalesPage = lazy(() => import("./pages/admin/reports/SalesPage"));
+import AdminReportsPage from "./pages/admin/reports/ReportsPage";
+import AdminSalesPage from "./pages/admin/reports/SalesPage";
 
 // Admin - Content
-const AdminEventsPage = lazy(() => import("./pages/admin/content/EventsPage"));
-const AdminPromotionsPage = lazy(() => import("./pages/admin/content/PromotionsPage"));
+import AdminEventsPage from "./pages/admin/content/EventsPage";
+import AdminPromotionsPage from "./pages/admin/content/PromotionsPage";
 
 // Admin - Settings
-const AdminUsersPage = lazy(() => import("./pages/admin/settings/UsersPage"));
-const AdminIntegrationsPage = lazy(() => import("./pages/admin/settings/IntegrationsPage"));
+import AdminUsersPage from "./pages/admin/settings/UsersPage";
+import AdminIntegrationsPage from "./pages/admin/settings/IntegrationsPage";
 
-// Configure QueryClient with optimized settings
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
-
-// Minimal loading fallback
-const RouteLoader = () => (
-  <div className="min-h-screen bg-charcoal flex items-center justify-center">
-    <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-  </div>
-);
+const queryClient = new QueryClient();
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -94,63 +75,61 @@ const App = () => {
               <Toaster />
               <Sonner />
               <BrowserRouter>
-                <Suspense fallback={<RouteLoader />}>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/menu" element={<MenuPage />} />
-                    <Route path="/menu/:category" element={<MenuCategoryPage />} />
-                    <Route path="/menu/:category/:slug" element={<MenuItemDetailPage />} />
-                    <Route path="/gallery" element={<GalleryPage />} />
-                    <Route path="/reservations" element={<ReservationsPage />} />
-                    <Route path="/reservations/confirmation" element={<ReservationConfirmationPage />} />
-                    <Route path="/auth" element={<AuthPage />} />
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/menu" element={<MenuPage />} />
+                  <Route path="/menu/:category" element={<MenuCategoryPage />} />
+                  <Route path="/menu/:category/:slug" element={<MenuItemDetailPage />} />
+                  <Route path="/gallery" element={<GalleryPage />} />
+                  <Route path="/reservations" element={<ReservationsPage />} />
+                  <Route path="/reservations/confirmation" element={<ReservationConfirmationPage />} />
+                  <Route path="/auth" element={<AuthPage />} />
+                  
+                  {/* Admin Routes */}
+                  <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<AdminDashboardPage />} />
                     
-                    {/* Admin Routes */}
-                    <Route path="/admin" element={<AdminLayout />}>
-                      <Route index element={<AdminDashboardPage />} />
-                      
-                      {/* Reservations */}
-                      <Route path="reservations" element={<AdminReservationsPage />} />
-                      <Route path="reservations/calendar" element={<AdminCalendarPage />} />
-                      <Route path="reservations/tables" element={<AdminTablesPage />} />
-                      
-                      {/* Menu */}
-                      <Route path="menu" element={<AdminMenuPage />} />
-                      <Route path="menu/categories" element={<AdminCategoriesPage />} />
-                      <Route path="menu/specials" element={<AdminSpecialsPage />} />
-                      
-                      {/* Orders */}
-                      <Route path="orders" element={<AdminOrdersPage />} />
-                      <Route path="orders/history" element={<AdminOrdersHistoryPage />} />
-                      
-                      {/* Customers */}
-                      <Route path="customers" element={<AdminCustomersPage />} />
-                      <Route path="customers/reviews" element={<AdminReviewsPage />} />
-                      <Route path="customers/loyalty" element={<AdminLoyaltyPage />} />
-                      
-                      {/* Staff */}
-                      <Route path="staff" element={<AdminStaffPage />} />
-                      <Route path="staff/schedules" element={<AdminSchedulesPage />} />
-                      <Route path="staff/roles" element={<AdminRolesPage />} />
-                      
-                      {/* Reports */}
-                      <Route path="reports" element={<AdminReportsPage />} />
-                      <Route path="reports/sales" element={<AdminSalesPage />} />
-                      
-                      {/* Content */}
-                      <Route path="gallery" element={<AdminGalleryPage />} />
-                      <Route path="content/events" element={<AdminEventsPage />} />
-                      <Route path="content/promotions" element={<AdminPromotionsPage />} />
-                      
-                      {/* Settings */}
-                      <Route path="settings" element={<AdminSettingsPage />} />
-                      <Route path="settings/users" element={<AdminUsersPage />} />
-                      <Route path="settings/integrations" element={<AdminIntegrationsPage />} />
-                    </Route>
+                    {/* Reservations */}
+                    <Route path="reservations" element={<AdminReservationsPage />} />
+                    <Route path="reservations/calendar" element={<AdminCalendarPage />} />
+                    <Route path="reservations/tables" element={<AdminTablesPage />} />
+                    
+                    {/* Menu */}
+                    <Route path="menu" element={<AdminMenuPage />} />
+                    <Route path="menu/categories" element={<AdminCategoriesPage />} />
+                    <Route path="menu/specials" element={<AdminSpecialsPage />} />
+                    
+                    {/* Orders */}
+                    <Route path="orders" element={<AdminOrdersPage />} />
+                    <Route path="orders/history" element={<AdminOrdersHistoryPage />} />
+                    
+                    {/* Customers */}
+                    <Route path="customers" element={<AdminCustomersPage />} />
+                    <Route path="customers/reviews" element={<AdminReviewsPage />} />
+                    <Route path="customers/loyalty" element={<AdminLoyaltyPage />} />
+                    
+                    {/* Staff */}
+                    <Route path="staff" element={<AdminStaffPage />} />
+                    <Route path="staff/schedules" element={<AdminSchedulesPage />} />
+                    <Route path="staff/roles" element={<AdminRolesPage />} />
+                    
+                    {/* Reports */}
+                    <Route path="reports" element={<AdminReportsPage />} />
+                    <Route path="reports/sales" element={<AdminSalesPage />} />
+                    
+                    {/* Content */}
+                    <Route path="gallery" element={<AdminGalleryPage />} />
+                    <Route path="content/events" element={<AdminEventsPage />} />
+                    <Route path="content/promotions" element={<AdminPromotionsPage />} />
+                    
+                    {/* Settings */}
+                    <Route path="settings" element={<AdminSettingsPage />} />
+                    <Route path="settings/users" element={<AdminUsersPage />} />
+                    <Route path="settings/integrations" element={<AdminIntegrationsPage />} />
+                  </Route>
 
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
               </BrowserRouter>
             </TooltipProvider>
           </AuthProvider>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Wine, Star, Sparkles, Leaf, ArrowRight, ChefHat, Salad, UtensilsCrossed, Cake } from "lucide-react";
+import { Wine, ArrowRight, ChefHat, Salad, UtensilsCrossed, Cake } from "lucide-react";
 import { menuItems, wineItems, type MenuCategory, type ExtendedMenuItem, type WineItem } from "@/data/menuData";
+import { MenuBadges } from "@/components/ui/menu-badge";
 import PageHeader from "@/components/shared/PageHeader";
 
 // Menu categories with icons
@@ -186,25 +187,8 @@ const MenuPage = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
                     
                     {/* Badges */}
-                    <div className="absolute top-4 left-4 flex gap-2">
-                      {item.isSignature && (
-                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gold rounded-full">
-                          <Star size={12} className="text-charcoal fill-charcoal" />
-                          <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-charcoal font-medium">Signature</span>
-                        </div>
-                      )}
-                      {item.isNew && (
-                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-burgundy rounded-full">
-                          <Sparkles size={12} className="text-offwhite" />
-                          <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-offwhite font-medium">Nouveau</span>
-                        </div>
-                      )}
-                      {item.isVegetarian && (
-                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 rounded-full">
-                          <Leaf size={12} className="text-white" />
-                          <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-white font-medium">Végétarien</span>
-                        </div>
-                      )}
+                    <div className="absolute top-4 left-4">
+                      <MenuBadges badges={item.badges} size="sm" />
                     </div>
 
                     {/* Price */}

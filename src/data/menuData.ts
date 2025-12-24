@@ -1,5 +1,13 @@
 export type MenuCategory = 'entrees' | 'plats' | 'desserts' | 'vins';
 
+export type BadgeType = 
+  | 'chef-selection' 
+  | 'seasonal' 
+  | 'award' 
+  | 'limited' 
+  | 'plant-based' 
+  | 'sustainable';
+
 export interface ExtendedMenuItem {
   slug: string;
   name: string;
@@ -14,9 +22,7 @@ export interface ExtendedMenuItem {
   pairingNote?: string;
   ingredients?: string[];
   preparationTime?: string;
-  isSignature?: boolean;
-  isVegetarian?: boolean;
-  isNew?: boolean;
+  badges?: BadgeType[];
   origin?: string;
   technique?: string;
   season?: string;
@@ -88,7 +94,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       pairing: 'Chablis Premier Cru',
       pairingNote: 'La minéralité du Chablis complète parfaitement la douceur iodée des Saint-Jacques.',
       ingredients: ['Saint-Jacques de Hokkaido', 'Chou-fleur', 'Raisins dorés', 'Beurre noisette', 'Câpres', 'Huile de truffe'],
-      isSignature: true,
+      badges: ['chef-selection', 'sustainable'],
       origin: 'Hokkaido, Japon',
       technique: 'Saisie à haute température',
       season: 'Automne - Hiver'
@@ -104,7 +110,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       chefStory: "La Caprese est pour moi le symbole de la cuisine italienne dans sa plus pure expression : la qualité des ingrédients avant tout. Notre burrata provient d'une petite ferme des Pouilles, où elle est préparée chaque matin selon des méthodes ancestrales. Les tomates anciennes sont cultivées dans notre jardin partenaire en Provence, récoltées à maturité parfaite. Le balsamique de 25 ans d'âge apporte cette profondeur sucrée qui sublime l'ensemble. C'est un hommage à la simplicité sophistiquée, où chaque élément a sa place et son importance.",
       pairing: 'Sancerre Blanc',
       ingredients: ['Burrata crémeuse', 'Tomates anciennes', 'Vinaigre balsamique 25 ans', 'Basilic frais', "Huile d'olive extra vierge"],
-      isVegetarian: true,
+      badges: ['plant-based', 'seasonal'],
       origin: 'Pouilles, Italie',
       technique: 'Assemblage à cru',
       season: 'Été'
@@ -120,6 +126,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       chefStory: "Ce tartare représente ma vision de la fusion culinaire : respecter l'intégrité de chaque tradition tout en créant quelque chose de nouveau. Le thon bluefin, pêché de manière responsable, est découpé au dernier moment pour préserver sa texture soyeuse. L'émulsion de wasabi frais, importé directement de la région de Shizuoka, apporte cette chaleur caractéristique sans agressivité. Les œufs de poisson volant ajoutent une explosion de saveur marine qui complète harmonieusement l'ensemble.",
       pairing: 'Champagne Blanc de Blancs',
       ingredients: ['Thon Bluefin', 'Avocat', 'Sésame noir & blanc', 'Wasabi frais', 'Tobiko', 'Sauce ponzu'],
+      badges: ['sustainable'],
       origin: 'Méditerranée',
       technique: 'Coupe au couteau',
       season: 'Toute l\'année'
@@ -135,7 +142,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       chefStory: "Le foie gras est l'essence même de la gastronomie française, et cette recette me vient de mon grand-père, chef étoilé dans le Sud-Ouest. Le foie est mariné pendant 48 heures dans un Sauternes Château d'Yquem, absorbant ces notes de miel et d'abricot qui caractérisent ce grand vin. La cuisson basse température préserve la texture fondante tout en développant ces saveurs complexes. La gelée cristalline et la compote de figues apportent cette touche de fraîcheur et de douceur qui équilibre la richesse du foie.",
       pairing: "Sauternes Château d'Yquem",
       ingredients: ['Foie gras de canard', 'Sauternes', 'Brioche maison', 'Figues', 'Fleur de sel'],
-      isSignature: true,
+      badges: ['chef-selection', 'award'],
       origin: 'Périgord, France',
       technique: 'Cuisson basse température',
       season: 'Automne - Hiver'
@@ -151,8 +158,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       chefStory: "Chaque automne, je pars en forêt avec mon cueilleur de confiance pour sélectionner les plus beaux champignons sauvages. Ce velouté est une célébration de la saison, un concentré des parfums boisés et terreux de nos forêts françaises. Les cèpes sont cuits lentement pour extraire toute leur essence, puis mixés jusqu'à obtenir cette texture veloutée incomparable. La truffe noire du Périgord, râpée au moment du service, libère ses arômes envoûtants qui transportent immédiatement dans les sous-bois d'automne.",
       pairing: 'Meursault',
       ingredients: ['Champignons des bois', 'Cèpes', 'Truffe noire du Périgord', 'Parmesan vieilli 36 mois', 'Crème fraîche'],
-      isVegetarian: true,
-      isNew: true,
+      badges: ['plant-based', 'seasonal'],
       origin: 'Périgord, France',
       technique: 'Cuisson lente et émulsion',
       season: 'Automne'
@@ -201,7 +207,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       pairing: 'Albariño',
       pairingNote: "Les notes salines et citronnées de l'Albariño prolongent la fraîcheur du ceviche.",
       ingredients: ['Bar sauvage', 'Citron vert', 'Lait de coco', 'Piment aji amarillo', 'Oignon rouge', 'Coriandre'],
-      isNew: true,
+      badges: ['seasonal', 'sustainable'],
       origin: 'Bretagne, France',
       technique: 'Marinade express aux agrumes',
       season: 'Printemps - Été'
@@ -226,7 +232,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       pairing: 'Pomerol Château Pétrus',
       pairingNote: 'La puissance et les tanins soyeux du Pétrus subliment le gras fondant du Wagyu.',
       ingredients: ['Bœuf Wagyu A5', 'Truffe noire', 'Os à moelle', 'Vin rouge Grand Cru', 'Pommes de terre Ratte'],
-      isSignature: true,
+      badges: ['chef-selection', 'limited'],
       preparationTime: '25 min',
       origin: 'Kagoshima, Japon',
       technique: 'Cuisson basse température et saisie au binchotan',
@@ -275,7 +281,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       chefStory: "Le risotto est un exercice de patience et de précision. Le riz Carnaroli, cultivé dans la plaine du Pô, a cette capacité unique d'absorber les saveurs tout en conservant une légère fermeté au cœur. Je le travaille pendant exactement 18 minutes, ajoutant le bouillon de champignons maison louche par louche, en remuant constamment. Les cèpes et girolles sont sautés séparément à haute température pour conserver leur texture, puis incorporés au dernier moment. L'huile de truffe blanche d'Alba, ajoutée hors du feu, parfume le plat de ses notes terreuses incomparables.",
       pairing: 'Barbaresco',
       ingredients: ['Riz Carnaroli', 'Cèpes', 'Girolles', 'Chanterelles', 'Huile de truffe blanche', 'Parmesan 48 mois'],
-      isVegetarian: true,
+      badges: ['plant-based', 'seasonal'],
       preparationTime: '22 min',
       origin: 'Piémont, Italie',
       technique: 'Mantecatura traditionnelle',
@@ -292,8 +298,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       chefStory: "Le homard bleu de Bretagne est un trésor de nos côtes, reconnaissable à sa carapace d'un bleu profond qui vire au rouge intense à la cuisson. Je travaille exclusivement avec des homards de casier, pêchés de manière artisanale au large de Roscoff. La cuisson en carapace permet de conserver tous les sucs et de développer ces arômes marins si caractéristiques. Le beurre de corail, préparé avec les parties crémeuses du homard, est une sauce d'une richesse incomparable qui accompagne chaque bouchée de cette chair ferme et sucrée.",
       pairing: 'Corton-Charlemagne Grand Cru',
       ingredients: ['Homard bleu de Bretagne', 'Bisque maison', 'Légumes de saison', 'Corail', 'Beurre fermier'],
-      isSignature: true,
-      isNew: true,
+      badges: ['chef-selection', 'seasonal', 'sustainable'],
       preparationTime: '30 min',
       origin: 'Bretagne, France',
       technique: 'Rôti en carapace',
@@ -345,7 +350,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       pairing: 'Pommard Premier Cru',
       pairingNote: "La structure et les notes de fruits noirs du Pommard magnifient la puissance du pigeon.",
       ingredients: ['Pigeon de Bresse', 'Baies de genièvre', 'Poivre de Timut', 'Chou rouge', 'Betterave'],
-      isNew: true,
+      badges: ['limited', 'seasonal'],
       preparationTime: '28 min',
       origin: 'Bresse, France',
       technique: 'Double cuisson rosé et confit',
@@ -370,7 +375,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       pairing: 'Banyuls Grand Cru',
       pairingNote: 'Les notes de fruits confits du Banyuls créent un accord harmonieux avec le cacao.',
       ingredients: ['Chocolat Valrhona Guanaja 70%', 'Beurre de cacao', 'Vanille bourbon de Madagascar', "Feuille d'or 24 carats"],
-      isSignature: true,
+      badges: ['chef-selection', 'award'],
       preparationTime: '12 min',
       origin: 'France',
       technique: 'Cuisson précise au degré près',
@@ -419,7 +424,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       chefStory: "Le soufflé est le test ultime du pâtissier : il ne pardonne aucune erreur et ne peut attendre une seule seconde. C'est pourquoi nous le préparons uniquement sur commande, avec un timing parfaitement orchestré entre la cuisine et la salle. Les blancs d'œufs sont montés avec une précision militaire, incorporés délicatement à la crème pâtissière parfumée au Grand Marnier Cordon Rouge. La cuisson de 8 minutes exactement produit cette montée spectaculaire et cette croûte dorée qui masque un intérieur encore tremblant. La sauce au chocolat blanc ivoire, servie dans une petite verseuse, vient percer le dôme et créer ce moment de plaisir incomparable.",
       pairing: 'Champagne Demi-Sec',
       ingredients: ['Œufs fermiers', 'Grand Marnier Cordon Rouge', 'Chocolat blanc Ivoire', 'Orange confite'],
-      isNew: true,
+      badges: ['limited'],
       preparationTime: '20 min',
       origin: 'France',
       technique: 'Montage des blancs et cuisson précise',
@@ -437,7 +442,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       pairing: 'Vin de Paille du Jura',
       pairingNote: "Les notes de fruits secs et de miel du Vin de Paille créent un accord sublime avec le caramel.",
       ingredients: ['Pâte feuilletée inverse', 'Crème pâtissière', 'Vanille', 'Caramel au beurre salé', 'Noisettes torréfiées'],
-      isSignature: true,
+      badges: ['chef-selection'],
       preparationTime: '10 min',
       origin: 'France',
       technique: 'Feuilletage inverse 6 tours',
@@ -472,7 +477,7 @@ export const menuItems: Record<Exclude<MenuCategory, 'vins'>, ExtendedMenuItem[]
       pairing: 'Limoncello glacé',
       pairingNote: "Le limoncello artisanal prolonge les arômes citronnés dans une finale digestive.",
       ingredients: ['Citrons de Menton', 'Pâte sucrée', 'Beurre', 'Meringue italienne', 'Zestes confits'],
-      isNew: true,
+      badges: ['seasonal'],
       preparationTime: '12 min',
       origin: 'Menton, France',
       technique: 'Crème cuite et meringue italienne',

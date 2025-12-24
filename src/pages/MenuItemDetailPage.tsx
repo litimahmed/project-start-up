@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChefHat, Wine, Clock, MapPin, Sparkles, Leaf, Star, Utensils, Quote, Calendar, Flame, X } from 'lucide-react';
+import { ChefHat, Wine, Clock, MapPin, Utensils, Quote, Calendar, Flame, X } from 'lucide-react';
 import { getItemBySlug, categoryData, getAllItems, type MenuCategory, type ExtendedMenuItem, type WineItem } from '@/data/menuData';
+import { MenuBadges } from '@/components/ui/menu-badge';
 import { FloatingNav } from '@/components/shared/NavButtons';
 
 const MenuItemDetailPage = () => {
@@ -88,23 +89,11 @@ const MenuItemDetailPage = () => {
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
           <div className={`max-w-4xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
             {/* Badges */}
-            <div className="flex flex-wrap gap-3 mb-6">
-              {!isWine && foodItem.isSignature && (
-                <div className="px-4 py-2 bg-gold/90 rounded-full">
-                  <span className="font-sans text-xs tracking-[0.1em] uppercase text-charcoal font-medium">Signature</span>
-                </div>
-              )}
-              {!isWine && foodItem.isNew && (
-                <div className="px-4 py-2 bg-burgundy/90 rounded-full">
-                  <span className="font-sans text-xs tracking-[0.1em] uppercase text-offwhite font-medium">Nouveau</span>
-                </div>
-              )}
-              {!isWine && foodItem.isVegetarian && (
-                <div className="px-4 py-2 bg-green-900/80 rounded-full">
-                  <span className="font-sans text-xs tracking-[0.1em] uppercase text-green-400 font-medium">Végétarien</span>
-                </div>
-              )}
-            </div>
+            {!isWine && foodItem.badges && foodItem.badges.length > 0 && (
+              <div className="mb-6">
+                <MenuBadges badges={foodItem.badges} size="md" />
+              </div>
+            )}
 
             <h1 className="font-luxury text-4xl md:text-6xl lg:text-7xl text-offwhite mb-4 italic">
               {item.name}

@@ -93,6 +93,9 @@ const ReservationsPage = () => {
     }
     setIsSubmitting(true);
     try {
+      // Generate UUID client-side to avoid needing SELECT permission after insert
+      const reservationId = crypto.randomUUID();
+
       // Parse guests number from string like "2 Personnes"
       const guestsNumber = parseInt(formData.guests.match(/\d+/)?.[0] || "2", 10);
 
@@ -101,6 +104,7 @@ const ReservationsPage = () => {
 
       // Prepare data for database
       const reservationData = {
+        id: reservationId,
         name: formData.name.trim(),
         email: formData.email.trim(),
         phone: formData.phone.trim(),
@@ -111,10 +115,9 @@ const ReservationsPage = () => {
         special_requests: formData.requests?.trim() || null,
         status: 'pending' as const
       };
-      const {
-        data,
-        error
-      } = await supabase.from('reservations').insert(reservationData).select().single();
+
+      const { error } = await supabase.from('reservations').insert(reservationData);
+
       if (error) {
         console.error('Reservation error:', error);
         toast.error("Une erreur est survenue. Veuillez réessayer.");
@@ -122,7 +125,7 @@ const ReservationsPage = () => {
       }
       toast.success("Réservation envoyée avec succès!");
       window.scrollTo(0, 0);
-      navigate(`/reservations/confirmation?id=${data.id}`);
+      navigate(`/reservations/confirmation?id=${reservationId}`);
     } catch (error) {
       console.error('Submission error:', error);
       toast.error("Une erreur est survenue. Veuillez réessayer.");

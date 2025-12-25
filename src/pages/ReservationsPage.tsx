@@ -125,7 +125,22 @@ const ReservationsPage = () => {
       }
       toast.success("Réservation envoyée avec succès!");
       window.scrollTo(0, 0);
-      navigate(`/reservations/confirmation?id=${reservationId}`);
+      // Pass reservation data via state to avoid needing SELECT permission
+      navigate(`/reservations/confirmation?id=${reservationId}`, {
+        state: {
+          reservation: {
+            id: reservationId,
+            name: reservationData.name,
+            email: reservationData.email,
+            date: reservationData.date,
+            time: reservationData.time,
+            guests: reservationData.guests,
+            special_requests: reservationData.special_requests,
+            status: reservationData.status,
+            created_at: new Date().toISOString()
+          }
+        }
+      });
     } catch (error) {
       console.error('Submission error:', error);
       toast.error("Une erreur est survenue. Veuillez réessayer.");

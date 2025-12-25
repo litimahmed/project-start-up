@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Link, useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { CheckCircle, Calendar, Clock, Users, MapPin, Mail, Home } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
-import { supabase } from "@/integrations/supabase/client";
 
 interface ReservationData {
   id: string;
@@ -19,6 +18,7 @@ interface ReservationData {
 const ReservationConfirmationPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isVisible, setIsVisible] = useState(false);
   const [reservationData, setReservationData] = useState<ReservationData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,35 +29,40 @@ const ReservationConfirmationPage = () => {
     // Ensure scroll to top immediately
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
-    const fetchReservation = async () => {
-      if (!reservationId) {
-        navigate('/');
-        return;
-      }
+    // Get reservation data from navigation state (passed from ReservationsPage)
+    const stateData = location.state?.reservation as ReservationData | undefined;
 
-      const { data, error } = await supabase
-        .from('reservations')
-        .select('*')
-        .eq('id', reservationId)
-        .maybeSingle();
+    if (!reservationId) {
+      navigate('/');
+      return;
+    }
 
-      if (error || !data) {
-        console.error('Error fetching reservation:', error);
-        navigate('/');
-        return;
-      }
-
-      setReservationData(data);
+    if (stateData && stateData.id === reservationId) {
+      // Use data from navigation state
+      setReservationData(stateData);
       setLoading(false);
-      
-      // Delay animation
       setTimeout(() => {
         setIsVisible(true);
       }, 100);
-    };
-
-    fetchReservation();
-  }, [reservationId, navigate]);
+    } else {
+      // No state data available (direct URL access) - show generic confirmation
+      setReservationData({
+        id: reservationId,
+        name: 'Votre réservation',
+        email: '',
+        date: '',
+        time: '',
+        guests: 0,
+        special_requests: null,
+        status: 'pending',
+        created_at: new Date().toISOString()
+      });
+      setLoading(false);
+      setTimeout(() => {
+        setIsVisible(true);
+      }, 100);
+    }
+  }, [reservationId, navigate, location.state]);
 
   if (loading) {
     return (
@@ -139,79 +144,89 @@ const ReservationConfirmationPage = () => {
               <h2 className="font-luxury text-2xl md:text-3xl text-offwhite italic">{reservationData.name}</h2>
             </div>
 
-            {/* Details Grid */}
-            <div className="p-8">
-              <div className="grid md:grid-cols-2 gap-6">
-                
-                {/* Date */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
-                    <Calendar size={20} className="text-gold" />
+            {/* Details Grid - only show if we have full data */}
+            {reservationData.date && reservationData.time && reservationData.guests > 0 ? (
+              <div className="p-8">
+                <div className="grid md:grid-cols-2 gap-6">
+                  
+                  {/* Date */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
+                      <Calendar size={20} className="text-gold" />
+                    </div>
+                    <div>
+                      <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Date</p>
+                      <p className="font-sans text-offwhite capitalize">{formatDate(reservationData.date)}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Date</p>
-                    <p className="font-sans text-offwhite capitalize">{formatDate(reservationData.date)}</p>
+
+                  {/* Time */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
+                      <Clock size={20} className="text-gold" />
+                    </div>
+                    <div>
+                      <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Heure</p>
+                      <p className="font-sans text-offwhite">{reservationData.time.slice(0, 5)}</p>
+                    </div>
+                  </div>
+
+                  {/* Guests */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
+                      <Users size={20} className="text-gold" />
+                    </div>
+                    <div>
+                      <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Convives</p>
+                      <p className="font-sans text-offwhite">{reservationData.guests} {reservationData.guests > 1 ? 'personnes' : 'personne'}</p>
+                    </div>
+                  </div>
+
+                  {/* Status */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle size={20} className="text-gold" />
+                    </div>
+                    <div>
+                      <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Statut</p>
+                      <p className="font-sans text-offwhite">
+                        {reservationData.status === 'pending' ? 'En attente de confirmation' : 
+                         reservationData.status === 'confirmed' ? 'Confirmée' :
+                         reservationData.status === 'cancelled' ? 'Annulée' : 'Terminée'}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Time */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
-                    <Clock size={20} className="text-gold" />
+                {/* Special Requests */}
+                {reservationData.special_requests && (
+                  <div className="mt-8 pt-6 border-t border-offwhite/10">
+                    <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-3">Demandes Spéciales</p>
+                    <p className="font-sans text-offwhite/80 italic leading-relaxed">"{reservationData.special_requests}"</p>
                   </div>
-                  <div>
-                    <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Heure</p>
-                    <p className="font-sans text-offwhite">{reservationData.time.slice(0, 5)}</p>
-                  </div>
-                </div>
-
-                {/* Guests */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
-                    <Users size={20} className="text-gold" />
-                  </div>
-                  <div>
-                    <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Convives</p>
-                    <p className="font-sans text-offwhite">{reservationData.guests} {reservationData.guests > 1 ? 'personnes' : 'personne'}</p>
-                  </div>
-                </div>
-
-                {/* Status */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle size={20} className="text-gold" />
-                  </div>
-                  <div>
-                    <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-1">Statut</p>
-                    <p className="font-sans text-offwhite">
-                      {reservationData.status === 'pending' ? 'En attente de confirmation' : 
-                       reservationData.status === 'confirmed' ? 'Confirmée' :
-                       reservationData.status === 'cancelled' ? 'Annulée' : 'Terminée'}
-                    </p>
-                  </div>
-                </div>
+                )}
               </div>
-
-              {/* Special Requests */}
-              {reservationData.special_requests && (
-                <div className="mt-8 pt-6 border-t border-offwhite/10">
-                  <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-3">Demandes Spéciales</p>
-                  <p className="font-sans text-offwhite/80 italic leading-relaxed">"{reservationData.special_requests}"</p>
-                </div>
-              )}
-            </div>
+            ) : (
+              <div className="p-8">
+                <p className="font-sans text-offwhite/70 text-center">
+                  Votre réservation a été enregistrée. Vous recevrez un email de confirmation sous peu.
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* Contact Info Card */}
-          <div className={`mt-8 bg-gradient-to-b from-offwhite/10 to-offwhite/5 backdrop-blur-sm rounded-2xl border border-offwhite/10 p-6 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-4">Confirmation envoyée à</p>
-            <div className="flex flex-wrap gap-6">
-              <div className="flex items-center gap-3">
-                <Mail size={16} className="text-gold" />
-                <span className="font-sans text-offwhite">{reservationData.email}</span>
+          {/* Contact Info Card - only show if we have email */}
+          {reservationData.email && (
+            <div className={`mt-8 bg-gradient-to-b from-offwhite/10 to-offwhite/5 backdrop-blur-sm rounded-2xl border border-offwhite/10 p-6 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <p className="font-sans text-xs tracking-[0.15em] uppercase text-offwhite/50 mb-4">Confirmation envoyée à</p>
+              <div className="flex flex-wrap gap-6">
+                <div className="flex items-center gap-3">
+                  <Mail size={16} className="text-gold" />
+                  <span className="font-sans text-offwhite">{reservationData.email}</span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Restaurant Info */}
           <div className={`mt-8 text-center transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>

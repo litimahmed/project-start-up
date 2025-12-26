@@ -4,13 +4,21 @@ import loaderAnimation from '@/assets/loader.json';
 
 interface PageLoaderProps {
   onLoadComplete?: () => void;
+  skipLoader?: boolean;
 }
 
-const PageLoader = ({ onLoadComplete }: PageLoaderProps) => {
+const PageLoader = ({ onLoadComplete, skipLoader = false }: PageLoaderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
+    // Skip loader entirely if skipLoader is true
+    if (skipLoader) {
+      setIsLoading(false);
+      onLoadComplete?.();
+      return;
+    }
+
     // Wait for images and resources to load
     const handleLoad = () => {
       // Reduced minimum display time for faster page loads
@@ -29,7 +37,7 @@ const PageLoader = ({ onLoadComplete }: PageLoaderProps) => {
       window.addEventListener('load', handleLoad);
       return () => window.removeEventListener('load', handleLoad);
     }
-  }, [onLoadComplete]);
+  }, [onLoadComplete, skipLoader]);
 
   if (!isLoading) return null;
 

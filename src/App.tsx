@@ -65,6 +65,9 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Check if we're on the demo page - skip global loader
+  const isDemoPage = typeof window !== 'undefined' && window.location.pathname === '/demo';
 
   return (
     <HelmetProvider>
@@ -72,7 +75,7 @@ const App = () => {
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AuthProvider>
             <TooltipProvider>
-              <PageLoader onLoadComplete={() => setIsLoaded(true)} />
+              <PageLoader onLoadComplete={() => setIsLoaded(true)} skipLoader={isDemoPage} />
               <Toaster />
               <Sonner />
               <BrowserRouter>

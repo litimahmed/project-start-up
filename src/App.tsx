@@ -17,6 +17,7 @@ import ReservationsPage from "./pages/ReservationsPage";
 import ReservationConfirmationPage from "./pages/ReservationConfirmationPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
+import DemoPage from "./pages/DemoPage";
 
 // Admin pages
 import AdminLayout from "./components/admin/AdminLayout";
@@ -84,6 +85,7 @@ const App = () => {
                   <Route path="/reservations" element={<ReservationsPage />} />
                   <Route path="/reservations/confirmation" element={<ReservationConfirmationPage />} />
                   <Route path="/auth" element={<AuthPage />} />
+                  <Route path="/demo" element={<DemoPage />} />
                   
                   {/* Admin Routes */}
                   <Route path="/admin" element={<AdminLayout />}>

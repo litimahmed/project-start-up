@@ -3,39 +3,39 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const galleryImages = [
   {
-    src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Atmosphère élégante de la salle à manger',
-    title: 'La Salle',
+    src: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2068&auto=format&fit=crop',
+    alt: 'Salle de soins moderne',
+    title: 'Nos Équipements',
     span: 'md:col-span-2 md:row-span-2',
   },
   {
-    src: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1974&auto=format&fit=crop',
-    alt: 'Plat artistiquement présenté',
-    title: 'Art Culinaire',
+    src: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1974&auto=format&fit=crop',
+    alt: 'Sourire éclatant',
+    title: 'Résultats',
     span: 'md:col-span-1 md:row-span-1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1546039907-7fa05f864c02?q=80&w=2080&auto=format&fit=crop',
-    alt: 'Sélection de vins fins',
-    title: 'Cave à Vins',
+    src: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1970&auto=format&fit=crop',
+    alt: 'Équipe dentaire',
+    title: 'Notre Équipe',
     span: 'md:col-span-1 md:row-span-1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Présentation gastronomique',
-    title: 'Plat Signature',
+    src: 'https://images.unsplash.com/photo-1598256989800-fe5f95da9787?q=80&w=2070&auto=format&fit=crop',
+    alt: 'Instruments dentaires',
+    title: 'Technologie',
     span: 'md:col-span-1 md:row-span-2',
   },
   {
-    src: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Chef en cuisine',
-    title: 'En Coulisses',
+    src: 'https://images.unsplash.com/photo-1445527815219-ecbfec67492e?q=80&w=2071&auto=format&fit=crop',
+    alt: 'Salle d\'attente confortable',
+    title: 'Espace Accueil',
     span: 'md:col-span-2 md:row-span-1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1428515613728-6b4607e44363?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Cadre intime de la salle',
-    title: 'Salon Privé',
+    src: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=2070&auto=format&fit=crop',
+    alt: 'Consultation dentaire',
+    title: 'Consultations',
     span: 'md:col-span-1 md:row-span-1',
   },
 ];
@@ -100,7 +100,7 @@ const Gallery = () => {
     <section
       id="gallery"
       ref={sectionRef}
-      className="section-padding bg-background overflow-hidden"
+      className="section-padding bg-muted/30 overflow-hidden"
     >
       <div className="container mx-auto px-6 lg:px-12">
         {/* Section Header */}
@@ -109,16 +109,16 @@ const Gallery = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <p className="font-sans text-sm tracking-[0.3em] uppercase text-secondary mb-4">
-            Voyage Visuel
+          <p className="font-sans text-sm tracking-[0.2em] uppercase text-primary mb-4 font-medium">
+            Notre Clinique
           </p>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6">
-            La <span className="italic text-primary">Galerie</span>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-foreground mb-6 font-semibold">
+            Visite <span className="text-primary">Virtuelle</span>
           </h2>
           <div className="flex items-center justify-center gap-4">
-            <div className="w-16 h-px bg-gold/40" />
-            <div className="w-2 h-2 rotate-45 border border-gold/40" />
-            <div className="w-16 h-px bg-gold/40" />
+            <div className="w-16 h-1 bg-gradient-to-r from-transparent to-primary rounded-full" />
+            <div className="w-2 h-2 rounded-full bg-primary" />
+            <div className="w-16 h-1 bg-gradient-to-l from-transparent to-primary rounded-full" />
           </div>
         </div>
 
@@ -132,7 +132,7 @@ const Gallery = () => {
             <button
               key={index}
               onClick={() => setSelectedIndex(index)}
-              className={`group relative overflow-hidden cursor-pointer rounded-sm ${image.span}`}
+              className={`group relative overflow-hidden cursor-pointer rounded-2xl ${image.span}`}
               style={{ animationDelay: `${index * 100}ms` }}
               aria-label={`View ${image.alt}`}
             >
@@ -143,22 +143,18 @@ const Gallery = () => {
                 loading="lazy"
               />
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-dental-dark/80 via-dental-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
               
               {/* Content on hover */}
               <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                <div className="w-10 h-10 border border-gold rounded-full flex items-center justify-center mb-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                  <span className="text-gold text-xl">+</span>
+                <div className="w-12 h-12 border-2 border-primary rounded-full flex items-center justify-center mb-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                  <span className="text-primary text-2xl font-light">+</span>
                 </div>
-                <span className="font-serif text-lg text-offwhite">{image.title}</span>
+                <span className="font-heading text-lg font-medium text-dental-light">{image.title}</span>
               </div>
               
-              {/* Corner accents */}
-              <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-gold/0 group-hover:border-gold/60 transition-all duration-300" />
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-gold/0 group-hover:border-gold/60 transition-all duration-300" />
-              
-              {/* Gold Accent line */}
-              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gold group-hover:w-full transition-all duration-500" />
+              {/* Corner accent */}
+              <div className="absolute bottom-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-500 rounded-full" />
             </button>
           ))}
         </div>
@@ -167,13 +163,13 @@ const Gallery = () => {
       {/* Lightbox */}
       {selectedIndex !== null && (
         <div
-          className="fixed inset-0 z-50 bg-charcoal/95 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-dental-dark/95 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setSelectedIndex(null)}
         >
           {/* Close Button */}
           <button
             onClick={() => setSelectedIndex(null)}
-            className="absolute top-6 right-6 text-offwhite/60 hover:text-offwhite transition-colors p-2"
+            className="absolute top-6 right-6 text-dental-light/60 hover:text-dental-light transition-colors p-2"
             aria-label="Close gallery"
           >
             <X size={32} />
@@ -187,7 +183,7 @@ const Gallery = () => {
                 prev === null ? null : prev === 0 ? galleryImages.length - 1 : prev - 1
               );
             }}
-            className="absolute left-4 md:left-8 text-offwhite/60 hover:text-offwhite transition-colors p-2"
+            className="absolute left-4 md:left-8 text-dental-light/60 hover:text-dental-light transition-colors p-2"
             aria-label="Previous image"
           >
             <ChevronLeft size={40} />
@@ -201,7 +197,7 @@ const Gallery = () => {
                 prev === null ? null : prev === galleryImages.length - 1 ? 0 : prev + 1
               );
             }}
-            className="absolute right-4 md:right-8 text-offwhite/60 hover:text-offwhite transition-colors p-2"
+            className="absolute right-4 md:right-8 text-dental-light/60 hover:text-dental-light transition-colors p-2"
             aria-label="Next image"
           >
             <ChevronRight size={40} />
@@ -211,12 +207,12 @@ const Gallery = () => {
           <img
             src={galleryImages[selectedIndex].src}
             alt={galleryImages[selectedIndex].alt}
-            className="max-w-full max-h-[85vh] object-contain animate-scale-in"
+            className="max-w-full max-h-[85vh] object-contain animate-scale-in rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />
 
           {/* Image Counter */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-sm text-offwhite/60 tracking-widest">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-sm text-dental-light/60 tracking-widest">
             {selectedIndex + 1} / {galleryImages.length}
           </div>
         </div>

@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 
 const navLinks = [
   { name: 'À Propos', href: '#about' },
-  { name: 'Carte', href: '/menu', isPage: true },
+  { name: 'Services', href: '#services' },
   { name: 'Galerie', href: '/gallery', isPage: true },
-  { name: 'Réservations', href: '/reservations', isPage: true },
+  { name: 'Contact', href: '#contact' },
 ];
 
 const Navigation = () => {
@@ -18,7 +18,7 @@ const Navigation = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      const sections = navLinks.map(link => link.href.substring(1));
+      const sections = navLinks.filter(l => !l.isPage).map(link => link.href.substring(1));
       for (const section of sections.reverse()) {
         const element = document.getElementById(section);
         if (element) {
@@ -46,10 +46,10 @@ const Navigation = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-charcoal/95 backdrop-blur-md shadow-lg py-5'
-          : 'bg-gradient-to-b from-charcoal/80 to-transparent py-7'
+          ? 'bg-background/95 backdrop-blur-md shadow-lg py-4'
+          : 'bg-gradient-to-b from-dental-dark/80 to-transparent py-6'
       }`}
     >
       <div className="container mx-auto px-6 lg:px-12">
@@ -61,40 +61,48 @@ const Navigation = () => {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="group"
+            className="group flex items-center gap-2"
           >
-            <span className="font-luxury text-2xl md:text-3xl tracking-[0.03em] transition-colors duration-500 italic text-offwhite group-hover:text-gold">
-              Maison le Sept
+            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+              <span className="text-primary-foreground font-heading font-bold text-lg">CD</span>
+            </div>
+            <span className={`font-heading text-xl font-semibold tracking-tight transition-colors duration-300 ${
+              isScrolled ? 'text-foreground' : 'text-dental-light'
+            } group-hover:text-primary`}>
+              Centre Dentaire
             </span>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               link.isPage ? (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  className="relative font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 py-2 text-offwhite/70 hover:text-offwhite group"
+                  to={link.href}
+                  className={`relative font-sans text-sm font-medium transition-all duration-300 py-2 group ${
+                    isScrolled ? 'text-foreground/70 hover:text-primary' : 'text-dental-light/80 hover:text-dental-light'
+                  }`}
                 >
                   {link.name}
-                  {/* Animated underline on hover */}
-                  <span className="absolute bottom-0 left-0 w-full h-px bg-gold transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                </a>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
+                </Link>
               ) : (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`relative font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 py-2 group ${
+                  className={`relative font-sans text-sm font-medium transition-all duration-300 py-2 group ${
                     activeSection === link.href.substring(1)
-                      ? 'text-gold'
-                      : 'text-offwhite/70 hover:text-offwhite'
+                      ? 'text-primary'
+                      : isScrolled 
+                        ? 'text-foreground/70 hover:text-primary' 
+                        : 'text-dental-light/80 hover:text-dental-light'
                   }`}
                 >
                   {link.name}
                   <span
-                    className={`absolute bottom-0 left-0 w-full h-px transform origin-left transition-transform duration-300 bg-gold ${
+                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-left transition-transform duration-300 rounded-full ${
                       activeSection === link.href.substring(1) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
@@ -103,17 +111,30 @@ const Navigation = () => {
             ))}
           </div>
 
-          <Link
-            to="/reservations"
-            onClick={() => window.scrollTo(0, 0)}
-            className="hidden lg:block px-5 py-2 font-sans text-xs tracking-[0.15em] uppercase transition-all duration-500 text-gold border border-gold/50 hover:bg-gold hover:text-charcoal"
-          >
-            Réserver
-          </Link>
+          <div className="hidden lg:flex items-center gap-4">
+            <a
+              href="tel:+33142681234"
+              className={`flex items-center gap-2 font-sans text-sm font-medium transition-colors ${
+                isScrolled ? 'text-foreground/70 hover:text-primary' : 'text-dental-light/80 hover:text-dental-light'
+              }`}
+            >
+              <Phone size={16} />
+              <span>01 42 68 12 34</span>
+            </a>
+            <Link
+              to="/reservations"
+              onClick={() => window.scrollTo(0, 0)}
+              className="px-6 py-2.5 font-sans text-sm font-medium transition-all duration-300 bg-primary text-primary-foreground rounded-full hover:bg-secondary hover:shadow-lg hover:shadow-primary/25"
+            >
+              Rendez-vous
+            </Link>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 transition-colors duration-500 text-offwhite hover:text-gold"
+            className={`lg:hidden p-2 transition-colors duration-300 ${
+              isScrolled ? 'text-foreground hover:text-primary' : 'text-dental-light hover:text-primary'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -127,33 +148,37 @@ const Navigation = () => {
             isMobileMenuOpen ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'
           }`}
         >
-          <div className="flex flex-col gap-1 py-6 border-t border-offwhite/10">
+          <div className={`flex flex-col gap-1 py-6 border-t ${isScrolled ? 'border-border' : 'border-dental-light/10'}`}>
             {navLinks.map((link, index) => (
               link.isPage ? (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  className="font-sans text-sm tracking-widest uppercase py-3 px-4 transition-all duration-300 text-offwhite/70 hover:text-offwhite hover:bg-offwhite/5 transform translate-x-0 opacity-100"
+                  to={link.href}
+                  className={`font-sans text-sm font-medium py-3 px-4 transition-all duration-300 rounded-lg ${
+                    isScrolled 
+                      ? 'text-foreground/70 hover:text-primary hover:bg-muted' 
+                      : 'text-dental-light/80 hover:text-dental-light hover:bg-dental-light/5'
+                  }`}
                   style={{ 
                     transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms',
-                    transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)',
                   }}
                 >
                   {link.name}
-                </a>
+                </Link>
               ) : (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`font-sans text-sm tracking-widest uppercase py-3 px-4 transition-all duration-300 ${
+                  className={`font-sans text-sm font-medium py-3 px-4 transition-all duration-300 rounded-lg ${
                     activeSection === link.href.substring(1)
-                      ? 'text-gold bg-offwhite/5'
-                      : 'text-offwhite/70 hover:text-offwhite hover:bg-offwhite/5'
+                      ? 'text-primary bg-primary/10'
+                      : isScrolled 
+                        ? 'text-foreground/70 hover:text-primary hover:bg-muted' 
+                        : 'text-dental-light/80 hover:text-dental-light hover:bg-dental-light/5'
                   }`}
                   style={{ 
                     transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms',
-                    transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)',
                   }}
                 >
                   {link.name}
@@ -163,13 +188,12 @@ const Navigation = () => {
             <Link
               to="/reservations"
               onClick={() => window.scrollTo(0, 0)}
-              className="mt-4 mx-4 px-6 py-3 bg-transparent text-gold font-sans text-sm tracking-widest uppercase text-center border border-gold hover:bg-gold hover:text-charcoal transition-all duration-300"
+              className="mt-4 mx-4 px-6 py-3 bg-primary text-primary-foreground font-sans text-sm font-medium text-center rounded-full hover:bg-secondary transition-all duration-300"
               style={{ 
                 transitionDelay: isMobileMenuOpen ? `${navLinks.length * 50}ms` : '0ms',
-                transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)',
               }}
             >
-              Réserver une Table
+              Prendre Rendez-vous
             </Link>
           </div>
         </div>

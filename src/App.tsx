@@ -17,7 +17,6 @@ import ReservationsPage from "./pages/ReservationsPage";
 import ReservationConfirmationPage from "./pages/ReservationConfirmationPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
-import DemoPage from "./pages/DemoPage";
 
 // Admin pages
 import AdminLayout from "./components/admin/AdminLayout";
@@ -65,9 +64,6 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  
-  // Check if we're on the demo page - skip global loader
-  const isDemoPage = typeof window !== 'undefined' && window.location.pathname === '/demo';
 
   return (
     <HelmetProvider>
@@ -75,7 +71,7 @@ const App = () => {
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AuthProvider>
             <TooltipProvider>
-              <PageLoader onLoadComplete={() => setIsLoaded(true)} skipLoader={isDemoPage} />
+              <PageLoader onLoadComplete={() => setIsLoaded(true)} />
               <Toaster />
               <Sonner />
               <BrowserRouter>
@@ -88,7 +84,6 @@ const App = () => {
                   <Route path="/reservations" element={<ReservationsPage />} />
                   <Route path="/reservations/confirmation" element={<ReservationConfirmationPage />} />
                   <Route path="/auth" element={<AuthPage />} />
-                  <Route path="/demo" element={<DemoPage />} />
                   
                   {/* Admin Routes */}
                   <Route path="/admin" element={<AdminLayout />}>

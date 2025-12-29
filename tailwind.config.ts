@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
+        serif: ["Poppins", "system-ui", "sans-serif"],
         sans: ["Inter", "system-ui", "sans-serif"],
-        luxury: ["Cormorant Garamond", "Georgia", "serif"],
+        heading: ["Poppins", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -62,17 +62,20 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Savora custom colors
-        charcoal: "hsl(var(--charcoal))",
-        offwhite: "hsl(var(--offwhite))",
-        burgundy: "hsl(var(--burgundy))",
-        gold: "hsl(var(--gold))",
-        sage: "hsl(var(--sage))",
+        // Dental clinic custom colors
+        dental: {
+          dark: "hsl(var(--dental-dark))",
+          light: "hsl(var(--dental-light))",
+          teal: "hsl(var(--dental-teal))",
+          mint: "hsl(var(--dental-mint))",
+          blue: "hsl(var(--dental-blue))",
+        },
+        // Legacy colors for admin theme
+        charcoal: "hsl(var(--dental-dark))",
+        offwhite: "hsl(var(--dental-light))",
+        gold: "hsl(var(--primary))",
         // Admin theme colors
         admin: {
-          yellow: "hsl(var(--admin-yellow))",
-          "yellow-bright": "hsl(var(--admin-yellow-bright))",
-          "yellow-dark": "hsl(var(--admin-yellow-dark))",
           success: "hsl(var(--admin-success))",
           warning: "hsl(var(--admin-warning))",
           info: "hsl(var(--admin-info))",

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Shield, Heart, Award } from 'lucide-react';
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -21,6 +22,12 @@ const About = () => {
     return () => observer.disconnect();
   }, []);
 
+  const features = [
+    { icon: Shield, title: 'Sécurité', desc: 'Protocoles stricts d\'hygiène' },
+    { icon: Heart, title: 'Confort', desc: 'Approche douce et attentive' },
+    { icon: Award, title: 'Excellence', desc: 'Équipe hautement qualifiée' },
+  ];
+
   return (
     <section
       id="about"
@@ -36,22 +43,21 @@ const About = () => {
             }`}
           >
             {/* Main Image */}
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
               <img
-                src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1977&auto=format&fit=crop"
-                alt="Executive Chef preparing a signature dish"
+                src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1970&auto=format&fit=crop"
+                alt="Équipe dentaire professionnelle"
                 className="w-full h-full object-cover"
               />
-              {/* Gold Corner Accents */}
-              <div className="absolute top-0 left-0 w-20 h-20 border-l-2 border-t-2 border-gold/40" />
-              <div className="absolute bottom-0 right-0 w-20 h-20 border-r-2 border-b-2 border-gold/40" />
+              {/* Accent Border */}
+              <div className="absolute top-4 left-4 right-4 bottom-4 border-2 border-primary/20 rounded-xl pointer-events-none" />
             </div>
 
             {/* Floating Stats Card */}
-            <div className="absolute -bottom-8 -right-8 lg:-right-12 bg-charcoal text-offwhite p-6 md:p-8 shadow-2xl">
-              <p className="font-serif text-4xl md:text-5xl text-gold mb-2">15+</p>
-              <p className="font-sans text-xs tracking-widest uppercase text-offwhite/70">
-                Années d'Excellence
+            <div className="absolute -bottom-8 -right-4 lg:-right-8 bg-primary text-primary-foreground p-6 md:p-8 shadow-2xl rounded-xl">
+              <p className="font-heading text-4xl md:text-5xl font-bold mb-2">15+</p>
+              <p className="font-sans text-xs tracking-widest uppercase text-primary-foreground/80">
+                Années d'Expérience
               </p>
             </div>
           </div>
@@ -63,48 +69,54 @@ const About = () => {
             }`}
           >
             {/* Section Label */}
-            <p className="font-sans text-sm tracking-[0.3em] uppercase text-secondary mb-4">
-              Notre Histoire
+            <p className="font-sans text-sm tracking-[0.2em] uppercase text-primary mb-4 font-medium">
+              À Propos de Nous
             </p>
 
             {/* Heading */}
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight">
-              Une Passion pour la{' '}
-              <span className="italic text-primary">Perfection</span>
+            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-foreground mb-6 leading-tight font-semibold">
+              Des Soins Dentaires{' '}
+              <span className="text-primary">Modernes</span> et Personnalisés
             </h2>
 
-            {/* Gold Line */}
-            <div className="w-24 h-px bg-gold mb-8" />
+            {/* Accent Line */}
+            <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mb-8" />
 
             {/* Description */}
-            <div className="space-y-6 font-sans text-muted-foreground leading-relaxed">
+            <div className="space-y-5 font-sans text-muted-foreground leading-relaxed">
               <p>
-                Niché au cœur de la ville, Maison le Sept représente l'aboutissement d'un 
-                rêve de toute une vie — un sanctuaire où l'art culinaire rencontre 
-                une hospitalité sincère. Notre philosophie est simple mais sans compromis : 
-                honorer l'ingrédient, respecter le savoir-faire et créer des moments 
-                qui perdurent bien après la dernière bouchée.
+                Bienvenue au Centre Dentaire Excellence, où nous combinons expertise 
+                médicale de pointe et approche humaine pour offrir des soins dentaires 
+                exceptionnels à toute votre famille.
               </p>
               <p>
-                Sous la direction du Chef Exécutif Marcus Laurent, notre cuisine transforme 
-                les meilleurs ingrédients de saison et locaux en plats qui racontent des 
-                histoires. Chaque assiette est une toile, chaque saveur une note soigneusement 
-                composée dans une symphonie de goûts qui célèbre à la fois tradition et innovation.
+                Notre équipe de professionnels passionnés s'engage à créer une expérience 
+                positive et confortable, utilisant les dernières technologies pour des 
+                traitements précis et des résultats durables.
               </p>
               <p>
-                De notre salle à manger intime ornée d'art soigneusement sélectionné à nos 
-                menus dégustation méticuleusement élaborés, chaque élément de Maison le Sept est conçu 
-                pour vous transporter. Ce n'est pas simplement dîner — c'est une expérience, 
-                un souvenir en devenir.
+                Du simple contrôle aux traitements spécialisés, nous vous accompagnons 
+                avec bienveillance vers un sourire éclatant de santé.
               </p>
+            </div>
+
+            {/* Features */}
+            <div className="grid grid-cols-3 gap-4 mt-10">
+              {features.map((feature, index) => (
+                <div key={index} className="text-center p-4 bg-muted/50 rounded-xl">
+                  <feature.icon className="w-8 h-8 text-primary mx-auto mb-3" />
+                  <h4 className="font-heading font-semibold text-foreground text-sm mb-1">{feature.title}</h4>
+                  <p className="font-sans text-xs text-muted-foreground">{feature.desc}</p>
+                </div>
+              ))}
             </div>
 
             <div className="mt-10 flex items-center gap-6">
               <div className="w-16 h-px bg-border" />
               <div>
-                <p className="font-serif text-xl italic text-foreground">Marcus Laurent</p>
+                <p className="font-heading text-xl font-semibold text-foreground">Dr. Sophie Martin</p>
                 <p className="font-sans text-xs tracking-widest uppercase text-muted-foreground mt-1">
-                  Chef Exécutif & Fondateur
+                  Directrice & Chirurgien-Dentiste
                 </p>
               </div>
             </div>
